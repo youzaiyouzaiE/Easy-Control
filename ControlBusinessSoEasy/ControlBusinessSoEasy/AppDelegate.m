@@ -17,6 +17,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    if ([[AppData shareInstance] initDataBaseToDocument]) {
+        NSLog(@"数据库 规划成功");
+    } else {
+        NSLog(@"数据库 创建失败");
+    }
+    
     return YES;
 }
 

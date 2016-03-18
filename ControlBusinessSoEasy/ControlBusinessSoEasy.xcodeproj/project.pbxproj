@@ -7,25 +7,76 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C74F219B33E3B056612CEEB5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E550CC1D8972066B8E740EA0 /* libPods.a */; };
 		DA3EA7211C9C486000044B2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7201C9C486000044B2D /* main.m */; };
 		DA3EA7241C9C486000044B2D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7231C9C486000044B2D /* AppDelegate.m */; };
-		DA3EA7271C9C486000044B2D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7261C9C486000044B2D /* ViewController.m */; };
 		DA3EA72A1C9C486000044B2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA3EA7281C9C486000044B2D /* Main.storyboard */; };
 		DA3EA72C1C9C486000044B2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA3EA72B1C9C486000044B2D /* Assets.xcassets */; };
 		DA3EA72F1C9C486000044B2D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA3EA72D1C9C486000044B2D /* LaunchScreen.storyboard */; };
+		DA3EA7401C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7391C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.m */; };
+		DA3EA7411C9C4AF300044B2D /* JHCollectionViewTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA73B1C9C4AF300044B2D /* JHCollectionViewTripletLayout.m */; };
+		DA3EA7421C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA73D1C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m */; };
+		DA3EA7431C9C4AF300044B2D /* RACollectionViewTripletLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA73F1C9C4AF300044B2D /* RACollectionViewTripletLayout.m */; };
+		DA3EA7631C9C4B0B00044B2D /* AppData.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7461C9C4B0B00044B2D /* AppData.m */; };
+		DA3EA7641C9C4B0B00044B2D /* SuperBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA74B1C9C4B0B00044B2D /* SuperBean.m */; };
+		DA3EA7651C9C4B0B00044B2D /* SuperDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA74E1C9C4B0B00044B2D /* SuperDao.m */; };
+		DA3EA7661C9C4B0B00044B2D /* AddCategoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7511C9C4B0B00044B2D /* AddCategoryVC.m */; };
+		DA3EA7671C9C4B0B00044B2D /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7531C9C4B0B00044B2D /* HomeViewController.m */; };
+		DA3EA7681C9C4B0B00044B2D /* NewGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7551C9C4B0B00044B2D /* NewGoodsViewController.m */; };
+		DA3EA7691C9C4B0B00044B2D /* ScanBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7571C9C4B0B00044B2D /* ScanBarViewController.m */; };
+		DA3EA76A1C9C4B0B00044B2D /* CellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA75A1C9C4B0B00044B2D /* CellButton.m */; };
+		DA3EA76B1C9C4B0B00044B2D /* CellTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA75C1C9C4B0B00044B2D /* CellTextField.m */; };
+		DA3EA76C1C9C4B0B00044B2D /* ImageButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA75E1C9C4B0B00044B2D /* ImageButtonCell.m */; };
+		DA3EA76D1C9C4B0B00044B2D /* ImageButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3EA75F1C9C4B0B00044B2D /* ImageButtonCell.xib */; };
+		DA3EA76E1C9C4B0B00044B2D /* ImageLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7611C9C4B0B00044B2D /* ImageLabelCell.m */; };
+		DA3EA76F1C9C4B0B00044B2D /* ImageLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3EA7621C9C4B0B00044B2D /* ImageLabelCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		84E314C7B8B8317A3C745CE5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DA3EA71C1C9C486000044B2D /* ControlBusinessSoEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlBusinessSoEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3EA7201C9C486000044B2D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DA3EA7221C9C486000044B2D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DA3EA7231C9C486000044B2D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DA3EA7251C9C486000044B2D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		DA3EA7261C9C486000044B2D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DA3EA7291C9C486000044B2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DA3EA72B1C9C486000044B2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA3EA72E1C9C486000044B2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA3EA7301C9C486000044B2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA3EA7381C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHCollectionViewReorderableTripletLayout.h; sourceTree = "<group>"; };
+		DA3EA7391C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHCollectionViewReorderableTripletLayout.m; sourceTree = "<group>"; };
+		DA3EA73A1C9C4AF300044B2D /* JHCollectionViewTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHCollectionViewTripletLayout.h; sourceTree = "<group>"; };
+		DA3EA73B1C9C4AF300044B2D /* JHCollectionViewTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHCollectionViewTripletLayout.m; sourceTree = "<group>"; };
+		DA3EA73C1C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewReorderableTripletLayout.h; sourceTree = "<group>"; };
+		DA3EA73D1C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewReorderableTripletLayout.m; sourceTree = "<group>"; };
+		DA3EA73E1C9C4AF300044B2D /* RACollectionViewTripletLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACollectionViewTripletLayout.h; sourceTree = "<group>"; };
+		DA3EA73F1C9C4AF300044B2D /* RACollectionViewTripletLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACollectionViewTripletLayout.m; sourceTree = "<group>"; };
+		DA3EA7451C9C4B0B00044B2D /* AppData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppData.h; sourceTree = "<group>"; };
+		DA3EA7461C9C4B0B00044B2D /* AppData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppData.m; sourceTree = "<group>"; };
+		DA3EA74A1C9C4B0B00044B2D /* SuperBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperBean.h; sourceTree = "<group>"; };
+		DA3EA74B1C9C4B0B00044B2D /* SuperBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperBean.m; sourceTree = "<group>"; };
+		DA3EA74D1C9C4B0B00044B2D /* SuperDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperDao.h; sourceTree = "<group>"; };
+		DA3EA74E1C9C4B0B00044B2D /* SuperDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperDao.m; sourceTree = "<group>"; };
+		DA3EA7501C9C4B0B00044B2D /* AddCategoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCategoryVC.h; sourceTree = "<group>"; };
+		DA3EA7511C9C4B0B00044B2D /* AddCategoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCategoryVC.m; sourceTree = "<group>"; };
+		DA3EA7521C9C4B0B00044B2D /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		DA3EA7531C9C4B0B00044B2D /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		DA3EA7541C9C4B0B00044B2D /* NewGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGoodsViewController.h; sourceTree = "<group>"; };
+		DA3EA7551C9C4B0B00044B2D /* NewGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGoodsViewController.m; sourceTree = "<group>"; };
+		DA3EA7561C9C4B0B00044B2D /* ScanBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanBarViewController.h; sourceTree = "<group>"; };
+		DA3EA7571C9C4B0B00044B2D /* ScanBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanBarViewController.m; sourceTree = "<group>"; };
+		DA3EA7591C9C4B0B00044B2D /* CellButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellButton.h; sourceTree = "<group>"; };
+		DA3EA75A1C9C4B0B00044B2D /* CellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellButton.m; sourceTree = "<group>"; };
+		DA3EA75B1C9C4B0B00044B2D /* CellTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellTextField.h; sourceTree = "<group>"; };
+		DA3EA75C1C9C4B0B00044B2D /* CellTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellTextField.m; sourceTree = "<group>"; };
+		DA3EA75D1C9C4B0B00044B2D /* ImageButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageButtonCell.h; sourceTree = "<group>"; };
+		DA3EA75E1C9C4B0B00044B2D /* ImageButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageButtonCell.m; sourceTree = "<group>"; };
+		DA3EA75F1C9C4B0B00044B2D /* ImageButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageButtonCell.xib; sourceTree = "<group>"; };
+		DA3EA7601C9C4B0B00044B2D /* ImageLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageLabelCell.h; sourceTree = "<group>"; };
+		DA3EA7611C9C4B0B00044B2D /* ImageLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageLabelCell.m; sourceTree = "<group>"; };
+		DA3EA7621C9C4B0B00044B2D /* ImageLabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageLabelCell.xib; sourceTree = "<group>"; };
+		DA3EA7701C9C4B4300044B2D /* Define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Define.h; sourceTree = "<group>"; };
+		DD0F1CECC75ACCA532505CD7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E550CC1D8972066B8E740EA0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +84,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C74F219B33E3B056612CEEB5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		763EC59732595F1AFB6D54FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7361C9C4AF300044B2D /* 3rd */,
+				E550CC1D8972066B8E740EA0 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DA3EA7131C9C486000044B2D = {
 			isa = PBXGroup;
 			children = (
+				DA3EA74F1C9C4B0B00044B2D /* ViewControllers */,
+				DA3EA7581C9C4B0B00044B2D /* Views */,
+				DA3EA7471C9C4B0B00044B2D /* Model */,
+				DA3EA7441C9C4B0B00044B2D /* Global */,
 				DA3EA71E1C9C486000044B2D /* ControlBusinessSoEasy */,
 				DA3EA71D1C9C486000044B2D /* Products */,
+				FF706D3F0098BC976F0448EA /* Pods */,
+				763EC59732595F1AFB6D54FC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,12 +127,11 @@
 			children = (
 				DA3EA7221C9C486000044B2D /* AppDelegate.h */,
 				DA3EA7231C9C486000044B2D /* AppDelegate.m */,
-				DA3EA7251C9C486000044B2D /* ViewController.h */,
-				DA3EA7261C9C486000044B2D /* ViewController.m */,
 				DA3EA7281C9C486000044B2D /* Main.storyboard */,
 				DA3EA72B1C9C486000044B2D /* Assets.xcassets */,
 				DA3EA72D1C9C486000044B2D /* LaunchScreen.storyboard */,
 				DA3EA7301C9C486000044B2D /* Info.plist */,
+				DA3EA7701C9C4B4300044B2D /* Define.h */,
 				DA3EA71F1C9C486000044B2D /* Supporting Files */,
 			);
 			path = ControlBusinessSoEasy;
@@ -79,6 +145,119 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DA3EA7361C9C4AF300044B2D /* 3rd */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7371C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout */,
+			);
+			name = 3rd;
+			path = ControlBusinessSoEasy/3rd;
+			sourceTree = "<group>";
+		};
+		DA3EA7371C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7381C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.h */,
+				DA3EA7391C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.m */,
+				DA3EA73A1C9C4AF300044B2D /* JHCollectionViewTripletLayout.h */,
+				DA3EA73B1C9C4AF300044B2D /* JHCollectionViewTripletLayout.m */,
+				DA3EA73C1C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.h */,
+				DA3EA73D1C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m */,
+				DA3EA73E1C9C4AF300044B2D /* RACollectionViewTripletLayout.h */,
+				DA3EA73F1C9C4AF300044B2D /* RACollectionViewTripletLayout.m */,
+			);
+			path = RACollectionViewReorderableTripletLayout;
+			sourceTree = "<group>";
+		};
+		DA3EA7441C9C4B0B00044B2D /* Global */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7451C9C4B0B00044B2D /* AppData.h */,
+				DA3EA7461C9C4B0B00044B2D /* AppData.m */,
+			);
+			name = Global;
+			path = ControlBusinessSoEasy/Global;
+			sourceTree = "<group>";
+		};
+		DA3EA7471C9C4B0B00044B2D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7481C9C4B0B00044B2D /* DataBase */,
+			);
+			name = Model;
+			path = ControlBusinessSoEasy/Model;
+			sourceTree = "<group>";
+		};
+		DA3EA7481C9C4B0B00044B2D /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7491C9C4B0B00044B2D /* Bean */,
+				DA3EA74C1C9C4B0B00044B2D /* Dao */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		DA3EA7491C9C4B0B00044B2D /* Bean */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA74A1C9C4B0B00044B2D /* SuperBean.h */,
+				DA3EA74B1C9C4B0B00044B2D /* SuperBean.m */,
+			);
+			path = Bean;
+			sourceTree = "<group>";
+		};
+		DA3EA74C1C9C4B0B00044B2D /* Dao */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA74D1C9C4B0B00044B2D /* SuperDao.h */,
+				DA3EA74E1C9C4B0B00044B2D /* SuperDao.m */,
+			);
+			path = Dao;
+			sourceTree = "<group>";
+		};
+		DA3EA74F1C9C4B0B00044B2D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7501C9C4B0B00044B2D /* AddCategoryVC.h */,
+				DA3EA7511C9C4B0B00044B2D /* AddCategoryVC.m */,
+				DA3EA7521C9C4B0B00044B2D /* HomeViewController.h */,
+				DA3EA7531C9C4B0B00044B2D /* HomeViewController.m */,
+				DA3EA7541C9C4B0B00044B2D /* NewGoodsViewController.h */,
+				DA3EA7551C9C4B0B00044B2D /* NewGoodsViewController.m */,
+				DA3EA7561C9C4B0B00044B2D /* ScanBarViewController.h */,
+				DA3EA7571C9C4B0B00044B2D /* ScanBarViewController.m */,
+			);
+			name = ViewControllers;
+			path = ControlBusinessSoEasy/ViewControllers;
+			sourceTree = "<group>";
+		};
+		DA3EA7581C9C4B0B00044B2D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7591C9C4B0B00044B2D /* CellButton.h */,
+				DA3EA75A1C9C4B0B00044B2D /* CellButton.m */,
+				DA3EA75B1C9C4B0B00044B2D /* CellTextField.h */,
+				DA3EA75C1C9C4B0B00044B2D /* CellTextField.m */,
+				DA3EA75D1C9C4B0B00044B2D /* ImageButtonCell.h */,
+				DA3EA75E1C9C4B0B00044B2D /* ImageButtonCell.m */,
+				DA3EA75F1C9C4B0B00044B2D /* ImageButtonCell.xib */,
+				DA3EA7601C9C4B0B00044B2D /* ImageLabelCell.h */,
+				DA3EA7611C9C4B0B00044B2D /* ImageLabelCell.m */,
+				DA3EA7621C9C4B0B00044B2D /* ImageLabelCell.xib */,
+			);
+			name = Views;
+			path = ControlBusinessSoEasy/Views;
+			sourceTree = "<group>";
+		};
+		FF706D3F0098BC976F0448EA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				84E314C7B8B8317A3C745CE5 /* Pods.debug.xcconfig */,
+				DD0F1CECC75ACCA532505CD7 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +265,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA3EA7331C9C486000044B2D /* Build configuration list for PBXNativeTarget "ControlBusinessSoEasy" */;
 			buildPhases = (
+				56BBBE3BD64360D384731754 /* Check Pods Manifest.lock */,
 				DA3EA7181C9C486000044B2D /* Sources */,
 				DA3EA7191C9C486000044B2D /* Frameworks */,
 				DA3EA71A1C9C486000044B2D /* Resources */,
+				1D8E7E42F978FCD2A690000E /* Embed Pods Frameworks */,
+				1AC4DBFAADFF7F8D730C115A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -139,19 +321,83 @@
 				DA3EA72F1C9C486000044B2D /* LaunchScreen.storyboard in Resources */,
 				DA3EA72C1C9C486000044B2D /* Assets.xcassets in Resources */,
 				DA3EA72A1C9C486000044B2D /* Main.storyboard in Resources */,
+				DA3EA76F1C9C4B0B00044B2D /* ImageLabelCell.xib in Resources */,
+				DA3EA76D1C9C4B0B00044B2D /* ImageButtonCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1AC4DBFAADFF7F8D730C115A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1D8E7E42F978FCD2A690000E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		56BBBE3BD64360D384731754 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA3EA7181C9C486000044B2D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA3EA7271C9C486000044B2D /* ViewController.m in Sources */,
 				DA3EA7241C9C486000044B2D /* AppDelegate.m in Sources */,
+				DA3EA7411C9C4AF300044B2D /* JHCollectionViewTripletLayout.m in Sources */,
+				DA3EA7661C9C4B0B00044B2D /* AddCategoryVC.m in Sources */,
+				DA3EA7631C9C4B0B00044B2D /* AppData.m in Sources */,
+				DA3EA7641C9C4B0B00044B2D /* SuperBean.m in Sources */,
+				DA3EA76A1C9C4B0B00044B2D /* CellButton.m in Sources */,
+				DA3EA7431C9C4AF300044B2D /* RACollectionViewTripletLayout.m in Sources */,
+				DA3EA7671C9C4B0B00044B2D /* HomeViewController.m in Sources */,
+				DA3EA7651C9C4B0B00044B2D /* SuperDao.m in Sources */,
+				DA3EA76E1C9C4B0B00044B2D /* ImageLabelCell.m in Sources */,
+				DA3EA7681C9C4B0B00044B2D /* NewGoodsViewController.m in Sources */,
+				DA3EA7421C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m in Sources */,
+				DA3EA76C1C9C4B0B00044B2D /* ImageButtonCell.m in Sources */,
 				DA3EA7211C9C486000044B2D /* main.m in Sources */,
+				DA3EA76B1C9C4B0B00044B2D /* CellTextField.m in Sources */,
+				DA3EA7691C9C4B0B00044B2D /* ScanBarViewController.m in Sources */,
+				DA3EA7401C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,8 +505,11 @@
 		};
 		DA3EA7341C9C486000044B2D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84E314C7B8B8317A3C745CE5 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/ControlBusinessSoEasy/EasyBusiness.pch";
 				INFOPLIST_FILE = ControlBusinessSoEasy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Home.ControlBusinessSoEasy;
@@ -270,8 +519,11 @@
 		};
 		DA3EA7351C9C486000044B2D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD0F1CECC75ACCA532505CD7 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/ControlBusinessSoEasy/EasyBusiness.pch";
 				INFOPLIST_FILE = ControlBusinessSoEasy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Home.ControlBusinessSoEasy;
@@ -298,6 +550,7 @@
 				DA3EA7351C9C486000044B2D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

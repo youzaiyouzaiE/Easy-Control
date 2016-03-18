@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BarCodeCell" id="KGk-i7-Jjw" customClass="ImageButtonCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="条码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHg-Gc-Mbo">
+                        <rect key="frame" x="40" y="9" width="41" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="26" id="hkf-f4-hwP"/>
+                            <constraint firstAttribute="width" constant="41" id="pPj-Gt-eWh"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2C7-II-6EK">
+                        <rect key="frame" x="10" y="9" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="NNH-Jc-zMB"/>
+                            <constraint firstAttribute="width" constant="25" id="kXe-fe-QAZ"/>
+                        </constraints>
+                    </imageView>
+                    <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="justified" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j80-It-aXL" customClass="CellTextField">
+                        <rect key="frame" x="89" y="7" width="178" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14C-nS-Z1M" customClass="CellButton">
+                        <rect key="frame" x="281" y="9" width="26" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="26" id="FCB-pe-wWD"/>
+                            <constraint firstAttribute="width" constant="26" id="bTx-aF-0Pq"/>
+                        </constraints>
+                        <state key="normal" title="扫"/>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="tHg-Gc-Mbo" firstAttribute="leading" secondItem="2C7-II-6EK" secondAttribute="trailing" constant="5" id="BeI-Jr-1fo"/>
+                    <constraint firstItem="j80-It-aXL" firstAttribute="leading" secondItem="tHg-Gc-Mbo" secondAttribute="trailing" constant="8" id="Fft-NV-qGh"/>
+                    <constraint firstItem="2C7-II-6EK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="JjI-IQ-JSn"/>
+                    <constraint firstItem="j80-It-aXL" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="V2r-uz-s9N"/>
+                    <constraint firstItem="2C7-II-6EK" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="i2Q-jc-u4Y"/>
+                    <constraint firstItem="14C-nS-Z1M" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jSM-UI-xiY"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="14C-nS-Z1M" secondAttribute="trailing" constant="5" id="jk7-B4-4I7"/>
+                    <constraint firstItem="tHg-Gc-Mbo" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="nJp-fJ-OIS"/>
+                    <constraint firstItem="14C-nS-Z1M" firstAttribute="leading" secondItem="j80-It-aXL" secondAttribute="trailing" constant="14" id="zpT-eY-P3j"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="button" destination="14C-nS-Z1M" id="1cI-XK-9aE"/>
+                <outlet property="textField" destination="j80-It-aXL" id="vx2-EV-HPI"/>
+                <outlet property="titleImage" destination="2C7-II-6EK" id="ZL6-2q-oCX"/>
+                <outlet property="titleLabel" destination="tHg-Gc-Mbo" id="EJf-in-vPh"/>
+            </connections>
+            <point key="canvasLocation" x="250" y="537"/>
+        </tableViewCell>
+    </objects>
+</document>
