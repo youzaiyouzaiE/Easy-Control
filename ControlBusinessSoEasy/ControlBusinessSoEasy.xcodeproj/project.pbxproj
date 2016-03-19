@@ -20,16 +20,17 @@
 		DA3EA7631C9C4B0B00044B2D /* AppData.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7461C9C4B0B00044B2D /* AppData.m */; };
 		DA3EA7641C9C4B0B00044B2D /* SuperBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA74B1C9C4B0B00044B2D /* SuperBean.m */; };
 		DA3EA7651C9C4B0B00044B2D /* SuperDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA74E1C9C4B0B00044B2D /* SuperDao.m */; };
-		DA3EA7661C9C4B0B00044B2D /* AddCategoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7511C9C4B0B00044B2D /* AddCategoryVC.m */; };
 		DA3EA7671C9C4B0B00044B2D /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7531C9C4B0B00044B2D /* HomeViewController.m */; };
-		DA3EA7681C9C4B0B00044B2D /* NewGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7551C9C4B0B00044B2D /* NewGoodsViewController.m */; };
-		DA3EA7691C9C4B0B00044B2D /* ScanBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7571C9C4B0B00044B2D /* ScanBarViewController.m */; };
 		DA3EA76A1C9C4B0B00044B2D /* CellButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA75A1C9C4B0B00044B2D /* CellButton.m */; };
 		DA3EA76B1C9C4B0B00044B2D /* CellTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA75C1C9C4B0B00044B2D /* CellTextField.m */; };
 		DA3EA76C1C9C4B0B00044B2D /* ImageButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA75E1C9C4B0B00044B2D /* ImageButtonCell.m */; };
 		DA3EA76D1C9C4B0B00044B2D /* ImageButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3EA75F1C9C4B0B00044B2D /* ImageButtonCell.xib */; };
 		DA3EA76E1C9C4B0B00044B2D /* ImageLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7611C9C4B0B00044B2D /* ImageLabelCell.m */; };
 		DA3EA76F1C9C4B0B00044B2D /* ImageLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3EA7621C9C4B0B00044B2D /* ImageLabelCell.xib */; };
+		DA3EA77A1C9D634800044B2D /* AddCategoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7751C9D634800044B2D /* AddCategoryVC.m */; };
+		DA3EA77B1C9D634800044B2D /* NewGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7771C9D634800044B2D /* NewGoodsViewController.m */; };
+		DA3EA77C1C9D634800044B2D /* ScanBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7791C9D634800044B2D /* ScanBarViewController.m */; };
+		DA3EA77F1C9D705800044B2D /* UITools.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA77E1C9D705800044B2D /* UITools.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,14 +57,8 @@
 		DA3EA74B1C9C4B0B00044B2D /* SuperBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperBean.m; sourceTree = "<group>"; };
 		DA3EA74D1C9C4B0B00044B2D /* SuperDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperDao.h; sourceTree = "<group>"; };
 		DA3EA74E1C9C4B0B00044B2D /* SuperDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperDao.m; sourceTree = "<group>"; };
-		DA3EA7501C9C4B0B00044B2D /* AddCategoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCategoryVC.h; sourceTree = "<group>"; };
-		DA3EA7511C9C4B0B00044B2D /* AddCategoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCategoryVC.m; sourceTree = "<group>"; };
 		DA3EA7521C9C4B0B00044B2D /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		DA3EA7531C9C4B0B00044B2D /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
-		DA3EA7541C9C4B0B00044B2D /* NewGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGoodsViewController.h; sourceTree = "<group>"; };
-		DA3EA7551C9C4B0B00044B2D /* NewGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGoodsViewController.m; sourceTree = "<group>"; };
-		DA3EA7561C9C4B0B00044B2D /* ScanBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanBarViewController.h; sourceTree = "<group>"; };
-		DA3EA7571C9C4B0B00044B2D /* ScanBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanBarViewController.m; sourceTree = "<group>"; };
 		DA3EA7591C9C4B0B00044B2D /* CellButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellButton.h; sourceTree = "<group>"; };
 		DA3EA75A1C9C4B0B00044B2D /* CellButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellButton.m; sourceTree = "<group>"; };
 		DA3EA75B1C9C4B0B00044B2D /* CellTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellTextField.h; sourceTree = "<group>"; };
@@ -75,6 +70,15 @@
 		DA3EA7611C9C4B0B00044B2D /* ImageLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageLabelCell.m; sourceTree = "<group>"; };
 		DA3EA7621C9C4B0B00044B2D /* ImageLabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageLabelCell.xib; sourceTree = "<group>"; };
 		DA3EA7701C9C4B4300044B2D /* Define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Define.h; sourceTree = "<group>"; };
+		DA3EA7741C9D634800044B2D /* AddCategoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCategoryVC.h; sourceTree = "<group>"; };
+		DA3EA7751C9D634800044B2D /* AddCategoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCategoryVC.m; sourceTree = "<group>"; };
+		DA3EA7761C9D634800044B2D /* NewGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGoodsViewController.h; sourceTree = "<group>"; };
+		DA3EA7771C9D634800044B2D /* NewGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGoodsViewController.m; sourceTree = "<group>"; };
+		DA3EA7781C9D634800044B2D /* ScanBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanBarViewController.h; sourceTree = "<group>"; };
+		DA3EA7791C9D634800044B2D /* ScanBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanBarViewController.m; sourceTree = "<group>"; };
+		DA3EA77D1C9D705800044B2D /* UITools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITools.h; sourceTree = "<group>"; };
+		DA3EA77E1C9D705800044B2D /* UITools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITools.m; sourceTree = "<group>"; };
+		DA3EA7801C9D72BD00044B2D /* EasyBusiness.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyBusiness.pch; sourceTree = "<group>"; };
 		DD0F1CECC75ACCA532505CD7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E550CC1D8972066B8E740EA0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -132,6 +136,7 @@
 				DA3EA72D1C9C486000044B2D /* LaunchScreen.storyboard */,
 				DA3EA7301C9C486000044B2D /* Info.plist */,
 				DA3EA7701C9C4B4300044B2D /* Define.h */,
+				DA3EA7801C9D72BD00044B2D /* EasyBusiness.pch */,
 				DA3EA71F1C9C486000044B2D /* Supporting Files */,
 			);
 			path = ControlBusinessSoEasy;
@@ -174,6 +179,8 @@
 			children = (
 				DA3EA7451C9C4B0B00044B2D /* AppData.h */,
 				DA3EA7461C9C4B0B00044B2D /* AppData.m */,
+				DA3EA77D1C9D705800044B2D /* UITools.h */,
+				DA3EA77E1C9D705800044B2D /* UITools.m */,
 			);
 			name = Global;
 			path = ControlBusinessSoEasy/Global;
@@ -218,14 +225,9 @@
 		DA3EA74F1C9C4B0B00044B2D /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				DA3EA7501C9C4B0B00044B2D /* AddCategoryVC.h */,
-				DA3EA7511C9C4B0B00044B2D /* AddCategoryVC.m */,
 				DA3EA7521C9C4B0B00044B2D /* HomeViewController.h */,
 				DA3EA7531C9C4B0B00044B2D /* HomeViewController.m */,
-				DA3EA7541C9C4B0B00044B2D /* NewGoodsViewController.h */,
-				DA3EA7551C9C4B0B00044B2D /* NewGoodsViewController.m */,
-				DA3EA7561C9C4B0B00044B2D /* ScanBarViewController.h */,
-				DA3EA7571C9C4B0B00044B2D /* ScanBarViewController.m */,
+				DA3EA7721C9D634800044B2D /* AddGoods */,
 			);
 			name = ViewControllers;
 			path = ControlBusinessSoEasy/ViewControllers;
@@ -247,6 +249,27 @@
 			);
 			name = Views;
 			path = ControlBusinessSoEasy/Views;
+			sourceTree = "<group>";
+		};
+		DA3EA7721C9D634800044B2D /* AddGoods */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7761C9D634800044B2D /* NewGoodsViewController.h */,
+				DA3EA7771C9D634800044B2D /* NewGoodsViewController.m */,
+				DA3EA7781C9D634800044B2D /* ScanBarViewController.h */,
+				DA3EA7791C9D634800044B2D /* ScanBarViewController.m */,
+				DA3EA7731C9D634800044B2D /* AddCategory */,
+			);
+			path = AddGoods;
+			sourceTree = "<group>";
+		};
+		DA3EA7731C9D634800044B2D /* AddCategory */ = {
+			isa = PBXGroup;
+			children = (
+				DA3EA7741C9D634800044B2D /* AddCategoryVC.h */,
+				DA3EA7751C9D634800044B2D /* AddCategoryVC.m */,
+			);
+			path = AddCategory;
 			sourceTree = "<group>";
 		};
 		FF706D3F0098BC976F0448EA /* Pods */ = {
@@ -383,20 +406,21 @@
 			files = (
 				DA3EA7241C9C486000044B2D /* AppDelegate.m in Sources */,
 				DA3EA7411C9C4AF300044B2D /* JHCollectionViewTripletLayout.m in Sources */,
-				DA3EA7661C9C4B0B00044B2D /* AddCategoryVC.m in Sources */,
 				DA3EA7631C9C4B0B00044B2D /* AppData.m in Sources */,
 				DA3EA7641C9C4B0B00044B2D /* SuperBean.m in Sources */,
 				DA3EA76A1C9C4B0B00044B2D /* CellButton.m in Sources */,
 				DA3EA7431C9C4AF300044B2D /* RACollectionViewTripletLayout.m in Sources */,
 				DA3EA7671C9C4B0B00044B2D /* HomeViewController.m in Sources */,
 				DA3EA7651C9C4B0B00044B2D /* SuperDao.m in Sources */,
+				DA3EA77B1C9D634800044B2D /* NewGoodsViewController.m in Sources */,
 				DA3EA76E1C9C4B0B00044B2D /* ImageLabelCell.m in Sources */,
-				DA3EA7681C9C4B0B00044B2D /* NewGoodsViewController.m in Sources */,
 				DA3EA7421C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m in Sources */,
+				DA3EA77F1C9D705800044B2D /* UITools.m in Sources */,
+				DA3EA77C1C9D634800044B2D /* ScanBarViewController.m in Sources */,
 				DA3EA76C1C9C4B0B00044B2D /* ImageButtonCell.m in Sources */,
 				DA3EA7211C9C486000044B2D /* main.m in Sources */,
+				DA3EA77A1C9D634800044B2D /* AddCategoryVC.m in Sources */,
 				DA3EA76B1C9C4B0B00044B2D /* CellTextField.m in Sources */,
-				DA3EA7691C9C4B0B00044B2D /* ScanBarViewController.m in Sources */,
 				DA3EA7401C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

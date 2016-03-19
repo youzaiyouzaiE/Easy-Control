@@ -27,11 +27,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      section2Array = @[@"进价",@"售价",@"规格",@"库存"];
+    self.navigationItem.title = @"添加商品";
+    [UITools customNavigationBackButtonForController:self];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)CustomNavigationBackButtonAndTitle:(NSString *)title {
+    self.navigationItem.title = title;
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
 #pragma mark -

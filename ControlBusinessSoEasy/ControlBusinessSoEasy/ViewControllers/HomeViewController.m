@@ -24,13 +24,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"生意易";
+    self.navigationItem.title = @"生意宝";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:73/255.0f green:179/255.0f blue:255/255.0f alpha:1];
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
-    titleArray = @[@"我的商品",@"新增商品",@"销售查询",@"会员信息",@"关于"];
+    titleArray = @[@"我的商品",@"新增商品",@"销售商品",@"销售查询",@"会员信息",@"关于"];
     
     if (IOS_7LAST) {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;

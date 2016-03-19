@@ -17,6 +17,7 @@
 #import "Define.h"
 #import "AppData.h"
 
+#import "UITools.h"
 
 #endif
 
