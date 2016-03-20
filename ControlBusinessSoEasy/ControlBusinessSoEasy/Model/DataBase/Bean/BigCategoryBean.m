@@ -27,4 +27,8 @@ NSString *const k_big_location = @"k_big_location";
     return [[BigCategoryDao shareInstance] deleteBeanWithIdKey:self.idKey];
 }
 
+- (NSString *)description {
+    return @"BigCategoryBean";
+}
+
 @end

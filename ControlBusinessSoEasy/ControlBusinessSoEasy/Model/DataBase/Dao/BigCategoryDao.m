@@ -61,5 +61,8 @@ static BigCategoryDao *shareInstance = nil;
     return [self selectWithWhere:whereSql];
 }
 
+- (NSString *)description {
+    return @"BigCategoryDao";
+}
 
 @end

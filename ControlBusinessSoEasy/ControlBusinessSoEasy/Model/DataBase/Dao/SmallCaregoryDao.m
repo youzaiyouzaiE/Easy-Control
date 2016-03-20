@@ -60,4 +60,8 @@ static SmallCaregoryDao *shareInstance = nil;
     return [self selectWithWhere:whereSql];
 }
 
+- (NSString *)description {
+    return @"SmallCaregoryDao";
+}
+
 @end

@@ -27,4 +27,8 @@ NSString *const k_small_location = @"small_location";
     return [[SmallCaregoryDao shareInstance] deleteBeanWithIdKey:self.idKey];
 }
 
+- (NSString *)description {
+    return @"SmallCaregoryBean";
+}
+
 @end

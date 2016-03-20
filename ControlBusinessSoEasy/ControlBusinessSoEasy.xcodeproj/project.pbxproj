@@ -37,6 +37,7 @@
 		DA3EA78C1C9EA81600044B2D /* SmallCaregoryBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA78B1C9EA81600044B2D /* SmallCaregoryBean.m */; };
 		DA3EA78F1C9EA83700044B2D /* BigCategoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */; };
 		DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */; };
+		DA3EA7951C9EB7A700044B2D /* EditCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,8 @@
 		DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigCategoryDao.m; sourceTree = "<group>"; };
 		DA3EA7901C9EA87800044B2D /* SmallCaregoryDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallCaregoryDao.h; sourceTree = "<group>"; };
 		DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallCaregoryDao.m; sourceTree = "<group>"; };
+		DA3EA7931C9EB7A700044B2D /* EditCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCategoryViewController.h; sourceTree = "<group>"; };
+		DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCategoryViewController.m; sourceTree = "<group>"; };
 		DD0F1CECC75ACCA532505CD7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E550CC1D8972066B8E740EA0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -298,6 +301,8 @@
 			children = (
 				DA3EA7741C9D634800044B2D /* AddCategoryVC.h */,
 				DA3EA7751C9D634800044B2D /* AddCategoryVC.m */,
+				DA3EA7931C9EB7A700044B2D /* EditCategoryViewController.h */,
+				DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */,
 			);
 			path = AddCategory;
 			sourceTree = "<group>";
@@ -436,6 +441,7 @@
 			files = (
 				DA3EA7241C9C486000044B2D /* AppDelegate.m in Sources */,
 				DA3EA7411C9C4AF300044B2D /* JHCollectionViewTripletLayout.m in Sources */,
+				DA3EA7951C9EB7A700044B2D /* EditCategoryViewController.m in Sources */,
 				DA3EA7631C9C4B0B00044B2D /* AppData.m in Sources */,
 				DA3EA78C1C9EA81600044B2D /* SmallCaregoryBean.m in Sources */,
 				DA3EA7641C9C4B0B00044B2D /* SuperBean.m in Sources */,
@@ -519,7 +525,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -556,7 +562,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -571,6 +577,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ControlBusinessSoEasy/EasyBusiness.pch";
 				INFOPLIST_FILE = ControlBusinessSoEasy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Home.ControlBusinessSoEasy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -585,6 +592,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ControlBusinessSoEasy/EasyBusiness.pch";
 				INFOPLIST_FILE = ControlBusinessSoEasy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Home.ControlBusinessSoEasy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
