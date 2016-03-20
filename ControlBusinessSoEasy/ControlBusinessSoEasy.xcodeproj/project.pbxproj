@@ -31,6 +31,12 @@
 		DA3EA77B1C9D634800044B2D /* NewGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7771C9D634800044B2D /* NewGoodsViewController.m */; };
 		DA3EA77C1C9D634800044B2D /* ScanBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7791C9D634800044B2D /* ScanBarViewController.m */; };
 		DA3EA77F1C9D705800044B2D /* UITools.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA77E1C9D705800044B2D /* UITools.m */; };
+		DA3EA7831C9E39CE00044B2D /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7821C9E39CE00044B2D /* BaseModel.m */; };
+		DA3EA7861C9E3EA400044B2D /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7851C9E3EA400044B2D /* UserInfo.m */; };
+		DA3EA7891C9EA7F400044B2D /* BigCategoryBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7881C9EA7F400044B2D /* BigCategoryBean.m */; };
+		DA3EA78C1C9EA81600044B2D /* SmallCaregoryBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA78B1C9EA81600044B2D /* SmallCaregoryBean.m */; };
+		DA3EA78F1C9EA83700044B2D /* BigCategoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */; };
+		DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +85,18 @@
 		DA3EA77D1C9D705800044B2D /* UITools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITools.h; sourceTree = "<group>"; };
 		DA3EA77E1C9D705800044B2D /* UITools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITools.m; sourceTree = "<group>"; };
 		DA3EA7801C9D72BD00044B2D /* EasyBusiness.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyBusiness.pch; sourceTree = "<group>"; };
+		DA3EA7811C9E39CE00044B2D /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
+		DA3EA7821C9E39CE00044B2D /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
+		DA3EA7841C9E3EA400044B2D /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfo.h; sourceTree = "<group>"; };
+		DA3EA7851C9E3EA400044B2D /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfo.m; sourceTree = "<group>"; };
+		DA3EA7871C9EA7F400044B2D /* BigCategoryBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigCategoryBean.h; sourceTree = "<group>"; };
+		DA3EA7881C9EA7F400044B2D /* BigCategoryBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigCategoryBean.m; sourceTree = "<group>"; };
+		DA3EA78A1C9EA81600044B2D /* SmallCaregoryBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallCaregoryBean.h; sourceTree = "<group>"; };
+		DA3EA78B1C9EA81600044B2D /* SmallCaregoryBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallCaregoryBean.m; sourceTree = "<group>"; };
+		DA3EA78D1C9EA83700044B2D /* BigCategoryDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigCategoryDao.h; sourceTree = "<group>"; };
+		DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigCategoryDao.m; sourceTree = "<group>"; };
+		DA3EA7901C9EA87800044B2D /* SmallCaregoryDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallCaregoryDao.h; sourceTree = "<group>"; };
+		DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallCaregoryDao.m; sourceTree = "<group>"; };
 		DD0F1CECC75ACCA532505CD7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E550CC1D8972066B8E740EA0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -189,6 +207,10 @@
 		DA3EA7471C9C4B0B00044B2D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DA3EA7811C9E39CE00044B2D /* BaseModel.h */,
+				DA3EA7821C9E39CE00044B2D /* BaseModel.m */,
+				DA3EA7841C9E3EA400044B2D /* UserInfo.h */,
+				DA3EA7851C9E3EA400044B2D /* UserInfo.m */,
 				DA3EA7481C9C4B0B00044B2D /* DataBase */,
 			);
 			name = Model;
@@ -209,6 +231,10 @@
 			children = (
 				DA3EA74A1C9C4B0B00044B2D /* SuperBean.h */,
 				DA3EA74B1C9C4B0B00044B2D /* SuperBean.m */,
+				DA3EA7871C9EA7F400044B2D /* BigCategoryBean.h */,
+				DA3EA7881C9EA7F400044B2D /* BigCategoryBean.m */,
+				DA3EA78A1C9EA81600044B2D /* SmallCaregoryBean.h */,
+				DA3EA78B1C9EA81600044B2D /* SmallCaregoryBean.m */,
 			);
 			path = Bean;
 			sourceTree = "<group>";
@@ -218,6 +244,10 @@
 			children = (
 				DA3EA74D1C9C4B0B00044B2D /* SuperDao.h */,
 				DA3EA74E1C9C4B0B00044B2D /* SuperDao.m */,
+				DA3EA78D1C9EA83700044B2D /* BigCategoryDao.h */,
+				DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */,
+				DA3EA7901C9EA87800044B2D /* SmallCaregoryDao.h */,
+				DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -407,21 +437,27 @@
 				DA3EA7241C9C486000044B2D /* AppDelegate.m in Sources */,
 				DA3EA7411C9C4AF300044B2D /* JHCollectionViewTripletLayout.m in Sources */,
 				DA3EA7631C9C4B0B00044B2D /* AppData.m in Sources */,
+				DA3EA78C1C9EA81600044B2D /* SmallCaregoryBean.m in Sources */,
 				DA3EA7641C9C4B0B00044B2D /* SuperBean.m in Sources */,
 				DA3EA76A1C9C4B0B00044B2D /* CellButton.m in Sources */,
+				DA3EA7891C9EA7F400044B2D /* BigCategoryBean.m in Sources */,
 				DA3EA7431C9C4AF300044B2D /* RACollectionViewTripletLayout.m in Sources */,
 				DA3EA7671C9C4B0B00044B2D /* HomeViewController.m in Sources */,
 				DA3EA7651C9C4B0B00044B2D /* SuperDao.m in Sources */,
+				DA3EA7861C9E3EA400044B2D /* UserInfo.m in Sources */,
 				DA3EA77B1C9D634800044B2D /* NewGoodsViewController.m in Sources */,
 				DA3EA76E1C9C4B0B00044B2D /* ImageLabelCell.m in Sources */,
 				DA3EA7421C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m in Sources */,
+				DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */,
 				DA3EA77F1C9D705800044B2D /* UITools.m in Sources */,
 				DA3EA77C1C9D634800044B2D /* ScanBarViewController.m in Sources */,
 				DA3EA76C1C9C4B0B00044B2D /* ImageButtonCell.m in Sources */,
 				DA3EA7211C9C486000044B2D /* main.m in Sources */,
 				DA3EA77A1C9D634800044B2D /* AddCategoryVC.m in Sources */,
 				DA3EA76B1C9C4B0B00044B2D /* CellTextField.m in Sources */,
+				DA3EA7831C9E39CE00044B2D /* BaseModel.m in Sources */,
 				DA3EA7401C9C4AF300044B2D /* JHCollectionViewReorderableTripletLayout.m in Sources */,
+				DA3EA78F1C9EA83700044B2D /* BigCategoryDao.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
