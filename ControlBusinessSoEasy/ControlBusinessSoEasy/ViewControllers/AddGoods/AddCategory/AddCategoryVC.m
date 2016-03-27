@@ -16,6 +16,8 @@
 @interface AddCategoryVC () <UITableViewDataSource,UITableViewDelegate>{
     CategoryType selectType;
     
+    NSInteger selectBigItem;
+    NSInteger selectSmallItem;
     NSMutableArray *arrayBigCategorys;
     NSMutableArray *arraySmallCategorys;
 }
@@ -33,6 +35,8 @@
     
     _bigTableView.rowHeight = 38;
     _smallTable.rowHeight = 38;
+    
+    [self chickBigCategors];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,9 +47,25 @@
 - (void)chickBigCategors {
    NSArray *array = [[BigCategoryDao shareInstance] selectAll];
     arrayBigCategorys = [NSMutableArray arrayWithArray:array];
+    if (arrayBigCategorys.count == 0) {
+        BigCategoryBean *bigBean = [BigCategoryBean new];
+        bigBean.userId = [UserInfo shareInstance].uid;
+        bigBean.name = @"默认分类";
+        bigBean.location = 0;
+        if ([[BigCategoryDao shareInstance] insertBean:bigBean]) {
+            [arrayBigCategorys addObject:bigBean];
+        }
+    } else {
+        BigCategoryBean *fristBigBean = arrayBigCategorys[0];
+        [self chickSmallCategorsWithBigCategorID:fristBigBean.idKey];
+    }
     
 }
 
+- (void)chickSmallCategorsWithBigCategorID:(NSString *)bigID {
+    NSArray *array = [[SmallCaregoryDao shareInstance] selectSmallCaregoryByBigID:bigID];
+    arraySmallCategorys = [NSMutableArray arrayWithArray:array];
+}
 
 #pragma mark - Actions
 - (IBAction)editBigCategory:(id)sender {
@@ -81,18 +101,23 @@
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     SuperBean *bean = nil;
-    if (tableView == bigCategory) {
+    if (tableView == _bigTableView ) {
         bean = arrayBigCategorys[indexPath.row];
-    } else {
+        [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectBigItem inSection:0] animated:NO scrollPosition:YES];
+    } else if (tableView == _smallTable){
         bean = arraySmallCategorys[indexPath.row];
+        [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectSmallItem inSection:0] animated:NO scrollPosition:YES];
     }
+    
+    
+    
     cell.textLabel.text = [bean valueForKey:@"name"];
     return cell;
 }
 
 #pragma mark - tableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

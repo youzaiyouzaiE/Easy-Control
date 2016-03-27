@@ -16,7 +16,7 @@
 #ifdef __OBJC__
 #import "Define.h"
 #import "AppData.h"
-
+#import "UserInfo.h"
 #import "UITools.h"
 
 #endif

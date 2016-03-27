@@ -55,9 +55,18 @@ static SmallCaregoryDao *shareInstance = nil;
     return bean;
 }
 
+- (NSString *)tableName {
+    return tableName;
+}
+
 - (NSArray *)selectSmallCaregoryByBigID:(NSString *)bigid {
     NSString *whereSql = [NSString stringWithFormat:@"%@ = %@", k_small_BigId,bigid];
     return [self selectWithWhere:whereSql];
+}
+
+- (NSArray *)selectSmallCaregoryByBigID:(NSString *)bigid orderByLocation:(NSInteger )loca{
+    NSString *whereSql = [NSString stringWithFormat:@"%@ = %@", k_small_BigId,bigid];
+    return [self selectWithWhere:whereSql order:[NSString stringWithFormat:@"%ld",loca]];
 }
 
 - (NSString *)description {

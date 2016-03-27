@@ -9,11 +9,13 @@
 #import "EditCategoryViewController.h"
 #import "BigCategoryBean.h"
 #import "SmallCaregoryBean.h"
+#import "AddOrEditViewController.h"
 
-@interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate> {
+@interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate> {
+    BOOL isEditType;
+    BOOL isAddCategory;
     
-    UIAlertView *alertView;
-    UITextField *inputTextField;
+    NSString *categoryName;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableVeiw;
@@ -30,8 +32,12 @@
     } else {
         self.navigationItem.title = @"大分类";
     }
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:nil action:nil];
-    
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [editButton addTarget:self action:@selector(editButtionItemAction:) forControlEvents:UIControlEventTouchUpInside];
+    [editButton setTitle:@"编辑" forState:UIControlStateNormal];
+    [editButton setTitle:@"完成" forState:UIControlStateSelected];
+    editButton.frame = CGRectMake(0, 0, 40, 40);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
     
 }
 
@@ -39,12 +45,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark - action
+- (void)editButtionItemAction:(UIButton *)button {
+    button.selected = !button.selected;
+    isEditType = button.selected;
+    
+    
+}
+
 #pragma mark - UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < _arrayCategorys.count) {
         return 40;
     } else {
-        return 64;
+        return 70;
     }
 }
 
@@ -70,6 +84,8 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
+        UILabel *titleLable = (UILabel *)[cell viewWithTag:1];
+        self.categoryType == smallCategory ? (titleLable.text = @"添加小分类" ): (titleLable.text = @"添加大分类" );
         return cell;
     }
 }
@@ -77,35 +93,41 @@
 #pragma mark - tableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < _arrayCategorys.count) {
-    
-    } else {
-        if (!alertView) {
-            alertView = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                       message:@"请输入类别名称"
-                                                      delegate:self
-                                             cancelButtonTitle:@"取消"
-                                             otherButtonTitles:@"确定", nil];
+        isAddCategory = NO;
+        if (isEditType) {
             
-            [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-//            [alertView textFieldAtIndex:0].secureTextEntry = YES;
-            inputTextField = [alertView textFieldAtIndex:0];
+        } else {///Choose
+            
+            
         }
-        [alertView show];
+    } else {
+        isAddCategory = YES;
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self performSegueWithIdentifier:@"AddOrEditSegue" sender:self];
     }
 }
 
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-}
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    AddOrEditViewController *addOrEidtVC = ( AddOrEditViewController *)[segue destinationViewController];
+    if (isAddCategory && self.categoryType == smallCategory) {
+        addOrEidtVC.navTitle = @"添加小分类";
+    } else if (isAddCategory && self.categoryType == bigCategory) {
+        addOrEidtVC.navTitle = @"添加大分类";
+    } else if (!isAddCategory && self.categoryType == bigCategory) {
+        addOrEidtVC.navTitle = @"修改大分类";
+    } else if (!isAddCategory && self.categoryType == smallCategory) {
+        addOrEidtVC.navTitle = @"修改小分类";
+    }
+    addOrEidtVC.categoryName = ^(NSString *name){
+        categoryName = name;
+    };
 }
-*/
+
+
+
+
 
 @end

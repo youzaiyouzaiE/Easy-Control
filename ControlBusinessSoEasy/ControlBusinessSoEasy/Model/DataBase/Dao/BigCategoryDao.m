@@ -56,6 +56,11 @@ static BigCategoryDao *shareInstance = nil;
     return bean;
 }
 
+- (NSString *)tableName
+{
+    return tableName;
+}
+
 - (NSArray *)selectBigCaregoryByUserID:(NSString *)numberUserID {
     NSString *whereSql = [NSString stringWithFormat:@"%@ = %@", k_big_userId,numberUserID];
     return [self selectWithWhere:whereSql];

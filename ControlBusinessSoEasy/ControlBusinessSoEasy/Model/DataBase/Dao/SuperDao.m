@@ -103,7 +103,7 @@
     }
 }
 
-- (void)insertBean:(SuperBean *)bean
+- (BOOL)insertBean:(SuperBean *)bean
 {
     NSMutableString *qmarkString = [NSMutableString stringWithString:@"?, "];
     [bean.columnArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -129,6 +129,7 @@
     if (!insertSuccess) {
         NSLog(@"ERROR: Insert data failed!");
     }
+    return insertSuccess;
 }
 
 - (NSString *)get_uuid

@@ -38,6 +38,7 @@
 		DA3EA78F1C9EA83700044B2D /* BigCategoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */; };
 		DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */; };
 		DA3EA7951C9EB7A700044B2D /* EditCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */; };
+		DA8AB8CB1CA7E85900EAC1D8 /* AddOrEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8AB8CA1CA7E85900EAC1D8 /* AddOrEditViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,8 @@
 		DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallCaregoryDao.m; sourceTree = "<group>"; };
 		DA3EA7931C9EB7A700044B2D /* EditCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCategoryViewController.h; sourceTree = "<group>"; };
 		DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCategoryViewController.m; sourceTree = "<group>"; };
+		DA8AB8C91CA7E85900EAC1D8 /* AddOrEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddOrEditViewController.h; sourceTree = "<group>"; };
+		DA8AB8CA1CA7E85900EAC1D8 /* AddOrEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddOrEditViewController.m; sourceTree = "<group>"; };
 		DD0F1CECC75ACCA532505CD7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E550CC1D8972066B8E740EA0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -303,6 +306,8 @@
 				DA3EA7751C9D634800044B2D /* AddCategoryVC.m */,
 				DA3EA7931C9EB7A700044B2D /* EditCategoryViewController.h */,
 				DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */,
+				DA8AB8C91CA7E85900EAC1D8 /* AddOrEditViewController.h */,
+				DA8AB8CA1CA7E85900EAC1D8 /* AddOrEditViewController.m */,
 			);
 			path = AddCategory;
 			sourceTree = "<group>";
@@ -452,6 +457,7 @@
 				DA3EA7651C9C4B0B00044B2D /* SuperDao.m in Sources */,
 				DA3EA7861C9E3EA400044B2D /* UserInfo.m in Sources */,
 				DA3EA77B1C9D634800044B2D /* NewGoodsViewController.m in Sources */,
+				DA8AB8CB1CA7E85900EAC1D8 /* AddOrEditViewController.m in Sources */,
 				DA3EA76E1C9C4B0B00044B2D /* ImageLabelCell.m in Sources */,
 				DA3EA7421C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m in Sources */,
 				DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */,
