@@ -9,6 +9,8 @@
 #import "EditCategoryViewController.h"
 #import "BigCategoryBean.h"
 #import "SmallCaregoryBean.h"
+#import "SmallCaregoryDao.h"
+#import "BigCategoryDao.h"
 #import "AddOrEditViewController.h"
 
 @interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate> {
@@ -121,8 +123,24 @@
     } else if (!isAddCategory && self.categoryType == smallCategory) {
         addOrEidtVC.navTitle = @"修改小分类";
     }
+//    __weak typeof(self) weakSelf = self;
     addOrEidtVC.categoryName = ^(NSString *name){
         categoryName = name;
+        if (self.categoryType == smallCategory) {
+            SmallCaregoryBean *bean = [SmallCaregoryBean new];
+            bean.bigCaregoryID = _bigCategoryBeanId;
+            bean.name = name;
+            bean.location = _arrayCategorys.count;
+            [[SmallCaregoryDao shareInstance] insertBean:bean];
+            [_arrayCategorys addObject:bean];
+        } else {
+            BigCategoryBean *bean = [BigCategoryBean new];
+            bean.name = name;
+            bean.location = _arrayCategorys.count;
+            [[SmallCaregoryDao shareInstance] insertBean:bean];
+            [_arrayCategorys addObject:bean];
+        }
+        [self.tableVeiw reloadData];
     };
 }
 

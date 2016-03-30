@@ -7,6 +7,7 @@
 //
 
 #import "UITools.h"
+#import "MBProgressHUD.h"
 
 @implementation UITools
 
@@ -29,6 +30,27 @@ static UITools *tools = nil;
 + (void)customNavigationBackButtonForController:(UIViewController *)controller{
     controller.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     controller.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+}
+
+- (void)showMessageToView:(UIView *)view message:(NSString *)message
+{
+    [self showMessageToView:view message:message autoHide:YES];
+}
+
+- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = message;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    
+    if (autoHide) {
+        [hud hide:YES afterDelay:1.5f];
+    }
+    
+    return hud;
 }
 
 @end

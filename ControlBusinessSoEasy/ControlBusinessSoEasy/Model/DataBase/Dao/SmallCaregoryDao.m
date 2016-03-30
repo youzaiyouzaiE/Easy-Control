@@ -60,7 +60,7 @@ static SmallCaregoryDao *shareInstance = nil;
 }
 
 - (NSArray *)selectSmallCaregoryByBigID:(NSString *)bigid {
-    NSString *whereSql = [NSString stringWithFormat:@"%@ = %@", k_small_BigId,bigid];
+    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' ", k_small_BigId,bigid];
     return [self selectWithWhere:whereSql];
 }
 

@@ -18,5 +18,6 @@ typedef NS_ENUM(NSInteger, CategoryType) {
 
 @property (assign, nonatomic) CategoryType categoryType;
 @property (nonatomic, strong) NSMutableArray *arrayCategorys;
+@property (nonatomic, copy) NSString *bigCategoryBeanId;///
 
 @end

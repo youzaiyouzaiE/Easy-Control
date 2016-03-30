@@ -36,7 +36,7 @@
     _bigTableView.rowHeight = 38;
     _smallTable.rowHeight = 38;
     
-    [self chickBigCategors];
+    [self checkBigCategors];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,7 +44,7 @@
 }
 
 #pragma mark - dataFromDB
-- (void)chickBigCategors {
+- (void)checkBigCategors {
    NSArray *array = [[BigCategoryDao shareInstance] selectAll];
     arrayBigCategorys = [NSMutableArray arrayWithArray:array];
     if (arrayBigCategorys.count == 0) {
@@ -57,12 +57,12 @@
         }
     } else {
         BigCategoryBean *fristBigBean = arrayBigCategorys[0];
-        [self chickSmallCategorsWithBigCategorID:fristBigBean.idKey];
+        [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
     }
     
 }
 
-- (void)chickSmallCategorsWithBigCategorID:(NSString *)bigID {
+- (void)checkSmallCategorsWithBigCategorID:(NSString *)bigID {
     NSArray *array = [[SmallCaregoryDao shareInstance] selectSmallCaregoryByBigID:bigID];
     arraySmallCategorys = [NSMutableArray arrayWithArray:array];
 }
@@ -82,6 +82,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     EditCategoryViewController *editCatagoryVC = (EditCategoryViewController *)segue.destinationViewController;
     editCatagoryVC.categoryType = selectType;
+    if (selectType == smallCategory) {
+        editCatagoryVC.bigCategoryBeanId = [arrayBigCategorys[selectBigItem] valueForKey:@"idKey"];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -117,7 +120,11 @@
 
 #pragma mark - tableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (tableView == _bigTableView ) {
+        selectBigItem = indexPath.row;
+    }  else if (tableView == _smallTable){
+        selectSmallItem = indexPath.row;
+    }
 }
 
 @end

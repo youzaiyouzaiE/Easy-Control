@@ -3,4 +3,4 @@ pod 'SDWebImage', '~>3.7.1'
 pod 'MBProgressHUD'
 pod 'AFNetworking', '~> 3.0'
 pod 'FMDB'
-
+pod 'SQLCipher', '~> 3.3.1'

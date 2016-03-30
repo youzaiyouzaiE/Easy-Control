@@ -470,34 +470,62 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ul7-je-H9g">
-                                <rect key="frame" x="39" y="99" width="242" height="30"/>
+                                <rect key="frame" x="39" y="118" width="242" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="zGd-yw-6PP" id="qP8-KK-qfv"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aeD-YW-tu4">
-                                <rect key="frame" x="81" y="191" width="158" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aeD-YW-tu4">
+                                <rect key="frame" x="81" y="196" width="158" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="6xK-pd-gXL"/>
+                                </constraints>
                                 <state key="normal" title="完成"/>
                                 <connections>
                                     <action selector="completeAction:" destination="zGd-yw-6PP" eventType="touchUpInside" id="Gr6-i0-2kK"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请输入分类名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vcr-bY-hJc">
+                                <rect key="frame" x="39" y="80" width="142" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="4K5-Tv-Mpx"/>
+                                    <constraint firstAttribute="width" constant="142" id="n00-cc-bx0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="Ul7-je-H9g" firstAttribute="top" secondItem="Dnz-sO-MYI" secondAttribute="bottom" constant="35" id="AqI-xI-tZZ"/>
+                            <constraint firstItem="aeD-YW-tu4" firstAttribute="leading" secondItem="97I-ZF-9oA" secondAttribute="leading" constant="81" id="1or-aO-dD7"/>
+                            <constraint firstItem="Vcr-bY-hJc" firstAttribute="leading" secondItem="97I-ZF-9oA" secondAttribute="leading" constant="39" id="9JZ-4O-eqx"/>
+                            <constraint firstAttribute="trailing" secondItem="aeD-YW-tu4" secondAttribute="trailing" constant="81" id="Gky-f0-2bH"/>
                             <constraint firstAttribute="trailing" secondItem="Ul7-je-H9g" secondAttribute="trailing" constant="39" id="OMf-hF-CHE"/>
+                            <constraint firstItem="Vcr-bY-hJc" firstAttribute="top" secondItem="Dnz-sO-MYI" secondAttribute="bottom" constant="16" id="OQj-Hn-65H"/>
+                            <constraint firstItem="Ul7-je-H9g" firstAttribute="top" secondItem="Vcr-bY-hJc" secondAttribute="bottom" constant="17" id="gua-hH-Pqy"/>
                             <constraint firstItem="Ul7-je-H9g" firstAttribute="leading" secondItem="97I-ZF-9oA" secondAttribute="leading" constant="39" id="rgE-od-yEW"/>
+                            <constraint firstItem="aeD-YW-tu4" firstAttribute="top" secondItem="Ul7-je-H9g" secondAttribute="bottom" constant="48" id="wji-kS-OdB"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Lei-zh-WOW" appends="YES" id="Jwh-nS-I2Q"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="prD-o1-9WU"/>
                     <connections>
+                        <outlet property="completeButton" destination="aeD-YW-tu4" id="n6e-Pn-j3N"/>
                         <outlet property="contentTextField" destination="Ul7-je-H9g" id="gad-QU-RDT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wee-St-eAd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Lei-zh-WOW">
+                    <connections>
+                        <action selector="tapGestureRecognizer:" destination="zGd-yw-6PP" id="CSX-Bh-q6p"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1767" y="492"/>
         </scene>

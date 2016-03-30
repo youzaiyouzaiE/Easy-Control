@@ -11,6 +11,7 @@
 @interface AddOrEditViewController ()<UITextFieldDelegate>{
     
     __weak IBOutlet UITextField *contentTextField;
+    __weak IBOutlet UIButton *completeButton;
 }
 
 @end
@@ -26,6 +27,10 @@
         contentTextField.text = _textFiledStr;
     } else
         contentTextField.placeholder = _navTitle;
+    
+    completeButton.layer.borderColor = [[UIColor grayColor] colorWithAlphaComponent:0.5].CGColor;
+    completeButton.layer.borderWidth = 2;
+    completeButton.layer.cornerRadius = 5;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,7 +40,16 @@
 
 #pragma mark - Action
 - (IBAction)completeAction:(id)sender {
+    if (contentTextField.text == nil || contentTextField.text.length == 0 || [contentTextField.text isEqualToString:@""]) {
+        [[UITools shareInstance] showMessageToView:self.view message:@"分类名称不能为空"];
+        return ;
+    }
     self.categoryName(contentTextField.text);
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)tapGestureRecognizer:(id)sender {
+    [self.view endEditing:YES];
 }
 
 #pragma mark - UITextFieldDelegate
