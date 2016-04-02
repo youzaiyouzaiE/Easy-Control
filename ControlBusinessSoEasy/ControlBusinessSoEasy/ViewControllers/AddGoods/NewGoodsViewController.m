@@ -29,6 +29,7 @@
      section2Array = @[@"进价",@"售价",@"规格",@"库存"];
     self.navigationItem.title = @"添加商品";
     [UITools customNavigationBackButtonForController:self];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,12 +80,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *barCodeCell = @"BarCodeCell";
     static NSString *nameCell = @"NameCell";
-    static NSString *classCell = @"ClassCell";
-    static NSString *imagesCell = @"ImagesCell";
+    static NSString *classCell = @"LabelCell";
+    static NSString *imagesCell = @"TernaryIamgeCell";
     UITableViewCell *cell = nil;
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
-    if (section == 0 && row != 1) {
+//     NSLog(@"indexparh section is %d, row is %d",indexPath.row,indexPath.row);
+    if (section == 0) {
         if (row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:barCodeCell];
             ImageButtonCell* imageCell = nil;
@@ -92,44 +94,50 @@
                 [tableView registerNib:[UINib nibWithNibName:@"ImageButtonCell" bundle:nil] forCellReuseIdentifier:barCodeCell];
                 imageCell = (ImageButtonCell* )[tableView dequeueReusableCellWithIdentifier:barCodeCell];
                 imageCell.textField.delegate = self;
-            }
+                [imageCell.button addTarget:self action:@selector(scanBarAction:) forControlEvents:UIControlEventTouchUpInside];
+            } else
+                imageCell = (ImageButtonCell* )cell;
             imageCell.textField.indexPath = indexPath;
-            [imageCell.button addTarget:self action:@selector(scanBarAction:) forControlEvents:UIControlEventTouchUpInside];
+            imageCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return imageCell;
+        } else if (row == 1) {
+            ImageLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:nameCell];
+            if (!cell) {
+                cell = (ImageLabelCell *)[[[NSBundle mainBundle] loadNibNamed:@"ImageLabelCell" owner:self options:nil] objectAtIndex:0];
+                cell.textField.delegate = self;
+            }
+            cell.textField.indexPath = indexPath;
+            cell.titleLabel.text = @"名称";
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
         } else if (row == 2) {
             cell = [tableView dequeueReusableCellWithIdentifier:classCell forIndexPath:indexPath];
+            return cell;
         }
-    } else if(section == 1 || (section == 0 && row == 1)) {
+    } else if(section == 1) {
         ImageLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:nameCell];
         if (!cell) {
             cell = (ImageLabelCell *)[[[NSBundle mainBundle] loadNibNamed:@"ImageLabelCell" owner:self options:nil] objectAtIndex:0];
             cell.textField.delegate = self;
         }
         cell.textField.indexPath = indexPath;
-        if (section == 0 && row == 1) {
-            cell.titleLabel.text = @"名称";
-        
-        } else {
-            cell.titleLabel.text = section2Array[indexPath.row];
-        }
-        
+        cell.titleLabel.text = section2Array[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
-    }else if(section == 2) {
-        cell = [tableView dequeueReusableCellWithIdentifier:imagesCell forIndexPath:indexPath];
-//        UIImage *addImag = (UIImage *)[cell viewWithTag:1];
-//        UIImage *image1 = (UIImage *)[cell viewWithTag:2];
-//        UIImage *image2 = (UIImage *)[cell viewWithTag:3];
     }
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
+    else if(section == 2) {
+        cell = [tableView dequeueReusableCellWithIdentifier:imagesCell forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+    }
+   return cell;
 }
 
 #pragma mark - tableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 2) {
-        [self performSegueWithIdentifier:@"pushToCategoryVC" sender:self];
+        [self performSegueWithIdentifier:@"pushToAddCategoryVC" sender:self];
     }
 }
 

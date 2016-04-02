@@ -117,7 +117,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ClassCell" id="rCr-hY-HSA">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LabelCell" id="rCr-hY-HSA">
                                         <rect key="frame" x="0.0" y="114" width="320" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rCr-hY-HSA" id="Rqm-xc-ahm">
@@ -172,11 +172,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImagesCell" rowHeight="98" id="IKV-C9-osP">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TernaryIamgeCell" rowHeight="98" id="IKV-C9-osP">
                                         <rect key="frame" x="0.0" y="167" width="320" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IKV-C9-osP" id="5oH-xr-5j9">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="98"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="97.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VHx-en-aIQ">
@@ -253,7 +253,7 @@
                     <navigationItem key="navigationItem" id="v7Z-bs-C4c"/>
                     <connections>
                         <outlet property="tableView" destination="658-zL-k0N" id="M4q-gc-h4B"/>
-                        <segue destination="H7n-Yw-uFc" kind="push" identifier="pushToCategoryVC" id="YV1-qe-0MX"/>
+                        <segue destination="H7n-Yw-uFc" kind="push" identifier="pushToAddCategoryVC" id="LGG-uO-56C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OuG-sQ-i9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
