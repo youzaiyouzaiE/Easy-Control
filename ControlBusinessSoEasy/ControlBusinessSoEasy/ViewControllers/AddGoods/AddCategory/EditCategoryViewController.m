@@ -13,10 +13,13 @@
 #import "BigCategoryDao.h"
 #import "AddOrEditViewController.h"
 
-@interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate> {
+@interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UINavigationControllerDelegate> {
     BOOL isEditType;
     BOOL isAddCategory;
+    BOOL isModifyCategory;////更改过内容
     
+    id <UINavigationControllerDelegate> navigationDelegate;
+    BOOL isCancelPopGesture;
     NSString *categoryName;
 }
 
@@ -26,9 +29,20 @@
 
 @implementation EditCategoryViewController
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.navigationController.delegate = self;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [UITools customNavigationBackButtonForController:self];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector(backItemAction:)];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     if (self.categoryType == smallCategory) {
         self.navigationItem.title = @"小分类";
     } else {
@@ -40,29 +54,65 @@
     [editButton setTitle:@"完成" forState:UIControlStateSelected];
     editButton.frame = CGRectMake(0, 0, 40, 40);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
+    if (!_arrayCategorys) {
+        _arrayCategorys = [NSMutableArray array];
+    }
+    
+//    navigationDelegate = self.navigationController.delegate;
+//   self.navigationController.delegate = self;
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)updateViewConstraints {
-     [super updateViewConstraints];
+    [super updateViewConstraints];
 }
+
 #pragma mark - action
+-(void)backItemAction:(id)sender {
+    if (isModifyCategory) {
+        
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)editButtionItemAction:(UIButton *)button {
     button.selected = !button.selected;
     isEditType = button.selected;
-    
-    
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer.class isSubclassOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
+        
+    }
+    return YES;
+}
+
+#pragma mark - UINavigationControllerDelegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    id<UIViewControllerTransitionCoordinator> tc = navigationController.topViewController.transitionCoordinator;
+    [tc notifyWhenInteractionEndsUsingBlock:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        NSLog(@"修改 Is cancelled: %i", [context isCancelled]);
+        if (![context isCancelled]) {
+            ////update Table view
+             NSLog(@"update table view");
+//            self.navigationController.delegate = navigationDelegate;
+        }
+    }];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+     NSLog(@"修改 did show vc");
 }
 
 #pragma mark - UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < _arrayCategorys.count) {
-        return 40;
+        return 70;
     } else {
         return 70;
     }
@@ -83,6 +133,8 @@
         }
         SuperBean *bean = _arrayCategorys[indexPath.row];
         cell.textLabel.text = [bean valueForKey:@"name"];
+        [cell.textLabel setFont:[UIFont systemFontOfSize:22]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:addIdentifier forIndexPath:indexPath];
@@ -103,8 +155,7 @@
         if (isEditType) {
             
         } else {///Choose
-            
-            
+            [self.navigationController popoverPresentationController];
         }
     } else {
         isAddCategory = YES;
@@ -114,7 +165,6 @@
 }
 
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     AddOrEditViewController *addOrEidtVC = ( AddOrEditViewController *)[segue destinationViewController];
@@ -127,6 +177,8 @@
     } else if (!isAddCategory && self.categoryType == smallCategory) {
         addOrEidtVC.navTitle = @"修改小分类";
     }
+    addOrEidtVC.arrayContents = _arrayCategorys;
+    
 //    __weak typeof(self) weakSelf = self;
     addOrEidtVC.categoryName = ^(NSString *name){
         categoryName = name;

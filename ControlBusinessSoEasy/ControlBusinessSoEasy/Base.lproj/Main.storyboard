@@ -404,29 +404,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加分类" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JwR-0y-fSo">
-                                                    <rect key="frame" x="98" y="14" width="189" height="41"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="41" id="9dv-aC-l9D"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addImage" translatesAutoresizingMaskIntoConstraints="NO" id="PDr-PI-IGx">
-                                                    <rect key="frame" x="25" y="5" width="65" height="60"/>
+                                                    <rect key="frame" x="13" y="11" width="51" height="48"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="JVQ-Jh-Fh9"/>
-                                                        <constraint firstAttribute="width" constant="65" id="XXy-HS-doW"/>
+                                                        <constraint firstAttribute="height" constant="48" id="8mJ-LF-z1p"/>
+                                                        <constraint firstAttribute="width" constant="51" id="VZx-Fg-Dcs"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="JwR-0y-fSo" secondAttribute="trailing" constant="33" id="EDZ-Vm-sRo"/>
-                                                <constraint firstItem="JwR-0y-fSo" firstAttribute="leading" secondItem="PDr-PI-IGx" secondAttribute="trailing" constant="8" id="F8k-0K-97T"/>
-                                                <constraint firstItem="PDr-PI-IGx" firstAttribute="top" secondItem="lyk-1A-9nE" secondAttribute="top" constant="5" id="Ocg-bi-dUY"/>
-                                                <constraint firstItem="PDr-PI-IGx" firstAttribute="leading" secondItem="lyk-1A-9nE" secondAttribute="leading" constant="25" id="OhE-PY-g9r"/>
-                                                <constraint firstItem="JwR-0y-fSo" firstAttribute="top" secondItem="lyk-1A-9nE" secondAttribute="top" constant="14" id="nxL-ck-elC"/>
+                                                <constraint firstItem="PDr-PI-IGx" firstAttribute="leading" secondItem="lyk-1A-9nE" secondAttribute="leading" constant="13" id="9nH-KB-sbi"/>
+                                                <constraint firstItem="PDr-PI-IGx" firstAttribute="centerY" secondItem="lyk-1A-9nE" secondAttribute="centerY" id="VuR-iL-ym9"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

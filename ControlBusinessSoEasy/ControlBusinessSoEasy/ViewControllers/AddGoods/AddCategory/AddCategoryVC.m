@@ -84,6 +84,9 @@
     editCatagoryVC.categoryType = selectType;
     if (selectType == smallCategory) {
         editCatagoryVC.bigCategoryBeanId = [arrayBigCategorys[selectBigItem] valueForKey:@"idKey"];
+        editCatagoryVC.arrayCategorys = arraySmallCategorys;
+    } else {
+        editCatagoryVC.arrayCategorys = arrayBigCategorys;
     }
 }
 
@@ -111,9 +114,7 @@
         bean = arraySmallCategorys[indexPath.row];
         [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectSmallItem inSection:0] animated:NO scrollPosition:YES];
     }
-    
-    
-    
+    [cell.textLabel setFont:[UIFont systemFontOfSize:16]];
     cell.textLabel.text = [bean valueForKey:@"name"];
     return cell;
 }

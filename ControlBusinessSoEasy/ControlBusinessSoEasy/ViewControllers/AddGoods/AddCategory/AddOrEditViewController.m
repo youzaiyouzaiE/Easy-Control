@@ -7,22 +7,30 @@
 //
 
 #import "AddOrEditViewController.h"
-
-@interface AddOrEditViewController ()<UITextFieldDelegate>{
+#import "SuperBean.h"
+//#import "SmallCaregoryBean.h"
+@interface AddOrEditViewController ()<UITextFieldDelegate,UIGestureRecognizerDelegate,UINavigationControllerDelegate>{
     
     __weak IBOutlet UITextField *contentTextField;
     __weak IBOutlet UIButton *completeButton;
+    id <UINavigationControllerDelegate> navigationDelegate;
 }
 
 @end
 
 @implementation AddOrEditViewController
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.navigationController.delegate = self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = _navTitle;
-    [UITools customNavigationBackButtonForController:self];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector(backItemAction:)];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     if (_textFiledStr) {
         contentTextField.text = _textFiledStr;
     } else
@@ -31,6 +39,9 @@
     completeButton.layer.borderColor = [[UIColor grayColor] colorWithAlphaComponent:0.5].CGColor;
     completeButton.layer.borderWidth = 2;
     completeButton.layer.cornerRadius = 5;
+    
+//    navigationDelegate = self.navigationController.delegate;
+//    self.navigationController.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,10 +50,23 @@
 }
 
 #pragma mark - Action
+-(void)backItemAction:(id)sender {
+    self.navigationController.delegate = navigationDelegate;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (IBAction)completeAction:(id)sender {
     if (contentTextField.text == nil || contentTextField.text.length == 0 || [contentTextField.text isEqualToString:@""]) {
         [[UITools shareInstance] showMessageToView:self.view message:@"分类名称不能为空"];
         return ;
+    }
+    for (SuperBean *bean in _arrayContents ) {
+        NSString *beanName = [bean valueForKey:@"name"];
+        if ([beanName isEqualToString:contentTextField.text]) {
+            [[UITools shareInstance] showMessageToView:self.view message:@"该分类已经添加"];
+            [contentTextField becomeFirstResponder];
+            return ;
+        }
     }
     self.categoryName(contentTextField.text);
     [self.navigationController popViewControllerAnimated:YES];
@@ -50,6 +74,30 @@
 
 - (IBAction)tapGestureRecognizer:(id)sender {
     [self.view endEditing:YES];
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer.class isSubclassOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
+        NSLog(@" is 11111");
+    }
+    NSLog(@" 222");
+    return YES;
+}
+
+#pragma mark - UINavigationControllerDelegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    id<UIViewControllerTransitionCoordinator> tc = navigationController.topViewController.transitionCoordinator;
+    [tc notifyWhenInteractionEndsUsingBlock:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        NSLog(@"添加 Is cancelled: %i", [context isCancelled]);
+        if (![context isCancelled]) {
+            self.navigationController.delegate = navigationDelegate;
+        }
+    }];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    NSLog(@"添加 did show vc");
 }
 
 #pragma mark - UITextFieldDelegate

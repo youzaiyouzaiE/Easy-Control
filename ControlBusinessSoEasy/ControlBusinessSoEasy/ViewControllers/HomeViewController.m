@@ -45,6 +45,9 @@
 
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer.class isSubclassOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
+         NSLog(@"Home interactivePopGestureRecognizer");
+    }
     return YES;
 }
 

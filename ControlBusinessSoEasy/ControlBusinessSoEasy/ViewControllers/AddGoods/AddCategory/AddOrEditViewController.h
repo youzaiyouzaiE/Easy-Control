@@ -15,9 +15,7 @@ typedef void (^categoryNameBlock) (NSString *categoryName);
 @property (copy, nonatomic) NSString *navTitle;
 @property (copy, nonatomic) NSString *textFiledStr;
 @property (copy, nonatomic) categoryNameBlock categoryName;
-@property (strong, nonatomic) NSMutableArray *arrayContents;
-
-
+@property (strong, nonatomic) NSMutableArray *arrayContents;/////bigCategory or small category 
 
 @end
 
