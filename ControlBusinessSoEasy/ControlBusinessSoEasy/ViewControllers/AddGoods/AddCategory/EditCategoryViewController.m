@@ -47,6 +47,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)updateViewConstraints {
+     [super updateViewConstraints];
+}
 #pragma mark - action
 - (void)editButtionItemAction:(UIButton *)button {
     button.selected = !button.selected;

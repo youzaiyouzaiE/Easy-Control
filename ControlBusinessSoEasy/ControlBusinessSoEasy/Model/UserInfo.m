@@ -10,12 +10,13 @@
 
 @implementation UserInfo
 
-static UserInfo *shareInstance = nil;
+
 
 + (instancetype)shareInstance {
-    dispatch_once_t  onceToken;
+    static UserInfo *shareInstance = nil;
+    static dispatch_once_t  onceToken;
     dispatch_once(&onceToken, ^{
-        shareInstance = [UserInfo new];
+        shareInstance = [[UserInfo alloc] init];
         shareInstance.uid = @"1234567890";
         shareInstance.name = @"public";
     });

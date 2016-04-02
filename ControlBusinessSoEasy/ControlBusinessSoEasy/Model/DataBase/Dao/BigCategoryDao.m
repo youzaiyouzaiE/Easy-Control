@@ -13,12 +13,11 @@ static NSString *const tableName = @"BigCategoryTable";
 
 @implementation BigCategoryDao
 
-static BigCategoryDao *shareInstance = nil;
-
 + (instancetype)shareInstance {
-    dispatch_once_t  onceToken;
+    static BigCategoryDao *shareInstance = nil;
+    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        shareInstance = [BigCategoryDao new];
+        shareInstance = [[BigCategoryDao alloc] init];
     });
     return shareInstance;
 }

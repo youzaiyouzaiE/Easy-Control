@@ -95,12 +95,9 @@
             }
             imageCell.textField.indexPath = indexPath;
             [imageCell.button addTarget:self action:@selector(scanBarAction:) forControlEvents:UIControlEventTouchUpInside];
-            
-            
             return imageCell;
         } else if (row == 2) {
             cell = [tableView dequeueReusableCellWithIdentifier:classCell forIndexPath:indexPath];
-            
         }
     } else if(section == 1 || (section == 0 && row == 1)) {
         ImageLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:nameCell];
@@ -114,9 +111,7 @@
         
         } else {
             cell.titleLabel.text = section2Array[indexPath.row];
-        
         }
-        
         
         return cell;
     }else if(section == 2) {
@@ -124,14 +119,18 @@
 //        UIImage *addImag = (UIImage *)[cell viewWithTag:1];
 //        UIImage *image1 = (UIImage *)[cell viewWithTag:2];
 //        UIImage *image2 = (UIImage *)[cell viewWithTag:3];
-        
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 #pragma mark - tableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0 && indexPath.row == 2) {
+        [self performSegueWithIdentifier:@"pushToCategoryVC" sender:self];
+    }
 }
 
 #pragma mark - Navigation

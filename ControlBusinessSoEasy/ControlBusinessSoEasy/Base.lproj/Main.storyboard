@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="dW7-kR-YPm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="dW7-kR-YPm">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -171,9 +171,6 @@
                                                 <constraint firstItem="tpX-UR-glT" firstAttribute="leading" secondItem="xJh-zL-GaB" secondAttribute="trailing" constant="4" id="yBz-L0-Xgd"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="H7n-Yw-uFc" kind="push" id="8CH-iR-C10"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImagesCell" rowHeight="98" id="IKV-C9-osP">
                                         <rect key="frame" x="0.0" y="167" width="320" height="98"/>
@@ -256,6 +253,7 @@
                     <navigationItem key="navigationItem" id="v7Z-bs-C4c"/>
                     <connections>
                         <outlet property="tableView" destination="658-zL-k0N" id="M4q-gc-h4B"/>
+                        <segue destination="H7n-Yw-uFc" kind="push" identifier="pushToCategoryVC" id="YV1-qe-0MX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OuG-sQ-i9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
