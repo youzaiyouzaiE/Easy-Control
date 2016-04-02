@@ -96,17 +96,13 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     id<UIViewControllerTransitionCoordinator> tc = navigationController.topViewController.transitionCoordinator;
     [tc notifyWhenInteractionEndsUsingBlock:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        NSLog(@"修改 Is cancelled: %i", [context isCancelled]);
+//        NSLog(@"修改 Is cancelled: %i", [context isCancelled]);
         if (![context isCancelled]) {
             ////update Table view
              NSLog(@"update table view");
 //            self.navigationController.delegate = navigationDelegate;
         }
     }];
-}
-
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-     NSLog(@"修改 did show vc");
 }
 
 #pragma mark - UITableViewDataSource

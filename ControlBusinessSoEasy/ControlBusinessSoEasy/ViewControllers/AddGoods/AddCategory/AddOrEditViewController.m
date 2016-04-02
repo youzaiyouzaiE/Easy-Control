@@ -76,15 +76,6 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - UIGestureRecognizerDelegate
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if ([gestureRecognizer.class isSubclassOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
-        NSLog(@" is 11111");
-    }
-    NSLog(@" 222");
-    return YES;
-}
-
 #pragma mark - UINavigationControllerDelegate
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     id<UIViewControllerTransitionCoordinator> tc = navigationController.topViewController.transitionCoordinator;
@@ -96,9 +87,6 @@
     }];
 }
 
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    NSLog(@"添加 did show vc");
-}
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
