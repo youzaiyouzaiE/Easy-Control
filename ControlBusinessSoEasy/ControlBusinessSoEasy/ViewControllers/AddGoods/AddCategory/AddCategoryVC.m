@@ -35,8 +35,12 @@
     
     _bigTableView.rowHeight = 38;
     _smallTable.rowHeight = 38;
+    arrayBigCategorys = [NSMutableArray array];
+    arraySmallCategorys = [NSMutableArray array];
     
     [self checkBigCategors];
+    BigCategoryBean *fristBigBean = arrayBigCategorys[0];
+    [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,6 +49,7 @@
 
 #pragma mark - dataFromDB
 - (void)checkBigCategors {
+    [arrayBigCategorys removeAllObjects];
    NSArray *array = [[BigCategoryDao shareInstance] selectAll];
     arrayBigCategorys = [NSMutableArray arrayWithArray:array];
     if (arrayBigCategorys.count == 0) {
@@ -55,18 +60,14 @@
         if ([[BigCategoryDao shareInstance] insertBean:bigBean]) {
             [arrayBigCategorys addObject:bigBean];
         }
-    } else {
-        BigCategoryBean *fristBigBean = arrayBigCategorys[0];
-        [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
     }
-    
 }
 
 - (void)checkSmallCategorsWithBigCategorID:(NSString *)bigID {
+    [arraySmallCategorys removeAllObjects];
     NSArray *array = [[SmallCaregoryDao shareInstance] selectSmallCaregoryByBigID:bigID];
     arraySmallCategorys = [NSMutableArray arrayWithArray:array];
 }
-
 #pragma mark - Actions
 - (IBAction)editBigCategory:(id)sender {
     selectType = bigCategory;
@@ -83,10 +84,23 @@
     EditCategoryViewController *editCatagoryVC = (EditCategoryViewController *)segue.destinationViewController;
     editCatagoryVC.categoryType = selectType;
     if (selectType == smallCategory) {
-        editCatagoryVC.bigCategoryBeanId = [arrayBigCategorys[selectBigItem] valueForKey:@"idKey"];
+        NSString *bigBeanID = [arrayBigCategorys[selectBigItem] valueForKey:@"idKey"];
+        editCatagoryVC.bigCategoryBeanId = bigBeanID;
         editCatagoryVC.arrayCategorys = arraySmallCategorys;
+        editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate){
+            if (needUpdate) {
+                [self checkSmallCategorsWithBigCategorID:bigBeanID];
+                [self.smallTable reloadData];
+            }
+        };
     } else {
         editCatagoryVC.arrayCategorys = arrayBigCategorys;
+        editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate){
+            if (needUpdate) {
+                [self checkBigCategors];
+                [self.bigTableView reloadData];
+            }
+        };
     }
 }
 

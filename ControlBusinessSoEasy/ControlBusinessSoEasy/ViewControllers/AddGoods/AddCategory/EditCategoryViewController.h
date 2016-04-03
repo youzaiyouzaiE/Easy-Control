@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^updateBlock)(BOOL need);
+
 typedef NS_ENUM(NSInteger, CategoryType) {
     bigCategory,
     smallCategory,
@@ -19,5 +21,6 @@ typedef NS_ENUM(NSInteger, CategoryType) {
 @property (assign, nonatomic) CategoryType categoryType;
 @property (nonatomic, strong) NSMutableArray *arrayCategorys;
 @property (nonatomic, copy) NSString *bigCategoryBeanId;///
+@property (copy, nonatomic) updateBlock needUpdateBlock;
 
 @end

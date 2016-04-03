@@ -16,10 +16,9 @@
 @interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UINavigationControllerDelegate> {
     BOOL isEditType;
     BOOL isAddCategory;
-    BOOL isModifyCategory;////更改过内容
     
     id <UINavigationControllerDelegate> navigationDelegate;
-    BOOL isCancelPopGesture;
+    BOOL isNeedUpdateCategoryList;
     NSString *categoryName;
 }
 
@@ -73,8 +72,8 @@
 
 #pragma mark - action
 -(void)backItemAction:(id)sender {
-    if (isModifyCategory) {
-        
+    if (isNeedUpdateCategoryList) {
+        self.needUpdateBlock(YES);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -96,11 +95,11 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     id<UIViewControllerTransitionCoordinator> tc = navigationController.topViewController.transitionCoordinator;
     [tc notifyWhenInteractionEndsUsingBlock:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-//        NSLog(@"修改 Is cancelled: %i", [context isCancelled]);
+        NSLog(@"添加 Is cancelled: %i", [context isCancelled]);
         if (![context isCancelled]) {
-            ////update Table view
-             NSLog(@"update table view");
-//            self.navigationController.delegate = navigationDelegate;
+            if (isNeedUpdateCategoryList) {
+                self.needUpdateBlock(YES);
+            }
         }
     }];
 }
@@ -175,7 +174,6 @@
     }
     addOrEidtVC.arrayContents = _arrayCategorys;
     
-//    __weak typeof(self) weakSelf = self;
     addOrEidtVC.categoryName = ^(NSString *name){
         categoryName = name;
         if (self.categoryType == smallCategory) {
@@ -185,12 +183,15 @@
             bean.location = _arrayCategorys.count;
             [[SmallCaregoryDao shareInstance] insertBean:bean];
             [_arrayCategorys addObject:bean];
+             isNeedUpdateCategoryList = YES;
         } else {
             BigCategoryBean *bean = [BigCategoryBean new];
+            bean.userId = [UserInfo shareInstance].uid;
             bean.name = name;
             bean.location = _arrayCategorys.count;
-            [[SmallCaregoryDao shareInstance] insertBean:bean];
+            [[BigCategoryDao shareInstance] insertBean:bean];
             [_arrayCategorys addObject:bean];
+             isNeedUpdateCategoryList = YES;
         }
         [self.tableVeiw reloadData];
     };
