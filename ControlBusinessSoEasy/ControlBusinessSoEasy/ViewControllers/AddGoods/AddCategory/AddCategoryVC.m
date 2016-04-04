@@ -32,7 +32,8 @@
     [super viewDidLoad];
     self.navigationItem.title = @"商品分类";
     [UITools customNavigationBackButtonForController:self];
-    
+    selectBigItem = 0;
+    selectSmallItem = 0;
     _bigTableView.rowHeight = 38;
     _smallTable.rowHeight = 38;
     arrayBigCategorys = [NSMutableArray array];
@@ -123,10 +124,16 @@
     SuperBean *bean = nil;
     if (tableView == _bigTableView ) {
         bean = arrayBigCategorys[indexPath.row];
-        [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectBigItem inSection:0] animated:NO scrollPosition:YES];
+        if (indexPath.row == selectBigItem) {
+            cell.selected = YES;
+        } else
+            cell.selected = NO;
     } else if (tableView == _smallTable){
         bean = arraySmallCategorys[indexPath.row];
-        [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:selectSmallItem inSection:0] animated:NO scrollPosition:YES];
+        if (indexPath.row == selectSmallItem) {
+            cell.selected = YES;
+        } else
+            cell.selected = NO;
     }
     [cell.textLabel setFont:[UIFont systemFontOfSize:16]];
     cell.textLabel.text = [bean valueForKey:@"name"];
