@@ -31,7 +31,7 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
-    titleArray = @[@"我的商品",@"新增商品",@"销售商品",@"销售查询",@"会员信息",@"关于"];
+    titleArray = @[@"我的商品",@"新增商品",@"销售商品",@"销售查询",@"预购清单",@"采购商品",@"会员信息",@"关于"];
     
     if (IOS_7LAST) {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;

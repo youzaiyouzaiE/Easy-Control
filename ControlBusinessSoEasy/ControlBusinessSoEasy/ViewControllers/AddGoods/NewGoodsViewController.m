@@ -12,9 +12,11 @@
 #import "CellButton.h"
 #import "CellTextField.h"
 #import "ScanBarViewController.h"
+#import "AddCategoryVC.h"
 
 @interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>{
     NSArray *section2Array;
+    __block NSString *categoryName;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -54,7 +56,7 @@
     } else if (section == 1) {
         return @"";
     } else if (section == 2) {
-        return @"上传图片";
+        return @"添加图片";
     }
     return @"";
 }
@@ -112,6 +114,11 @@
             return cell;
         } else if (row == 2) {
             cell = [tableView dequeueReusableCellWithIdentifier:classCell forIndexPath:indexPath];
+            UILabel *CategoryLabel = (UILabel *)[cell viewWithTag:4];
+            if (categoryName) {
+                CategoryLabel.text = categoryName;
+            } else
+                CategoryLabel.text = @"默认分类";
             return cell;
         }
     } else if(section == 1) {
@@ -144,7 +151,14 @@
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  
+    if ([segue.identifier isEqualToString:@"pushToAddCategoryVC"]) {
+        AddCategoryVC *categoryVC = (AddCategoryVC *)segue.destinationViewController;
+       categoryVC.categoryNames = ^(NSString *bigName, NSString *smallName) {
+           categoryName = [NSString stringWithFormat:@"%@ - %@",bigName,smallName];
+           [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        };
+        
+    }
 }
 
 #pragma mark - action 

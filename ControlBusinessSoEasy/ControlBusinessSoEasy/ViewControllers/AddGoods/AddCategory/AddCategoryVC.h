@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddCategoryVC : UIViewController
+typedef void (^bigAndSmallCategoryNamesBlock) (NSString *bigName,NSString *smallName);
 
+@interface AddCategoryVC : UIViewController
+@property (copy, nonatomic) bigAndSmallCategoryNamesBlock categoryNames;
 @end

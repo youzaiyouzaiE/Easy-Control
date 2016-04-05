@@ -33,7 +33,7 @@
     self.navigationItem.title = @"商品分类";
     [UITools customNavigationBackButtonForController:self];
     selectBigItem = 0;
-    selectSmallItem = 0;
+    selectSmallItem = -1;
     _bigTableView.rowHeight = 38;
     _smallTable.rowHeight = 38;
     arrayBigCategorys = [NSMutableArray array];
@@ -144,8 +144,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _bigTableView ) {
         selectBigItem = indexPath.row;
+        NSString *bigBeanID = [arrayBigCategorys[selectBigItem] valueForKey:@"idKey"];
+        [self checkSmallCategorsWithBigCategorID:bigBeanID];
+        selectSmallItem = -1;
+        [self.smallTable reloadData];
+        
     }  else if (tableView == _smallTable){
         selectSmallItem = indexPath.row;
+        NSString *bigBeanName = [arrayBigCategorys[selectBigItem] valueForKey:@"name"];
+        NSString *smallBeanName = [arraySmallCategorys[selectSmallItem] valueForKey:@"name"];
+        self.categoryNames(bigBeanName, smallBeanName);
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
