@@ -45,34 +45,27 @@
 
 - (void)getDefaultSelectItems {
     _selectBigItem = -1;
-    if (_alreadyCategoryNames) {
-        NSArray *arrNames = [_alreadyCategoryNames componentsSeparatedByString:@" - "];
-        if (arrNames) {
-            NSString *bigName = [arrNames firstObject];
-            [arrayBigCategorys enumerateObjectsUsingBlock:^(BigCategoryBean *obj, NSUInteger idx, BOOL *stop) {
-                if ([bigName isEqualToString:obj.name] ) {
-                    _selectBigItem = idx;
-                    *stop = YES;
-                }
-            }];
-            if (_selectBigItem == -1) {
-                _selectBigItem = 0;
+     NSArray *arrNames = [_alreadyCategoryNames componentsSeparatedByString:@" - "];
+    if (_alreadyCategoryNames && arrNames) {
+        NSString *bigName = [arrNames firstObject];
+        [arrayBigCategorys enumerateObjectsUsingBlock:^(BigCategoryBean *obj, NSUInteger idx, BOOL *stop) {
+            if ([bigName isEqualToString:obj.name] ) {
+                _selectBigItem = idx;
+                *stop = YES;
             }
-            NSString *smallName = [arrNames lastObject];
-            BigCategoryBean *fristBigBean = arrayBigCategorys[_selectBigItem];
-            [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
-            [arraySmallCategorys enumerateObjectsUsingBlock:^(SmallCaregoryBean *obj, NSUInteger idx, BOOL * stop) {
-                if ([smallName isEqualToString:obj.name]) {
-                    _selectSmallItem = idx;
-                    *stop = YES;
-                }
-            }];
-        } else {
+        }];
+        if (_selectBigItem == -1) {
             _selectBigItem = 0;
-            _selectSmallItem = -1;
-            BigCategoryBean *fristBigBean = arrayBigCategorys[0];
-            [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
         }
+        NSString *smallName = [arrNames lastObject];
+        BigCategoryBean *fristBigBean = arrayBigCategorys[_selectBigItem];
+        [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
+        [arraySmallCategorys enumerateObjectsUsingBlock:^(SmallCaregoryBean *obj, NSUInteger idx, BOOL * stop) {
+            if ([smallName isEqualToString:obj.name]) {
+                _selectSmallItem = idx;
+                *stop = YES;
+            }
+        }];
     } else {
         _selectBigItem = 0;
         _selectSmallItem = -1;
