@@ -11,5 +11,8 @@
 typedef void (^bigAndSmallCategoryNamesBlock) (NSString *bigName,NSString *smallName);
 
 @interface AddCategoryVC : UIViewController
+
 @property (copy, nonatomic) bigAndSmallCategoryNamesBlock categoryNames;
+@property (copy, nonatomic) NSString *alreadyCategoryNames;
+
 @end

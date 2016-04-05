@@ -153,11 +153,11 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"pushToAddCategoryVC"]) {
         AddCategoryVC *categoryVC = (AddCategoryVC *)segue.destinationViewController;
+        categoryVC.alreadyCategoryNames = categoryName;
        categoryVC.categoryNames = ^(NSString *bigName, NSString *smallName) {
            categoryName = [NSString stringWithFormat:@"%@ - %@",bigName,smallName];
            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         };
-        
     }
 }
 

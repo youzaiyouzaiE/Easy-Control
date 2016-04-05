@@ -15,9 +15,10 @@
 
 @interface AddCategoryVC () <UITableViewDataSource,UITableViewDelegate>{
     CategoryType selectType;
+    BOOL _tableHasBeenShownAtLeastOnce;
     
-    NSInteger selectBigItem;
-    NSInteger selectSmallItem;
+    NSInteger _selectBigItem;
+    NSInteger _selectSmallItem;
     NSMutableArray *arrayBigCategorys;
     NSMutableArray *arraySmallCategorys;
 }
@@ -32,16 +33,74 @@
     [super viewDidLoad];
     self.navigationItem.title = @"商品分类";
     [UITools customNavigationBackButtonForController:self];
-    selectBigItem = 0;
-    selectSmallItem = -1;
-    _bigTableView.rowHeight = 38;
-    _smallTable.rowHeight = 38;
+    _tableHasBeenShownAtLeastOnce = NO;
     arrayBigCategorys = [NSMutableArray array];
     arraySmallCategorys = [NSMutableArray array];
     
     [self checkBigCategors];
-    BigCategoryBean *fristBigBean = arrayBigCategorys[0];
-    [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
+    [self getDefaultSelectItems];
+    _bigTableView.rowHeight = 38;
+    _smallTable.rowHeight = 38;
+}
+
+- (void)getDefaultSelectItems {
+    _selectBigItem = -1;
+    if (_alreadyCategoryNames) {
+        NSArray *arrNames = [_alreadyCategoryNames componentsSeparatedByString:@" - "];
+        if (arrNames) {
+            NSString *bigName = [arrNames firstObject];
+            [arrayBigCategorys enumerateObjectsUsingBlock:^(BigCategoryBean *obj, NSUInteger idx, BOOL *stop) {
+                if ([bigName isEqualToString:obj.name] ) {
+                    _selectBigItem = idx;
+                    *stop = YES;
+                }
+            }];
+            if (_selectBigItem == -1) {
+                _selectBigItem = 0;
+            }
+            NSString *smallName = [arrNames lastObject];
+            BigCategoryBean *fristBigBean = arrayBigCategorys[_selectBigItem];
+            [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
+            [arraySmallCategorys enumerateObjectsUsingBlock:^(SmallCaregoryBean *obj, NSUInteger idx, BOOL * stop) {
+                if ([smallName isEqualToString:obj.name]) {
+                    _selectSmallItem = idx;
+                    *stop = YES;
+                }
+            }];
+        } else {
+            _selectBigItem = 0;
+            _selectSmallItem = -1;
+            BigCategoryBean *fristBigBean = arrayBigCategorys[0];
+            [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
+        }
+    } else {
+        _selectBigItem = 0;
+        _selectSmallItem = -1;
+        BigCategoryBean *fristBigBean = arrayBigCategorys[0];
+        [self checkSmallCategorsWithBigCategorID:fristBigBean.idKey];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if ( ! _tableHasBeenShownAtLeastOnce ) {
+        _tableHasBeenShownAtLeastOnce = YES;
+        BOOL animationEnabledForInitialFirstRowSelect = YES; // Whether to animate the selection of the first row or not... in viewDidAppear:, it should be YES (to "smooth" it). If you use this same technique in viewWillAppear: then "YES" has no point, since the view hasn't appeared yet.
+        [self scrollBigTableView:animationEnabledForInitialFirstRowSelect];
+        if (_selectSmallItem != -1) {
+            [self scrollSmallTableView:animationEnabledForInitialFirstRowSelect];
+        }
+    }
+}
+
+- (void)scrollBigTableView:(BOOL)animated {
+    NSIndexPath *indexPathForFirstRow = [NSIndexPath indexPathForRow:_selectBigItem inSection: 0];
+    [self.bigTableView selectRowAtIndexPath:indexPathForFirstRow animated:animated scrollPosition:UITableViewScrollPositionTop];
+}
+
+- (void)scrollSmallTableView:(BOOL)animated {
+    NSIndexPath *indexPathForFirstRowSmall = [NSIndexPath indexPathForRow:_selectSmallItem inSection: 0];
+    [self.smallTable selectRowAtIndexPath:indexPathForFirstRowSmall animated:animated scrollPosition:UITableViewScrollPositionTop];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +128,7 @@
     NSArray *array = [[SmallCaregoryDao shareInstance] selectSmallCaregoryByBigID:bigID];
     arraySmallCategorys = [NSMutableArray arrayWithArray:array];
 }
+
 #pragma mark - Actions
 - (IBAction)editBigCategory:(id)sender {
     selectType = bigCategory;
@@ -85,13 +145,14 @@
     EditCategoryViewController *editCatagoryVC = (EditCategoryViewController *)segue.destinationViewController;
     editCatagoryVC.categoryType = selectType;
     if (selectType == smallCategory) {
-        NSString *bigBeanID = [arrayBigCategorys[selectBigItem] valueForKey:@"idKey"];
+        NSString *bigBeanID = [arrayBigCategorys[_selectBigItem] valueForKey:@"idKey"];
         editCatagoryVC.bigCategoryBeanId = bigBeanID;
         editCatagoryVC.arrayCategorys = arraySmallCategorys;
         editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate){
             if (needUpdate) {
                 [self checkSmallCategorsWithBigCategorID:bigBeanID];
                 [self.smallTable reloadData];
+                [self scrollSmallTableView:YES];
             }
         };
     } else {
@@ -100,6 +161,7 @@
             if (needUpdate) {
                 [self checkBigCategors];
                 [self.bigTableView reloadData];
+                [self scrollBigTableView:YES];
             }
         };
     }
@@ -124,16 +186,8 @@
     SuperBean *bean = nil;
     if (tableView == _bigTableView ) {
         bean = arrayBigCategorys[indexPath.row];
-        if (indexPath.row == selectBigItem) {
-            cell.selected = YES;
-        } else
-            cell.selected = NO;
     } else if (tableView == _smallTable){
         bean = arraySmallCategorys[indexPath.row];
-        if (indexPath.row == selectSmallItem) {
-            cell.selected = YES;
-        } else
-            cell.selected = NO;
     }
     [cell.textLabel setFont:[UIFont systemFontOfSize:16]];
     cell.textLabel.text = [bean valueForKey:@"name"];
@@ -143,16 +197,16 @@
 #pragma mark - tableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _bigTableView ) {
-        selectBigItem = indexPath.row;
-        NSString *bigBeanID = [arrayBigCategorys[selectBigItem] valueForKey:@"idKey"];
+        _selectBigItem = indexPath.row;
+        NSString *bigBeanID = [arrayBigCategorys[_selectBigItem] valueForKey:@"idKey"];
         [self checkSmallCategorsWithBigCategorID:bigBeanID];
-        selectSmallItem = -1;
+        _selectSmallItem = -1;
         [self.smallTable reloadData];
         
     }  else if (tableView == _smallTable){
-        selectSmallItem = indexPath.row;
-        NSString *bigBeanName = [arrayBigCategorys[selectBigItem] valueForKey:@"name"];
-        NSString *smallBeanName = [arraySmallCategorys[selectSmallItem] valueForKey:@"name"];
+        _selectSmallItem = indexPath.row;
+        NSString *bigBeanName = [arrayBigCategorys[_selectBigItem] valueForKey:@"name"];
+        NSString *smallBeanName = [arraySmallCategorys[_selectSmallItem] valueForKey:@"name"];
         self.categoryNames(bigBeanName, smallBeanName);
         [self.navigationController popViewControllerAnimated:YES];
     }
