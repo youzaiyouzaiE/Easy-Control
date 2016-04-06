@@ -18,6 +18,9 @@
 + (void)customNavigationBackButtonForController:(UIViewController *)controller;
 + (void)customNavigationBackButtonAndTitle:(NSString *)title forController:(UIViewController *)controller;
 
++ (void)customNavigationLeftBarButtonForController:(UIViewController *)controller action:(SEL)select;
+- (void)customNavigationLeftBarButtonForController:(UIViewController *)controller;
+
 - (void)showMessageToView:(UIView *)view message:(NSString *)message;
 - (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide;
 

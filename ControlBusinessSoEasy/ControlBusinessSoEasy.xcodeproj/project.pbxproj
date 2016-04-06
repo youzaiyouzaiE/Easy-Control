@@ -38,6 +38,8 @@
 		DA3EA78F1C9EA83700044B2D /* BigCategoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */; };
 		DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */; };
 		DA3EA7951C9EB7A700044B2D /* EditCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */; };
+		DA7C67361CB4AC2400C17A71 /* GoodsInfoBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7C67351CB4AC2400C17A71 /* GoodsInfoBean.m */; };
+		DA7C67391CB4AE2500C17A71 /* GoodsInfoDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7C67381CB4AE2500C17A71 /* GoodsInfoDao.m */; };
 		DA8AB8CB1CA7E85900EAC1D8 /* AddOrEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8AB8CA1CA7E85900EAC1D8 /* AddOrEditViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +103,10 @@
 		DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallCaregoryDao.m; sourceTree = "<group>"; };
 		DA3EA7931C9EB7A700044B2D /* EditCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCategoryViewController.h; sourceTree = "<group>"; };
 		DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCategoryViewController.m; sourceTree = "<group>"; };
+		DA7C67341CB4AC2400C17A71 /* GoodsInfoBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoBean.h; sourceTree = "<group>"; };
+		DA7C67351CB4AC2400C17A71 /* GoodsInfoBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoBean.m; sourceTree = "<group>"; };
+		DA7C67371CB4AE2500C17A71 /* GoodsInfoDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoDao.h; sourceTree = "<group>"; };
+		DA7C67381CB4AE2500C17A71 /* GoodsInfoDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoDao.m; sourceTree = "<group>"; };
 		DA8AB8C91CA7E85900EAC1D8 /* AddOrEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddOrEditViewController.h; sourceTree = "<group>"; };
 		DA8AB8CA1CA7E85900EAC1D8 /* AddOrEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddOrEditViewController.m; sourceTree = "<group>"; };
 		DD0F1CECC75ACCA532505CD7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -241,6 +247,8 @@
 				DA3EA7881C9EA7F400044B2D /* BigCategoryBean.m */,
 				DA3EA78A1C9EA81600044B2D /* SmallCaregoryBean.h */,
 				DA3EA78B1C9EA81600044B2D /* SmallCaregoryBean.m */,
+				DA7C67341CB4AC2400C17A71 /* GoodsInfoBean.h */,
+				DA7C67351CB4AC2400C17A71 /* GoodsInfoBean.m */,
 			);
 			path = Bean;
 			sourceTree = "<group>";
@@ -254,6 +262,8 @@
 				DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */,
 				DA3EA7901C9EA87800044B2D /* SmallCaregoryDao.h */,
 				DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */,
+				DA7C67371CB4AE2500C17A71 /* GoodsInfoDao.h */,
+				DA7C67381CB4AE2500C17A71 /* GoodsInfoDao.m */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -445,6 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA3EA7241C9C486000044B2D /* AppDelegate.m in Sources */,
+				DA7C67361CB4AC2400C17A71 /* GoodsInfoBean.m in Sources */,
 				DA3EA7411C9C4AF300044B2D /* JHCollectionViewTripletLayout.m in Sources */,
 				DA3EA7951C9EB7A700044B2D /* EditCategoryViewController.m in Sources */,
 				DA3EA7631C9C4B0B00044B2D /* AppData.m in Sources */,
@@ -464,6 +475,7 @@
 				DA3EA77F1C9D705800044B2D /* UITools.m in Sources */,
 				DA3EA77C1C9D634800044B2D /* ScanBarViewController.m in Sources */,
 				DA3EA76C1C9C4B0B00044B2D /* ImageButtonCell.m in Sources */,
+				DA7C67391CB4AE2500C17A71 /* GoodsInfoDao.m in Sources */,
 				DA3EA7211C9C486000044B2D /* main.m in Sources */,
 				DA3EA77A1C9D634800044B2D /* AddCategoryVC.m in Sources */,
 				DA3EA76B1C9C4B0B00044B2D /* CellTextField.m in Sources */,

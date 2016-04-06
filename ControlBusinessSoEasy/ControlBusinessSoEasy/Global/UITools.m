@@ -32,6 +32,20 @@ static UITools *tools = nil;
     controller.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
++ (void)customNavigationLeftBarButtonForController:(UIViewController *)controller action:(SEL)select {
+    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"barbuttonicon_back.png"] style:UIBarButtonItemStylePlain target:controller action:select];
+    controller.navigationItem.leftBarButtonItem = item;
+}
+
+- (void)customNavigationLeftBarButtonForController:(UIViewController *)controller {
+    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"barbuttonicon_back.png"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController:)];
+    controller.navigationItem.leftBarButtonItem = item;
+}
+
+- (void)popViewController:(UIBarButtonItem *)item{
+    [[APPDELEGATE_SHARE getCurrentNavigationController] popViewControllerAnimated:YES];
+}
+
 - (void)showMessageToView:(UIView *)view message:(NSString *)message
 {
     [self showMessageToView:view message:message autoHide:YES];

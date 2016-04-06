@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"商品分类";
-    [UITools customNavigationBackButtonForController:self];
+    [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
     _tableHasBeenShownAtLeastOnce = NO;
     arrayBigCategorys = [NSMutableArray array];
     arraySmallCategorys = [NSMutableArray array];

@@ -39,8 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector(backItemAction:)];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
     
     if (self.categoryType == smallCategory) {
         self.navigationItem.title = @"小分类";

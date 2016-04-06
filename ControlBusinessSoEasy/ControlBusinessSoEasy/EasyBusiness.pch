@@ -18,6 +18,7 @@
 #import "AppData.h"
 #import "UserInfo.h"
 #import "UITools.h"
+#import "AppDelegate.h"
 
 #endif
 

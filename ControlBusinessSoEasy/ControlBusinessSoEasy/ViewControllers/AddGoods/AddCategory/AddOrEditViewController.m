@@ -29,8 +29,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = _navTitle;
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:@selector(backItemAction:)];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
     if (_textFiledStr) {
         contentTextField.text = _textFiledStr;
     } else

@@ -30,8 +30,7 @@
     // Do any additional setup after loading the view.
      section2Array = @[@"进价",@"售价",@"规格",@"库存"];
     self.navigationItem.title = @"添加商品";
-    [UITools customNavigationBackButtonForController:self];
-    
+    [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
 }
 
 - (void)didReceiveMemoryWarning {

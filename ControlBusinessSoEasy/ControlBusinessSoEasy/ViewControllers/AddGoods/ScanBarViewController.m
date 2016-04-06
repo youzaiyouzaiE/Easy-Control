@@ -35,7 +35,7 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"二维码";
-    
+    [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
     _label = [[UILabel alloc] init];
     _label.frame = CGRectMake(0, self.view.bounds.size.height - 40, self.view.bounds.size.width, 40);
     _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
