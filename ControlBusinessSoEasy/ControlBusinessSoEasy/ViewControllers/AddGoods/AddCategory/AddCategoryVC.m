@@ -80,9 +80,7 @@
         _tableHasBeenShownAtLeastOnce = YES;
         BOOL animationEnabledForInitialFirstRowSelect = YES; // Whether to animate the selection of the first row or not... in viewDidAppear:, it should be YES (to "smooth" it). If you use this same technique in viewWillAppear: then "YES" has no point, since the view hasn't appeared yet.
         [self scrollBigTableView:animationEnabledForInitialFirstRowSelect];
-        if (_selectSmallItem != -1) {
-            [self scrollSmallTableView:animationEnabledForInitialFirstRowSelect];
-        }
+        [self scrollSmallTableView:animationEnabledForInitialFirstRowSelect];
     }
 }
 
@@ -92,6 +90,9 @@
 }
 
 - (void)scrollSmallTableView:(BOOL)animated {
+    if (_selectSmallItem == -1) {
+        return ;
+    }
     NSIndexPath *indexPathForFirstRowSmall = [NSIndexPath indexPathForRow:_selectSmallItem inSection: 0];
     [self.smallTable selectRowAtIndexPath:indexPathForFirstRowSmall animated:animated scrollPosition:UITableViewScrollPositionTop];
 }
@@ -111,7 +112,8 @@
         bigBean.name = @"默认分类";
         bigBean.location = 0;
         if ([[BigCategoryDao shareInstance] insertBean:bigBean]) {
-            [arrayBigCategorys addObject:bigBean];
+            NSArray *array = [[BigCategoryDao shareInstance] selectAll];
+            arrayBigCategorys = [NSMutableArray arrayWithArray:array];
         }
     }
 }

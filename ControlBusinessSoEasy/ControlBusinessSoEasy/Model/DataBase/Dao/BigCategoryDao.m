@@ -37,7 +37,7 @@ static NSString *const tableName = @"BigCategoryTable";
     if ([set intForColumnIndex:0]) {
         NSLog(@"表已经存！");
     } else {
-        NSString *sql = [NSString stringWithFormat:@"create table IF NOT EXISTS %@ ('%@' text,'%@' text,'%@' text,'%@' integer)",tableName,kBeanIdKey,k_big_userId,k_big_name,k_big_location];
+        NSString *sql = [NSString stringWithFormat:@"create table IF NOT EXISTS %@ ('%@' text,'%@' text,'%@' text,'%@' integer,'%@' text)",tableName,kBeanIdKey,k_big_userId,k_big_name,k_big_location,k_big_aync];
         if ([self.db executeUpdate:sql]) {
             NSLog(@"表创建成功！");
         } else {
@@ -52,6 +52,8 @@ static NSString *const tableName = @"BigCategoryTable";
     bean.userId = [rs stringForColumn:k_big_userId];
     bean.name = [rs stringForColumn:k_big_name];
     bean.location = [rs intForColumn:k_big_location];
+    bean.aync = [rs stringForColumn:k_big_aync];
+    
     return bean;
 }
 

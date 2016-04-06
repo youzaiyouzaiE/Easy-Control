@@ -53,13 +53,10 @@
     [editButton setTitle:@"完成" forState:UIControlStateSelected];
     editButton.frame = CGRectMake(0, 0, 40, 40);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
+    
     if (!_arrayCategorys) {
         _arrayCategorys = [NSMutableArray array];
     }
-    
-//    navigationDelegate = self.navigationController.delegate;
-//   self.navigationController.delegate = self;
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,7 +104,7 @@
 #pragma mark - UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < _arrayCategorys.count) {
-        return 70;
+        return 40;
     } else {
         return 70;
     }
@@ -128,7 +125,7 @@
         }
         SuperBean *bean = _arrayCategorys[indexPath.row];
         cell.textLabel.text = [bean valueForKey:@"name"];
-        [cell.textLabel setFont:[UIFont systemFontOfSize:22]];
+        [cell.textLabel setFont:[UIFont systemFontOfSize:17]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     } else {
@@ -137,8 +134,8 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
-        UILabel *titleLable = (UILabel *)[cell viewWithTag:1];
-        self.categoryType == smallCategory ? (titleLable.text = @"添加小分类" ): (titleLable.text = @"添加大分类" );
+//        UILabel *titleLable = (UILabel *)[cell viewWithTag:1];
+//        self.categoryType == smallCategory ? (titleLable.text = @"添加小分类" ): (titleLable.text = @"添加大分类" );
         return cell;
     }
 }

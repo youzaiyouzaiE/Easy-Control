@@ -9,18 +9,22 @@
 #import "SmallCaregoryBean.h"
 #import "SmallCaregoryDao.h"
 
-NSString *const k_small_BigId = @"small_BigId";
-NSString *const k_small_name = @"small_name";
-NSString *const k_small_location = @"small_location";
+NSString *const k_small_BigId = @"k_small_BigId";
+NSString *const k_small_name = @"k_small_name";
+NSString *const k_small_location = @"k_small_location";
+NSString *const k_small_aync = @"k_small_aync";
 
 @implementation SmallCaregoryBean
 
 -(NSArray *)columnArray {
-    return @[k_small_BigId,k_small_name,k_small_location];
+    return @[k_small_BigId,k_small_name,k_small_location,k_small_aync];
 }
 
 - (NSArray *)valueArray {
-    return @[_bigCaregoryID,_name,[NSNumber numberWithInteger:_location]];
+    if (!_aync) {
+        _aync = @"N";
+    }
+    return @[_bigCaregoryID,_name,[NSNumber numberWithInteger:_location],_aync];
 }
 
 - (BOOL)deleteBean {
