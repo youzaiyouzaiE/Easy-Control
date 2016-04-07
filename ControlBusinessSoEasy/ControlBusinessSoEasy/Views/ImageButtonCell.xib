@@ -32,10 +32,10 @@
                             <constraint firstAttribute="width" constant="25" id="kXe-fe-QAZ"/>
                         </constraints>
                     </imageView>
-                    <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="justified" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j80-It-aXL" customClass="CellTextField">
+                    <textField opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="justified" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="j80-It-aXL" customClass="CellTextField">
                         <rect key="frame" x="89" y="7" width="178" height="30"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" spellCheckingType="no"/>
                     </textField>
                     <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14C-nS-Z1M" customClass="CellButton">
                         <rect key="frame" x="281" y="9" width="26" height="26"/>

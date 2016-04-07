@@ -10,4 +10,6 @@
 
 @interface GoodsInfoDao : SuperDao
 
++ (instancetype)shareInstance ;
+
 @end

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class GoodsInfoBean;
+
 @interface NewGoodsViewController : UIViewController
+
+@property (strong, nonatomic) GoodsInfoBean *goodsInfo;
 
 @end

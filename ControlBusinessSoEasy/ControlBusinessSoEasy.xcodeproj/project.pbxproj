@@ -38,6 +38,8 @@
 		DA3EA78F1C9EA83700044B2D /* BigCategoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */; };
 		DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */; };
 		DA3EA7951C9EB7A700044B2D /* EditCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */; };
+		DA5808001CB628CB00305C56 /* MyGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5807FF1CB628CB00305C56 /* MyGoodsViewController.m */; };
+		DA5808031CB632C500305C56 /* GoodsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5808021CB632C500305C56 /* GoodsDetailViewController.m */; };
 		DA7C67361CB4AC2400C17A71 /* GoodsInfoBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7C67351CB4AC2400C17A71 /* GoodsInfoBean.m */; };
 		DA7C67391CB4AE2500C17A71 /* GoodsInfoDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7C67381CB4AE2500C17A71 /* GoodsInfoDao.m */; };
 		DA8AB8CB1CA7E85900EAC1D8 /* AddOrEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8AB8CA1CA7E85900EAC1D8 /* AddOrEditViewController.m */; };
@@ -103,6 +105,10 @@
 		DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallCaregoryDao.m; sourceTree = "<group>"; };
 		DA3EA7931C9EB7A700044B2D /* EditCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCategoryViewController.h; sourceTree = "<group>"; };
 		DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCategoryViewController.m; sourceTree = "<group>"; };
+		DA5807FE1CB628CB00305C56 /* MyGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGoodsViewController.h; sourceTree = "<group>"; };
+		DA5807FF1CB628CB00305C56 /* MyGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyGoodsViewController.m; sourceTree = "<group>"; };
+		DA5808011CB632C500305C56 /* GoodsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsDetailViewController.h; sourceTree = "<group>"; };
+		DA5808021CB632C500305C56 /* GoodsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailViewController.m; sourceTree = "<group>"; };
 		DA7C67341CB4AC2400C17A71 /* GoodsInfoBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoBean.h; sourceTree = "<group>"; };
 		DA7C67351CB4AC2400C17A71 /* GoodsInfoBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoBean.m; sourceTree = "<group>"; };
 		DA7C67371CB4AE2500C17A71 /* GoodsInfoDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoDao.h; sourceTree = "<group>"; };
@@ -273,6 +279,7 @@
 			children = (
 				DA3EA7521C9C4B0B00044B2D /* HomeViewController.h */,
 				DA3EA7531C9C4B0B00044B2D /* HomeViewController.m */,
+				DA5807FD1CB628A100305C56 /* MyGoods */,
 				DA3EA7721C9D634800044B2D /* AddGoods */,
 			);
 			name = ViewControllers;
@@ -320,6 +327,17 @@
 				DA8AB8CA1CA7E85900EAC1D8 /* AddOrEditViewController.m */,
 			);
 			path = AddCategory;
+			sourceTree = "<group>";
+		};
+		DA5807FD1CB628A100305C56 /* MyGoods */ = {
+			isa = PBXGroup;
+			children = (
+				DA5807FE1CB628CB00305C56 /* MyGoodsViewController.h */,
+				DA5807FF1CB628CB00305C56 /* MyGoodsViewController.m */,
+				DA5808011CB632C500305C56 /* GoodsDetailViewController.h */,
+				DA5808021CB632C500305C56 /* GoodsDetailViewController.m */,
+			);
+			path = MyGoods;
 			sourceTree = "<group>";
 		};
 		FF706D3F0098BC976F0448EA /* Pods */ = {
@@ -465,6 +483,7 @@
 				DA3EA7891C9EA7F400044B2D /* BigCategoryBean.m in Sources */,
 				DA3EA7431C9C4AF300044B2D /* RACollectionViewTripletLayout.m in Sources */,
 				DA3EA7671C9C4B0B00044B2D /* HomeViewController.m in Sources */,
+				DA5808001CB628CB00305C56 /* MyGoodsViewController.m in Sources */,
 				DA3EA7651C9C4B0B00044B2D /* SuperDao.m in Sources */,
 				DA3EA7861C9E3EA400044B2D /* UserInfo.m in Sources */,
 				DA3EA77B1C9D634800044B2D /* NewGoodsViewController.m in Sources */,
@@ -477,6 +496,7 @@
 				DA3EA76C1C9C4B0B00044B2D /* ImageButtonCell.m in Sources */,
 				DA7C67391CB4AE2500C17A71 /* GoodsInfoDao.m in Sources */,
 				DA3EA7211C9C486000044B2D /* main.m in Sources */,
+				DA5808031CB632C500305C56 /* GoodsDetailViewController.m in Sources */,
 				DA3EA77A1C9D634800044B2D /* AddCategoryVC.m in Sources */,
 				DA3EA76B1C9C4B0B00044B2D /* CellTextField.m in Sources */,
 				DA3EA7831C9E39CE00044B2D /* BaseModel.m in Sources */,

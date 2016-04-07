@@ -13,10 +13,23 @@
 #import "CellTextField.h"
 #import "ScanBarViewController.h"
 #import "AddCategoryVC.h"
+#import "GoodsInfoDao.h"
+#import "GoodsInfoBean.h"
 
-@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>{
+@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>{
     NSArray *section2Array;
+    
+    NSArray *section0KeysArr;
+    NSArray *section1KeysArr;
+    NSArray *section2KeysArr;
+    
+    NSMutableDictionary *dicTextFieldInfo;
+    UIAlertView *alertView;
+    
     __block NSString *categoryName;
+    BOOL keyboardShow;
+    
+    NSString *hasImage;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -28,9 +41,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-     section2Array = @[@"进价",@"售价",@"规格",@"库存"];
+    section2Array = @[@"进价",@"售价",@"规格",@"库存"];
+    section0KeysArr = @[@"goodsIDCode",@"goodsName"];
+    section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock"];
+    section0KeysArr = @[@"goodsAuthor",@"goodsNote"];
+    hasImage = @"N";
+    
     self.navigationItem.title = @"添加商品";
     [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
+    
+    dicTextFieldInfo = [NSMutableDictionary dictionary];
+    alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShowAction:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHideAction:) name:UIKeyboardDidHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,6 +66,75 @@
     self.navigationItem.title = title;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+}
+
+#pragma mark - action 
+- (void)scanBarAction:(id)sender
+{
+    ScanBarViewController *scanBarVC = [[ScanBarViewController alloc] init];
+    [self.navigationController pushViewController:scanBarVC animated:YES];
+}
+
+- (IBAction)completeAction:(UIButton *)sender {
+    if (dicTextFieldInfo[section0KeysArr[1]] == nil) {
+        alertView.message = @"请输入商品名称";
+        [alertView show];
+        return ;
+    }
+    if (dicTextFieldInfo[section0KeysArr[2]] == nil) {
+        alertView.message = @"请选择商品分类";
+        [alertView show];
+        return ;
+    }
+    if (dicTextFieldInfo[section1KeysArr[1]] == nil) {
+        alertView.message = @"请输入商品售价";
+        [alertView show];
+        return ;
+    }
+    [self saveCurrentGoodInfo];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)continueAddAction:(UIButton *)sender {
+    
+}
+
+- (IBAction)tapGestureRecognizer:(UITapGestureRecognizer *)sender {
+    
+}
+
+- (void)keyboardShowAction:(NSNotificationCenter *)sender {
+    keyboardShow = YES;
+}
+
+- (void)keyboardHideAction:(NSNotificationCenter *)sender {
+    keyboardShow = NO;
+}
+
+#pragma mark -DB operation
+- (void)saveCurrentGoodInfo {
+    GoodsInfoBean *bean = [GoodsInfoBean new];
+    bean.goodsIDCode = dicTextFieldInfo[section0KeysArr[0]];
+    bean.name = dicTextFieldInfo[section0KeysArr[1]];
+    bean.category = categoryName;
+    bean.inPrice = dicTextFieldInfo[section1KeysArr[0]];
+    bean.outPrice = dicTextFieldInfo[section1KeysArr[1]];
+    bean.standard = dicTextFieldInfo[section1KeysArr[2]];
+    bean.stock = dicTextFieldInfo[section1KeysArr[3]];
+    bean.author = dicTextFieldInfo[section2KeysArr[0]];
+    bean.note = dicTextFieldInfo[section2KeysArr[1]];
+    bean.imagePath = hasImage;
+    [[GoodsInfoDao shareInstance] insertBean:bean];
+}
+
+#pragma  mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (!keyboardShow) {
+        return NO;
+    } else {
+        [self.view endEditing:YES];
+        return YES;
+    }
 }
 
 #pragma mark -
@@ -99,6 +192,7 @@
             } else
                 imageCell = (ImageButtonCell* )cell;
             imageCell.textField.indexPath = indexPath;
+            imageCell.textField.text = dicTextFieldInfo[section0KeysArr[indexPath.row]];
             imageCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return imageCell;
         } else if (row == 1) {
@@ -107,8 +201,9 @@
                 cell = (ImageLabelCell *)[[[NSBundle mainBundle] loadNibNamed:@"ImageLabelCell" owner:self options:nil] objectAtIndex:0];
                 cell.textField.delegate = self;
             }
-            cell.textField.indexPath = indexPath;
             cell.titleLabel.text = @"名称";
+            cell.textField.indexPath = indexPath;
+            cell.textField.text = dicTextFieldInfo[section0KeysArr[indexPath.row]];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         } else if (row == 2) {
@@ -128,6 +223,7 @@
         }
         cell.textField.indexPath = indexPath;
         cell.titleLabel.text = section2Array[indexPath.row];
+        cell.textField.text = dicTextFieldInfo[section1KeysArr[indexPath.row]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -160,22 +256,57 @@
     }
 }
 
-#pragma mark - action 
-- (void)scanBarAction:(id)sender
-{
-    ScanBarViewController *scanBarVC = [[ScanBarViewController alloc] init];
-    [self.navigationController pushViewController:scanBarVC animated:YES];
-}
-
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    CellTextField *cellTextField = nil;
+    if ([textField isKindOfClass:[CellTextField class]]) {
+        cellTextField = (CellTextField *)textField;
+        NSIndexPath *indexPath = cellTextField.indexPath;
+        if ((indexPath.section == 1) && (indexPath.row == 0 || indexPath.row == 1)) {
+            [textField setKeyboardType:UIKeyboardTypeNumberPad];
+        }
+    }
     [textField setReturnKeyType:UIReturnKeyDone];
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    CellTextField *cellTextField = nil;
+    if ([textField isKindOfClass:[CellTextField class]]) {
+        cellTextField = (CellTextField *)textField;
+        [self mappingTextFieldDictionary:cellTextField];
+    }
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.view endEditing:YES];
     return YES;
+}
+
+- (void)mappingTextFieldDictionary:(CellTextField *)textfield {
+    if (textfield.text == nil || [textfield.text isEqualToString:@""]) {
+        return ;
+    }
+    NSIndexPath *indexPath = textfield.indexPath;
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    
+    NSString *dictionKey = @"key";
+    if (section == 0) {
+        dictionKey = section0KeysArr[row];
+    } else if (section == 1) {
+        dictionKey = section1KeysArr[row];
+        NSNumber *valueNum = nil;
+        if (row == 0 || row == 1) {
+            valueNum = [NSNumber numberWithDouble:textfield.text.doubleValue];
+            dicTextFieldInfo[dictionKey] = valueNum;
+            return ;
+        }
+    } else if (section == 2) {
+        dictionKey = section2KeysArr[row];
+    }
+    dicTextFieldInfo[dictionKey] = textfield.text;
 }
 
 @end
