@@ -69,8 +69,7 @@
 }
 
 #pragma mark - action 
-- (void)scanBarAction:(id)sender
-{
+- (void)scanBarAction:(id)sender {
     ScanBarViewController *scanBarVC = [[ScanBarViewController alloc] init];
     [self.navigationController pushViewController:scanBarVC animated:YES];
 }
@@ -262,11 +261,36 @@
     if ([textField isKindOfClass:[CellTextField class]]) {
         cellTextField = (CellTextField *)textField;
         NSIndexPath *indexPath = cellTextField.indexPath;
-        if ((indexPath.section == 1) && (indexPath.row == 0 || indexPath.row == 1)) {
-            [textField setKeyboardType:UIKeyboardTypeNumberPad];
+        if ((indexPath.section == 1) && (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3)) {
+            [textField setKeyboardType:UIKeyboardTypeDecimalPad];
         }
     }
     [textField setReturnKeyType:UIReturnKeyDone];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    CellTextField *cellTextField = nil;
+    if ([textField isKindOfClass:[CellTextField class]]) {
+        cellTextField = (CellTextField *)textField;
+        NSIndexPath *indexPath = cellTextField.indexPath;
+        if ((indexPath.section == 1) && (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3)) {
+            [textField setKeyboardType:UIKeyboardTypeDecimalPad];
+            if (textField.text.length == 0 && [string isEqualToString:@"."]) {
+                return NO;
+            }
+            if ([textField.text rangeOfString:@"."].location != NSNotFound) {////has point
+                if ([string isEqualToString:@"."]) {
+                    return  NO;
+                }
+                if ((textField.text.length - 3 == [textField.text rangeOfString:@"."].location) && ![string isEqualToString:@""]) {
+                    alertView.message = @"最多输入两位小数";
+                    [alertView show];
+                    return NO;
+                }
+            }
+        }
+    }
     return YES;
 }
 

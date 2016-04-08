@@ -103,7 +103,7 @@
     }
 }
 
-- (BOOL)insertBean:(SuperBean *)bean
+- (NSString *)insertBean:(SuperBean *)bean/////return uuid
 {
     NSMutableString *qmarkString = [NSMutableString stringWithString:@"?, "];
     [bean.columnArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -128,8 +128,9 @@
     BOOL insertSuccess = [_db executeUpdate:sql withArgumentsInArray:valueArray];
     if (!insertSuccess) {
         NSLog(@"ERROR: Insert data failed!");
-    }
-    return insertSuccess;
+        return nil;
+    } else
+        return uuid;
 }
 
 - (NSString *)get_uuid

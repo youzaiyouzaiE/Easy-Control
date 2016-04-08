@@ -23,7 +23,7 @@
 - (NSArray *)selectWithOrder:(NSString *)orderSql;
 - (NSArray *)selectWithWhere:(NSString *)whereSql order:(NSString *)orderSql;
 
-- (BOOL)insertBean:(SuperBean *)bean;
+- (NSString *)insertBean:(SuperBean *)bean;
 - (void)deleteAll;
 - (void)deleteWithWhere:(NSString *)whereSql;
 - (BOOL)deleteBeanWithIdKey:(NSString *)idKey;
