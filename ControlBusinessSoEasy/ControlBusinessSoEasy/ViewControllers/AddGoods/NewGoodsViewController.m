@@ -30,6 +30,11 @@
     BOOL keyboardShow;
     
     NSString *hasImage;
+    
+    
+    IBOutlet UITapGestureRecognizer *fristImageGesture;
+    IBOutlet UITapGestureRecognizer *secondImageGesture;
+    IBOutlet UITapGestureRecognizer *thirdImageGesture;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -98,16 +103,24 @@
     
 }
 
-- (IBAction)tapGestureRecognizer:(UITapGestureRecognizer *)sender {
-    
-}
-
 - (void)keyboardShowAction:(NSNotificationCenter *)sender {
     keyboardShow = YES;
 }
 
 - (void)keyboardHideAction:(NSNotificationCenter *)sender {
     keyboardShow = NO;
+}
+
+- (IBAction)fristImageGestureRecognizerAction:(UITapGestureRecognizer *)sender {
+     NSLog(@"frist image action");
+}
+
+- (IBAction)secondImageGuestureRecognizerAction:(UITapGestureRecognizer *)sender {
+     NSLog(@"second image  ");
+}
+
+- (IBAction)thirdImageGestureRecognizerAction:(UITapGestureRecognizer *)sender {
+     NSLog(@"third iamge action ");
 }
 
 #pragma mark -DB operation
