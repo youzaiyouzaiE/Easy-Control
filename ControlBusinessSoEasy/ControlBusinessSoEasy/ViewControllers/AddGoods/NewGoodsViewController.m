@@ -16,7 +16,7 @@
 #import "GoodsInfoDao.h"
 #import "GoodsInfoBean.h"
 
-@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>{
+@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate>{
     NSArray *section2Array;
     
     NSArray *section0KeysArr;
@@ -32,9 +32,17 @@
     NSString *hasImage;
     
     
+    UIActionSheet *sheetAction;
+    UIActionSheet *deleteSheetAction;
+    NSInteger tapSelectItem;
     IBOutlet UITapGestureRecognizer *fristImageGesture;
     IBOutlet UITapGestureRecognizer *secondImageGesture;
     IBOutlet UITapGestureRecognizer *thirdImageGesture;
+    
+    BOOL hasFristImage;
+    BOOL hasSecondImage;
+    BOOL hasThirdImage;
+    
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -51,6 +59,7 @@
     section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock"];
     section0KeysArr = @[@"goodsAuthor",@"goodsNote"];
     hasImage = @"N";
+    tapSelectItem = -1;
     
     self.navigationItem.title = @"添加商品";
     [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
@@ -112,15 +121,46 @@
 }
 
 - (IBAction)fristImageGestureRecognizerAction:(UITapGestureRecognizer *)sender {
-     NSLog(@"frist image action");
+    tapSelectItem = 0;
+    if (hasFristImage) {
+        [self createDeleteSheetAction];
+    } else
+        [self createSheetAction];
 }
 
 - (IBAction)secondImageGuestureRecognizerAction:(UITapGestureRecognizer *)sender {
-     NSLog(@"second image  ");
+    tapSelectItem = 2;
+    if (hasSecondImage) {
+        [self createDeleteSheetAction];
+    } else
+        [self createSheetAction];
 }
 
 - (IBAction)thirdImageGestureRecognizerAction:(UITapGestureRecognizer *)sender {
-     NSLog(@"third iamge action ");
+    tapSelectItem = 3;
+    if (hasThirdImage) {
+        [self createDeleteSheetAction];
+    } else
+        [self createSheetAction];
+}
+
+- (void)createSheetAction {
+    if (!sheetAction) {
+        sheetAction = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
+    }
+    [sheetAction showInView:self.view];
+}
+
+- (void)createDeleteSheetAction {
+    if (!deleteSheetAction) {
+        deleteSheetAction = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:@"拍照",@"从相册选择", nil];
+    }
+    [deleteSheetAction showInView:self.view];
+}
+
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
 }
 
 #pragma mark -DB operation
