@@ -16,7 +16,7 @@
 #import "GoodsInfoDao.h"
 #import "GoodsInfoBean.h"
 
-@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate>{
+@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     NSArray *section2Array;
     
     NSArray *section0KeysArr;
@@ -42,6 +42,9 @@
     BOOL hasFristImage;
     BOOL hasSecondImage;
     BOOL hasThirdImage;
+    
+    NSCache *imageCache;
+    UIImagePickerController *imagePickerController;
     
 }
 
@@ -120,7 +123,7 @@
     keyboardShow = NO;
 }
 
-- (IBAction)fristImageGestureRecognizerAction:(UITapGestureRecognizer *)sender {
+- (void)fristButtonAction:(id )sender {
     tapSelectItem = 0;
     if (hasFristImage) {
         [self createDeleteSheetAction];
@@ -128,16 +131,16 @@
         [self createSheetAction];
 }
 
-- (IBAction)secondImageGuestureRecognizerAction:(UITapGestureRecognizer *)sender {
-    tapSelectItem = 2;
+- (void)secondButtonAction:(id )sender {
+    tapSelectItem = 1;
     if (hasSecondImage) {
         [self createDeleteSheetAction];
     } else
         [self createSheetAction];
 }
 
-- (IBAction)thirdImageGestureRecognizerAction:(UITapGestureRecognizer *)sender {
-    tapSelectItem = 3;
+- (void)thirdButtonAction:(id )sender {
+    tapSelectItem = 2;
     if (hasThirdImage) {
         [self createDeleteSheetAction];
     } else
@@ -153,14 +156,72 @@
 
 - (void)createDeleteSheetAction {
     if (!deleteSheetAction) {
-        deleteSheetAction = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:@"拍照",@"从相册选择", nil];
+        deleteSheetAction = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择",@"删除", nil];
+        deleteSheetAction.destructiveButtonIndex = 2;
     }
     [deleteSheetAction showInView:self.view];
 }
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
+    if (buttonIndex == 0 || buttonIndex == 1) {
+        if (!imagePickerController) {
+            imagePickerController = [[UIImagePickerController alloc] init];
+            imagePickerController.delegate = self;
+            imagePickerController.allowsEditing = YES;
+            imagePickerController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
+            imagePickerController.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+            imagePickerController.navigationBar.titleTextAttributes = self.navigationController.navigationBar.titleTextAttributes;
+        }
+    }
+    if (buttonIndex == 0) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
+    } else if(buttonIndex == 1) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
+        
+    } else if((actionSheet == deleteSheetAction) && (buttonIndex == actionSheet.destructiveButtonIndex)) {
+        [imageCache removeObjectForKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
+        [self deleteOrHaveIamgeIdent:tapSelectItem forType:NO];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    if (!imageCache) {
+        imageCache = [NSCache new];
+    }
+    [imageCache setObject:image forKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
+    [self deleteOrHaveIamgeIdent:tapSelectItem forType:YES];
+    [self.navigationController dismissViewControllerAnimated: YES completion:^{
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self.navigationController dismissViewControllerAnimated: YES completion: nil];
+}
+
+- (void)deleteOrHaveIamgeIdent:(NSInteger )seleect forType:(BOOL)has {
+    switch (seleect) {
+        case 0:
+            hasFristImage = has;
+            break;
+            
+        case 1:
+            hasSecondImage = has;
+            break;
+            
+        case 2:
+            hasThirdImage = has;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark -DB operation
@@ -282,6 +343,16 @@
     else if(section == 2) {
         cell = [tableView dequeueReusableCellWithIdentifier:imagesCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIButton *button1 = (UIButton *)[cell viewWithTag:1];
+        UIButton *button2 = (UIButton *)[cell viewWithTag:2];
+        UIButton *button3 = (UIButton *)[cell viewWithTag:3];
+        [button1 addTarget:self action:@selector(fristButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [button2 addTarget:self action:@selector(secondButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [button3 addTarget:self action:@selector(thirdButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [button1 setBackgroundImage:[imageCache objectForKey:@"0"] forState:UIControlStateNormal];
+        [button2 setBackgroundImage:[imageCache objectForKey:@"1"] forState:UIControlStateNormal];
+        [button3 setBackgroundImage:[imageCache objectForKey:@"2"] forState:UIControlStateNormal];
         return cell;
     }
    return cell;
