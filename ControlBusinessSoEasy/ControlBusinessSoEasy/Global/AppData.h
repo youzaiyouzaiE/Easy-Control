@@ -16,4 +16,7 @@
 - (BOOL)initDataBaseToDocument;
 
 + (NSString *)random_uuid;
+
++ (NSString *)getCachesDirectoryDocumentPath:(NSString *)documentName;
+
 @end

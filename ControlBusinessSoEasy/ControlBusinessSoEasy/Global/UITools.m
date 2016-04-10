@@ -46,13 +46,11 @@ static UITools *tools = nil;
     [[APPDELEGATE_SHARE getCurrentNavigationController] popViewControllerAnimated:YES];
 }
 
-- (void)showMessageToView:(UIView *)view message:(NSString *)message
-{
+- (void)showMessageToView:(UIView *)view message:(NSString *)message {
     [self showMessageToView:view message:message autoHide:YES];
 }
 
-- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide
-{
+- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
     hud.mode = MBProgressHUDModeText;
@@ -66,5 +64,24 @@ static UITools *tools = nil;
     
     return hud;
 }
+
+//获取自适应字的高度？？？
++ (float)getTextViewHeight:(UITextView *)txtView andUIFont:(UIFont *)font andText:(NSString *)txt
+{
+    float fPadding = 16.0;
+    //    CGSize constraint = CGSizeMake(txtView.contentSize.width - 10 - fPadding, CGFLOAT_MAX);
+    //    CGSize size = [txt sizeWithFont:font constrainedToSize:constraint lineBreakMode:0];
+    //    float fHeight = size.height + 16.0;
+    //    return fHeight;
+    
+    NSDictionary *dic = @{NSFontAttributeName:font};
+    CGSize size = [txt boundingRectWithSize:CGSizeMake(txtView.contentSize.width -  10 - fPadding, CGFLOAT_MAX)
+                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                 attributes:dic
+                                    context:nil].size;/////自适应高度
+    return size.height;
+}
+
+
 
 @end

@@ -39,6 +39,25 @@ NSString *const datebaseName = @"BusinessInfo.db";
     return YES;
 }
 
+#pragma mark - FilePath
++ (NSString *)getCachesDirectoryDocumentPath:(NSString *)documentName {
+    NSString *cacheDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *path = [cacheDirectoryPath stringByAppendingPathComponent:documentName];
+    NSFileManager *mager = [NSFileManager defaultManager];
+    if (![mager fileExistsAtPath:path]) {
+//        NSLog(@"File not found Couldn't find the file at path: %@",path);
+        if ([mager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil]) {
+            return path;
+        } else {
+             NSLog(@"创建 %@ 失败",documentName);
+            return nil;
+        }
+    } else
+        return path;
+}
+
+
+#pragma mark - other
 + (NSString *)random_uuid
 {
     CFUUIDRef uuid_ref = CFUUIDCreate(NULL);

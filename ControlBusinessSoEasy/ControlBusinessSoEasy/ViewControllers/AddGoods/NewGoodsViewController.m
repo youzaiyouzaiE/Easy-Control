@@ -38,7 +38,7 @@
     __block NSString *categoryName;
     BOOL keyboardShow;
     
-    NSString *imagePath;
+    NSString *imageDocument;
     UIActionSheet *sheetAction;
     UIActionSheet *deleteSheetAction;
     NSInteger tapSelectItem;
@@ -50,6 +50,7 @@
     NSMutableDictionary *imageDictionary;
     UIImagePickerController *imagePickerController;
     
+//    UIAlertView *backAlertView;
 //    NSMutableArray *_selections;
 }
 
@@ -74,9 +75,8 @@
     section0KeysArr = @[@"goodsIDCode",@"goodsName"];
     section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock",@"goodsAuthor"];
     section2KeysArr = @[@"goodsAuthor",@"goodsNote"];
-    
+    imageDocument = [AppData random_uuid];
     tapSelectItem = -1;
-    
     
     self.navigationItem.title = @"添加商品";
     [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
@@ -101,7 +101,6 @@
 
 #pragma mark - action 
 -(void)backItemAction:(id)sender {
-    //////save bean
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -181,16 +180,41 @@
     [deleteSheetAction showInView:self.view];
 }
 
+#pragma mark -DB operation
+- (void)saveCurrentGoodInfo {
+    GoodsInfoBean *bean = [GoodsInfoBean new];
+    bean.goodsIDCode = dicTextFieldInfo[section0KeysArr[0]];
+    bean.name = dicTextFieldInfo[section0KeysArr[1]];
+    bean.category = categoryName;
+    bean.inPrice = dicTextFieldInfo[section1KeysArr[0]];
+    bean.outPrice = dicTextFieldInfo[section1KeysArr[1]];
+    bean.standard = dicTextFieldInfo[section1KeysArr[2]];
+    bean.stock = dicTextFieldInfo[section1KeysArr[3]];
+    bean.author = dicTextFieldInfo[section2KeysArr[0]];
+    bean.note = dicTextFieldInfo[section2KeysArr[1]];
+    bean.imagePath = imageDocument;
+    [[GoodsInfoDao shareInstance] insertBean:bean];
+}
+
 #pragma mark - clearData
 - (void)clearData {
     _photos = nil;
     [dicTextFieldInfo removeAllObjects];
     tapSelectItem = -1;
-    imagePath = nil;
+    imageDocument = nil;
     hasFristImage = NO;
     hasSecondImage = NO;
     hasThirdImage = NO;
     [imageDictionary removeAllObjects];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+         NSLog(@"不返回");
+    } else {
+         NSLog(@"放弃编辑了！");
+    }
 }
 
 #pragma mark - UINavigationControllerDelegate
@@ -225,10 +249,16 @@
         
     } else if((actionSheet == deleteSheetAction) && (buttonIndex == actionSheet.destructiveButtonIndex)) {
         [imageDictionary removeObjectForKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
-        if (imageDictionary.allValues.count == 0) {
-            imagePath = nil;
-        }
-        [self deleteOrHaveIamgeIdent:tapSelectItem forType:NO];
+        [self deleteOrAddIamgeForIdent:tapSelectItem isAddedType:NO];////delete
+        //////delete in file image
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *filePath = [AppData getCachesDirectoryDocumentPath:imageDocument];
+            NSString *saveToImagePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",tapSelectItem]];
+            NSError *error = nil;
+            if (![[NSFileManager defaultManager] removeItemAtPath:saveToImagePath error:&error]) {
+                 NSLog(@"error :%@",error.localizedDescription);
+            }
+        });
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:_tableView.numberOfSections -1]] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
@@ -240,10 +270,18 @@
         imageDictionary = [NSMutableDictionary dictionary];
     }
     [imageDictionary setObject:image forKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
-    if (!imagePath) {
-        imagePath = [AppData random_uuid];
-    }
-    [self deleteOrHaveIamgeIdent:tapSelectItem forType:YES];
+    [self deleteOrAddIamgeForIdent:tapSelectItem isAddedType:YES];//////added
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *filePath = [AppData getCachesDirectoryDocumentPath:imageDocument];
+        NSString *saveToImagePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",tapSelectItem]];
+        NSData *imageData = UIImagePNGRepresentation(image);
+        if ([imageData writeToFile:saveToImagePath atomically:NO]) {
+//             NSLog(@"存入文件 成功！");
+        } else {
+             NSLog(@"图片未能存入");
+        }
+    });
     [self.navigationController dismissViewControllerAnimated: YES completion:^{
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:_tableView.numberOfSections -1]] withRowAnimation:UITableViewRowAnimationNone];
     }];
@@ -253,7 +291,7 @@
     [self.navigationController dismissViewControllerAnimated: YES completion: nil];
 }
 
-- (void)deleteOrHaveIamgeIdent:(NSInteger )seleect forType:(BOOL)has {
+- (void)deleteOrAddIamgeForIdent:(NSInteger )seleect isAddedType:(BOOL)has {
     switch (seleect) {
         case 0:
             hasFristImage = has;
@@ -270,22 +308,6 @@
         default:
             break;
     }
-}
-
-#pragma mark -DB operation
-- (void)saveCurrentGoodInfo {
-    GoodsInfoBean *bean = [GoodsInfoBean new];
-    bean.goodsIDCode = dicTextFieldInfo[section0KeysArr[0]];
-    bean.name = dicTextFieldInfo[section0KeysArr[1]];
-    bean.category = categoryName;
-    bean.inPrice = dicTextFieldInfo[section1KeysArr[0]];
-    bean.outPrice = dicTextFieldInfo[section1KeysArr[1]];
-    bean.standard = dicTextFieldInfo[section1KeysArr[2]];
-    bean.stock = dicTextFieldInfo[section1KeysArr[3]];
-    bean.author = dicTextFieldInfo[section2KeysArr[0]];
-    bean.note = dicTextFieldInfo[section2KeysArr[1]];
-    bean.imagePath = imagePath;
-    [[GoodsInfoDao shareInstance] insertBean:bean];
 }
 
 #pragma  mark - UIGestureRecognizerDelegate
