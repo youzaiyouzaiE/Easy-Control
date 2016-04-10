@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  ControlBusinessSoEasy
+
+  Created by jiahui on 16/4/10.
+  Copyright © 2016年 JiaHui. All rights reserved.
+*/
+/* No comment provided by engineer. */
+"Cancel" = "Cancel";
+
+"Moments" = "Moments";
+
+"Cannot Download photo" = "Cannot Download photo";
+
+"OK" = "OK";
+
+"There was an error downloading this photo from your iCloud photo Library.Please try again later." = "There was an error downloading this photo from your iCloud photo Library.Please try again later.";

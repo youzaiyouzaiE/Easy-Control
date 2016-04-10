@@ -38,6 +38,7 @@
 		DA3EA78F1C9EA83700044B2D /* BigCategoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA78E1C9EA83700044B2D /* BigCategoryDao.m */; };
 		DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */; };
 		DA3EA7951C9EB7A700044B2D /* EditCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */; };
+		DA482DCF1CB9EF06008AF80C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA482DD11CB9EF06008AF80C /* Localizable.strings */; };
 		DA5808001CB628CB00305C56 /* MyGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5807FF1CB628CB00305C56 /* MyGoodsViewController.m */; };
 		DA5808031CB632C500305C56 /* GoodsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5808021CB632C500305C56 /* GoodsDetailViewController.m */; };
 		DA7C67361CB4AC2400C17A71 /* GoodsInfoBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7C67351CB4AC2400C17A71 /* GoodsInfoBean.m */; };
@@ -105,6 +106,9 @@
 		DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallCaregoryDao.m; sourceTree = "<group>"; };
 		DA3EA7931C9EB7A700044B2D /* EditCategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCategoryViewController.h; sourceTree = "<group>"; };
 		DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCategoryViewController.m; sourceTree = "<group>"; };
+		DA482DD01CB9EF06008AF80C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DA482DD21CB9EF0B008AF80C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DA482DD31CB9EFAA008AF80C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DA5807FE1CB628CB00305C56 /* MyGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGoodsViewController.h; sourceTree = "<group>"; };
 		DA5807FF1CB628CB00305C56 /* MyGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyGoodsViewController.m; sourceTree = "<group>"; };
 		DA5808011CB632C500305C56 /* GoodsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsDetailViewController.h; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				DA3EA7301C9C486000044B2D /* Info.plist */,
 				DA3EA7701C9C4B4300044B2D /* Define.h */,
 				DA3EA7801C9D72BD00044B2D /* EasyBusiness.pch */,
+				DA482DD11CB9EF06008AF80C /* Localizable.strings */,
 				DA3EA71F1C9C486000044B2D /* Supporting Files */,
 			);
 			path = ControlBusinessSoEasy;
@@ -393,6 +398,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = DA3EA7131C9C486000044B2D;
 			productRefGroup = DA3EA71D1C9C486000044B2D /* Products */;
@@ -410,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA3EA72F1C9C486000044B2D /* LaunchScreen.storyboard in Resources */,
+				DA482DCF1CB9EF06008AF80C /* Localizable.strings in Resources */,
 				DA3EA72C1C9C486000044B2D /* Assets.xcassets in Resources */,
 				DA3EA72A1C9C486000044B2D /* Main.storyboard in Resources */,
 				DA3EA76F1C9C4B0B00044B2D /* ImageLabelCell.xib in Resources */,
@@ -522,6 +529,16 @@
 				DA3EA72E1C9C486000044B2D /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		DA482DD11CB9EF06008AF80C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA482DD01CB9EF06008AF80C /* Base */,
+				DA482DD21CB9EF0B008AF80C /* en */,
+				DA482DD31CB9EFAA008AF80C /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

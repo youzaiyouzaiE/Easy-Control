@@ -149,7 +149,7 @@
 
 - (void)createSheetAction {
     if (!sheetAction) {
-        sheetAction = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
+        sheetAction = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
     }
     [sheetAction showInView:self.view];
 }
