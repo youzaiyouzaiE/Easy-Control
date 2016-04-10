@@ -15,10 +15,19 @@
 #import "AddCategoryVC.h"
 #import "GoodsInfoDao.h"
 #import "GoodsInfoBean.h"
+//#import "MWCommon.h"
+#import "MWPhotoBrowser.h"
 
-@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
+//typedef NS_ENUM(NSUInteger, sectionType) {
+//    goodsInfomationSection,
+//    goods,
+//    <#MyEnumValueC#>,
+//};
+
+
+@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MWPhotoBrowserDelegate>{
+    NSArray *section1Array;
     NSArray *section2Array;
-    
     NSArray *section0KeysArr;
     NSArray *section1KeysArr;
     NSArray *section2KeysArr;
@@ -29,43 +38,48 @@
     __block NSString *categoryName;
     BOOL keyboardShow;
     
-    NSString *hasImage;
-    
-    
+    NSString *imagePath;
     UIActionSheet *sheetAction;
     UIActionSheet *deleteSheetAction;
     NSInteger tapSelectItem;
-    IBOutlet UITapGestureRecognizer *fristImageGesture;
-    IBOutlet UITapGestureRecognizer *secondImageGesture;
-    IBOutlet UITapGestureRecognizer *thirdImageGesture;
-    
+
     BOOL hasFristImage;
     BOOL hasSecondImage;
     BOOL hasThirdImage;
     
-    NSCache *imageCache;
+    NSMutableDictionary *imageDictionary;
     UIImagePickerController *imagePickerController;
     
+//    NSMutableArray *_selections;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *photos;
+//@property (nonatomic, strong) NSMutableArray *thumbs;
 
 @end
 
 @implementation NewGoodsViewController
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.navigationController.delegate = self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    section2Array = @[@"进价",@"售价",@"规格",@"库存"];
+    section1Array = @[@"进价",@"售价",@"规格",@"库存"];
+    section2Array = @[@"供应商",@"备注"];
     section0KeysArr = @[@"goodsIDCode",@"goodsName"];
-    section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock"];
-    section0KeysArr = @[@"goodsAuthor",@"goodsNote"];
-    hasImage = @"N";
+    section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock",@"goodsAuthor"];
+    section2KeysArr = @[@"goodsAuthor",@"goodsNote"];
+    
     tapSelectItem = -1;
     
+    
     self.navigationItem.title = @"添加商品";
-    [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
+    [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
     
     dicTextFieldInfo = [NSMutableDictionary dictionary];
     alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -86,6 +100,11 @@
 }
 
 #pragma mark - action 
+-(void)backItemAction:(id)sender {
+    //////save bean
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)scanBarAction:(id)sender {
     ScanBarViewController *scanBarVC = [[ScanBarViewController alloc] init];
     [self.navigationController pushViewController:scanBarVC animated:YES];
@@ -111,7 +130,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)continueAddAction:(UIButton *)sender {
+- (IBAction)continueAddAction:(UIButton *)sender {///继续添加
     
 }
 
@@ -162,6 +181,29 @@
     [deleteSheetAction showInView:self.view];
 }
 
+#pragma mark - clearData
+- (void)clearData {
+    _photos = nil;
+    [dicTextFieldInfo removeAllObjects];
+    tapSelectItem = -1;
+    imagePath = nil;
+    hasFristImage = NO;
+    hasSecondImage = NO;
+    hasThirdImage = NO;
+    [imageDictionary removeAllObjects];
+}
+
+#pragma mark - UINavigationControllerDelegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    id<UIViewControllerTransitionCoordinator> tc = navigationController.topViewController.transitionCoordinator;
+    [tc notifyWhenInteractionEndsUsingBlock:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        NSLog(@"添加 Is cancelled: %i", [context isCancelled]);
+        if (![context isCancelled]) {
+            ////seave db
+        }
+    }];
+}
+
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0 || buttonIndex == 1) {
@@ -182,22 +224,28 @@
         [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
         
     } else if((actionSheet == deleteSheetAction) && (buttonIndex == actionSheet.destructiveButtonIndex)) {
-        [imageCache removeObjectForKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
+        [imageDictionary removeObjectForKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
+        if (imageDictionary.allValues.count == 0) {
+            imagePath = nil;
+        }
         [self deleteOrHaveIamgeIdent:tapSelectItem forType:NO];
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:_tableView.numberOfSections -1]] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    if (!imageCache) {
-        imageCache = [NSCache new];
+    if (!imageDictionary) {
+        imageDictionary = [NSMutableDictionary dictionary];
     }
-    [imageCache setObject:image forKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
+    [imageDictionary setObject:image forKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
+    if (!imagePath) {
+        imagePath = [AppData random_uuid];
+    }
     [self deleteOrHaveIamgeIdent:tapSelectItem forType:YES];
     [self.navigationController dismissViewControllerAnimated: YES completion:^{
-        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:_tableView.numberOfSections -1]] withRowAnimation:UITableViewRowAnimationNone];
     }];
 }
 
@@ -236,7 +284,7 @@
     bean.stock = dicTextFieldInfo[section1KeysArr[3]];
     bean.author = dicTextFieldInfo[section2KeysArr[0]];
     bean.note = dicTextFieldInfo[section2KeysArr[1]];
-    bean.imagePath = hasImage;
+    bean.imagePath = imagePath;
     [[GoodsInfoDao shareInstance] insertBean:bean];
 }
 
@@ -335,12 +383,15 @@
             cell.textField.delegate = self;
         }
         cell.textField.indexPath = indexPath;
-        cell.titleLabel.text = section2Array[indexPath.row];
-        cell.textField.text = dicTextFieldInfo[section1KeysArr[indexPath.row]];
+        cell.titleLabel.text = section1Array[row];
+        cell.textField.text = dicTextFieldInfo[section1KeysArr[row]];
+        if (row == 1) {
+            cell.mustLable.hidden = NO;
+        } else
+            cell.mustLable.hidden = YES;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
-    }
-    else if(section == 2) {
+    }else if(section == 2) {/////添加图片
         cell = [tableView dequeueReusableCellWithIdentifier:imagesCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIButton *button1 = (UIButton *)[cell viewWithTag:1];
@@ -350,9 +401,11 @@
         [button2 addTarget:self action:@selector(secondButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [button3 addTarget:self action:@selector(thirdButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         
-        [button1 setBackgroundImage:[imageCache objectForKey:@"0"] forState:UIControlStateNormal];
-        [button2 setBackgroundImage:[imageCache objectForKey:@"1"] forState:UIControlStateNormal];
-        [button3 setBackgroundImage:[imageCache objectForKey:@"2"] forState:UIControlStateNormal];
+        [button1 setBackgroundImage:(([imageDictionary objectForKey:@"0"])?[imageDictionary objectForKey:@"0"]:[UIImage imageNamed:@"NOPhoto"]) forState:UIControlStateNormal];
+        [button2 setBackgroundImage:(([imageDictionary objectForKey:@"1"])?[imageDictionary objectForKey:@"1"]:[UIImage imageNamed:@"NOPhoto"]) forState:UIControlStateNormal];
+        [button3 setBackgroundImage:(([imageDictionary objectForKey:@"2"])?[imageDictionary objectForKey:@"2"]:[UIImage imageNamed:@"NOPhoto"]) forState:UIControlStateNormal];
+        
+        
         return cell;
     }
    return cell;
@@ -363,6 +416,29 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 2) {
         [self performSegueWithIdentifier:@"pushToAddCategoryVC" sender:self];
+    } if (indexPath.section == 2 && indexPath.row == 0) {
+        if (imageDictionary.allKeys.count != 0) {
+              NSMutableArray *photos = [NSMutableArray array];
+            for (UIImage *image in imageDictionary.allValues) {
+                [photos addObject:[MWPhoto photoWithImage:image]];
+            }
+            _photos = photos;
+            MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+//            browser.navigationController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
+//            browser.navigationController.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+//            browser.navigationController.navigationBar.titleTextAttributes = self.navigationController.navigationBar.titleTextAttributes;
+            browser.displayActionButton = NO;
+            browser.displayNavArrows = NO;
+            browser.displaySelectionButtons = NO;
+            browser.alwaysShowControls = NO;
+            browser.zoomPhotosToFill = YES;
+            browser.enableGrid = NO;
+            browser.startOnGrid = NO;
+            browser.enableSwipeToDismiss = YES;
+            browser.autoPlayOnAppear = NO;
+            [browser setCurrentPhotoIndex:0];
+            [self.navigationController pushViewController:browser animated:YES];
+        }
     }
 }
 
@@ -378,6 +454,39 @@
         };
     }
 }
+#pragma mark - MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _photos.count)
+        return [_photos objectAtIndex:index];
+    return nil;
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
+    NSLog(@"Did start viewing photo at index %lu", (unsigned long)index);
+}
+
+//- (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
+//    return [[_selections objectAtIndex:index] boolValue];
+//}
+
+//- (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtIndex:(NSUInteger)index {
+//    return [NSString stringWithFormat:@"Photo %lu", (unsigned long)index+1];
+//}
+
+//- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
+//    [_selections replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:selected]];
+//    NSLog(@"Photo at index %lu selected %@", (unsigned long)index, selected ? @"YES" : @"NO");
+//}
+
+//- (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+//    // If we subscribe to this method we must dismiss the view controller ourselves
+//    NSLog(@"Did finish modal presentation");
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {

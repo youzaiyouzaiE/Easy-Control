@@ -15,4 +15,5 @@
 + (instancetype) shareInstance;
 - (BOOL)initDataBaseToDocument;
 
++ (NSString *)random_uuid;
 @end
