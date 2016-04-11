@@ -35,7 +35,7 @@ static NSString *const tableName = @"BigCategoryTable";
     FMResultSet *set = [self.db executeQuery:[NSString stringWithFormat:@"select count (*) from sqlite_master where type = 'table' and name = '%@'",tableName]];
     [set next];
     if ([set intForColumnIndex:0]) {
-        NSLog(@"表已经存！");
+//        NSLog(@"表已经存！");
     } else {
         NSString *sql = [NSString stringWithFormat:@"create table IF NOT EXISTS %@ ('%@' text,'%@' text,'%@' text,'%@' integer,'%@' text)",tableName,kBeanIdKey,k_big_userId,k_big_name,k_big_location,k_big_aync];
         if ([self.db executeUpdate:sql]) {

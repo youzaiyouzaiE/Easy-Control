@@ -33,7 +33,7 @@
     NSArray *section2KeysArr;
     
     NSMutableDictionary *dicTextFieldInfo;
-    UIAlertView *alertView;
+//    UIAlertView *alertView;
     
     __block NSString *categoryName;
     BOOL keyboardShow;
@@ -50,7 +50,8 @@
     NSMutableDictionary *imageDictionary;
     UIImagePickerController *imagePickerController;
     
-//    UIAlertView *backAlertView;
+    BOOL isSaveCurrentBean;
+    
 //    NSMutableArray *_selections;
 }
 
@@ -82,10 +83,12 @@
     [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
     
     dicTextFieldInfo = [NSMutableDictionary dictionary];
-    alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShowAction:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHideAction:) name:UIKeyboardDidHideNotification object:nil];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,6 +104,9 @@
 
 #pragma mark - action 
 -(void)backItemAction:(id)sender {
+    if (!isSaveCurrentBean) {
+        [self deleteDocumentAllImages];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -111,18 +117,15 @@
 
 - (IBAction)completeAction:(UIButton *)sender {
     if (dicTextFieldInfo[section0KeysArr[1]] == nil) {
-        alertView.message = @"请输入商品名称";
-        [alertView show];
+        [[UITools shareInstance] showMessageToView:self.view message:@"请输入商品名称"];
         return ;
     }
-    if (dicTextFieldInfo[section0KeysArr[2]] == nil) {
-        alertView.message = @"请选择商品分类";
-        [alertView show];
+    if (categoryName == nil) {
+        [[UITools shareInstance] showMessageToView:self.view message:@"请选择商品分类"];
         return ;
     }
     if (dicTextFieldInfo[section1KeysArr[1]] == nil) {
-        alertView.message = @"请输入商品售价";
-        [alertView show];
+        [[UITools shareInstance] showMessageToView:self.view message:@"请输入商品售价"];
         return ;
     }
     [self saveCurrentGoodInfo];
@@ -194,6 +197,17 @@
     bean.note = dicTextFieldInfo[section2KeysArr[1]];
     bean.imagePath = imageDocument;
     [[GoodsInfoDao shareInstance] insertBean:bean];
+    isSaveCurrentBean = YES;
+}
+
+- (void)deleteDocumentAllImages {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *filePath = [AppData getCachesDirectoryDocumentPath:imageDocument];
+        NSError *error = nil;
+        if (![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error]) {
+            NSLog(@"error :%@",error.localizedDescription);
+        }
+    });
 }
 
 #pragma mark - clearData
@@ -206,15 +220,7 @@
     hasSecondImage = NO;
     hasThirdImage = NO;
     [imageDictionary removeAllObjects];
-}
-
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-         NSLog(@"不返回");
-    } else {
-         NSLog(@"放弃编辑了！");
-    }
+    isSaveCurrentBean = NO;
 }
 
 #pragma mark - UINavigationControllerDelegate
@@ -223,7 +229,9 @@
     [tc notifyWhenInteractionEndsUsingBlock:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         NSLog(@"添加 Is cancelled: %i", [context isCancelled]);
         if (![context isCancelled]) {
-            ////seave db
+            if (!isSaveCurrentBean) {
+                [self deleteDocumentAllImages];
+            }
         }
     }];
 }
@@ -395,7 +403,7 @@
             if (categoryName) {
                 CategoryLabel.text = categoryName;
             } else
-                CategoryLabel.text = @"默认分类";
+                CategoryLabel.text = @"选择分类";
             return cell;
         }
     } else if(section == 1) {
@@ -539,8 +547,7 @@
                     return  NO;
                 }
                 if ((textField.text.length - 3 == [textField.text rangeOfString:@"."].location) && ![string isEqualToString:@""]) {
-                    alertView.message = @"最多输入两位小数";
-                    [alertView show];
+                    [[UITools shareInstance] showMessageToView:self.view message:@"最多输入两位小数"];
                     return NO;
                 }
             }

@@ -59,7 +59,7 @@ static UITools *tools = nil;
     hud.removeFromSuperViewOnHide = YES;
     
     if (autoHide) {
-        [hud hide:YES afterDelay:1.5f];
+        [hud hide:YES afterDelay:1.0f];
     }
     
     return hud;
