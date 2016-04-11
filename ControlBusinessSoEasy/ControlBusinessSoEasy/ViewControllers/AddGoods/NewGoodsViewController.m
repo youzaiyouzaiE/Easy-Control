@@ -26,11 +26,14 @@
 
 
 @interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MWPhotoBrowserDelegate>{
-    NSArray *section1Array;
-    NSArray *section2Array;
+    NSArray *section1TitleArray;
+    NSArray *section2TitleArray;
     NSArray *section0KeysArr;
     NSArray *section1KeysArr;
     NSArray *section2KeysArr;
+    
+    NSArray *section0ImageArr;
+    NSArray *section1ImageArr;
     
     NSMutableDictionary *dicTextFieldInfo;
 //    UIAlertView *alertView;
@@ -51,8 +54,6 @@
     UIImagePickerController *imagePickerController;
     
     BOOL isSaveCurrentBean;
-    
-//    NSMutableArray *_selections;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -71,11 +72,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    section1Array = @[@"进价",@"售价",@"规格",@"库存"];
-    section2Array = @[@"供应商",@"备注"];
+    section1TitleArray = @[@"进价",@"售价",@"规格",@"库存"];
+    section2TitleArray = @[@"供应商",@"备注"];
     section0KeysArr = @[@"goodsIDCode",@"goodsName"];
     section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock",@"goodsAuthor"];
     section2KeysArr = @[@"goodsAuthor",@"goodsNote"];
+    
+    section0ImageArr = @[@"NG_code",@"NG_name",@"NG_category"];
+    section1ImageArr = @[@"NG_inPrice",@"NG_outPrice",@"NG_standard",@"NG_stock"];
+    
     imageDocument = [AppData random_uuid];
     tapSelectItem = -1;
     
@@ -392,6 +397,7 @@
                 cell = (ImageLabelCell *)[[[NSBundle mainBundle] loadNibNamed:@"ImageLabelCell" owner:self options:nil] objectAtIndex:0];
                 cell.textField.delegate = self;
             }
+            [cell.titleImage setImage:[UIImage imageNamed:section0ImageArr[row]]];
             cell.titleLabel.text = @"名称";
             cell.textField.indexPath = indexPath;
             cell.textField.text = dicTextFieldInfo[section0KeysArr[indexPath.row]];
@@ -404,6 +410,8 @@
                 CategoryLabel.text = categoryName;
             } else
                 CategoryLabel.text = @"选择分类";
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+            [imageView setImage:[UIImage imageNamed:section0ImageArr[row]]];
             return cell;
         }
     } else if(section == 1) {
@@ -412,8 +420,9 @@
             cell = (ImageLabelCell *)[[[NSBundle mainBundle] loadNibNamed:@"ImageLabelCell" owner:self options:nil] objectAtIndex:0];
             cell.textField.delegate = self;
         }
+        [cell.titleImage setImage:[UIImage imageNamed:section1ImageArr[row]]];
         cell.textField.indexPath = indexPath;
-        cell.titleLabel.text = section1Array[row];
+        cell.titleLabel.text = section1TitleArray[row];
         cell.textField.text = dicTextFieldInfo[section1KeysArr[row]];
         if (row == 1) {
             cell.mustLable.hidden = NO;

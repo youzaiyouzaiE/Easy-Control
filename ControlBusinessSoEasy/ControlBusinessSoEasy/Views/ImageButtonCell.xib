@@ -25,7 +25,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2C7-II-6EK">
+                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NG_code" translatesAutoresizingMaskIntoConstraints="NO" id="2C7-II-6EK">
                         <rect key="frame" x="10" y="9" width="25" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="NNH-Jc-zMB"/>
@@ -37,13 +37,13 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" spellCheckingType="no"/>
                     </textField>
-                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14C-nS-Z1M" customClass="CellButton">
-                        <rect key="frame" x="281" y="9" width="26" height="26"/>
+                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14C-nS-Z1M" customClass="CellButton">
+                        <rect key="frame" x="275" y="7" width="37" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="26" id="FCB-pe-wWD"/>
-                            <constraint firstAttribute="width" constant="26" id="bTx-aF-0Pq"/>
+                            <constraint firstAttribute="height" constant="30" id="FCB-pe-wWD"/>
+                            <constraint firstAttribute="width" constant="37" id="bTx-aF-0Pq"/>
                         </constraints>
-                        <state key="normal" title="扫"/>
+                        <state key="normal" image="NG_scanCode"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -53,9 +53,9 @@
                     <constraint firstItem="j80-It-aXL" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="V2r-uz-s9N"/>
                     <constraint firstItem="2C7-II-6EK" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="i2Q-jc-u4Y"/>
                     <constraint firstItem="14C-nS-Z1M" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jSM-UI-xiY"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="14C-nS-Z1M" secondAttribute="trailing" constant="5" id="jk7-B4-4I7"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="14C-nS-Z1M" secondAttribute="trailing" id="jk7-B4-4I7"/>
                     <constraint firstItem="tHg-Gc-Mbo" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="nJp-fJ-OIS"/>
-                    <constraint firstItem="14C-nS-Z1M" firstAttribute="leading" secondItem="j80-It-aXL" secondAttribute="trailing" constant="14" id="zpT-eY-P3j"/>
+                    <constraint firstItem="14C-nS-Z1M" firstAttribute="leading" secondItem="j80-It-aXL" secondAttribute="trailing" constant="8" id="zpT-eY-P3j"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -67,4 +67,8 @@
             <point key="canvasLocation" x="250" y="537"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="NG_code" width="25" height="25"/>
+        <image name="NG_scanCode" width="25" height="25"/>
+    </resources>
 </document>

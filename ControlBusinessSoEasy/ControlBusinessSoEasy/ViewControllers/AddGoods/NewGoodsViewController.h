@@ -14,4 +14,5 @@
 
 @property (strong, nonatomic) GoodsInfoBean *goodsInfo;
 
+
 @end
