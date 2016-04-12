@@ -45,6 +45,7 @@
 
 - (void)getDefaultSelectItems {
     _selectBigItem = -1;
+    _selectSmallItem = -1;
      NSArray *arrNames = [_alreadyCategoryNames componentsSeparatedByString:@" - "];
     if (_alreadyCategoryNames && arrNames) {
         NSString *bigName = [arrNames firstObject];
@@ -84,12 +85,21 @@
     }
 }
 
-- (void)scrollBigTableView:(BOOL)animated {
+- (void)scrollBigTableView:(BOOL)animated {///
+    if (_selectBigItem >= arrayBigCategorys.count) {
+        _selectBigItem = -1;
+    }
+    if (_selectBigItem == -1) {
+        return ;
+    }
     NSIndexPath *indexPathForFirstRow = [NSIndexPath indexPathForRow:_selectBigItem inSection: 0];
     [self.bigTableView selectRowAtIndexPath:indexPathForFirstRow animated:animated scrollPosition:UITableViewScrollPositionTop];
 }
 
 - (void)scrollSmallTableView:(BOOL)animated {
+    if (_selectSmallItem >= arraySmallCategorys.count) {
+        _selectSmallItem = -1;
+    }
     if (_selectSmallItem == -1) {
         return ;
     }
@@ -143,20 +153,24 @@
         NSString *bigBeanID = [arrayBigCategorys[_selectBigItem] valueForKey:@"idKey"];
         editCatagoryVC.bigCategoryBeanId = bigBeanID;
         editCatagoryVC.arrayCategorys = arraySmallCategorys;
-        editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate){
+        editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate, BOOL isDelete){
             if (needUpdate) {
                 [self checkSmallCategorsWithBigCategorID:bigBeanID];
                 [self.smallTable reloadData];
-                [self scrollSmallTableView:YES];
+                if (!isDelete) {
+                    [self scrollSmallTableView:YES];
+                }
             }
         };
     } else {
         editCatagoryVC.arrayCategorys = arrayBigCategorys;
-        editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate){
+        editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate,BOOL isDelete){
             if (needUpdate) {
                 [self checkBigCategors];
                 [self.bigTableView reloadData];
-                [self scrollBigTableView:YES];
+                if (!isDelete) {
+                    [self scrollBigTableView:YES];
+                }
             }
         };
     }

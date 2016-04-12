@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^updateBlock)(BOOL need);
+typedef void (^updateBlock)(BOOL need ,BOOL isDeleteBean);
 
 typedef NS_ENUM(NSInteger, CategoryType) {
     bigCategory,

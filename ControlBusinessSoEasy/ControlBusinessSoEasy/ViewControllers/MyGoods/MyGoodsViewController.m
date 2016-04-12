@@ -40,8 +40,8 @@
 - (NSString *)imagePathForDocument:(NSString *)imageDoumet {
     NSString *imageDocumetPath = [AppData getCachesDirectorySmallDocumentPath:imageDoumet];
     NSArray *sourceArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageDocumetPath error:nil];
-    if (sourceArray) {
-        NSString *source = sourceArray[0];
+    if (sourceArray.count != 0) {
+        NSString *source = sourceArray.firstObject;
         return [imageDocumetPath stringByAppendingPathComponent:source];
     }else
         return nil;
@@ -71,7 +71,11 @@
     GoodsInfoBean *bean = arrayGoods[indexPath.row];
     
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
-    imageView.image  = [UIImage imageWithContentsOfFile:[self imagePathForDocument:bean.imagePath]];
+    NSString *imagePath = [self imagePathForDocument:bean.imagePath];
+    if (imagePath) {
+        imageView.image = [UIImage imageWithContentsOfFile:imagePath];
+    } else
+        imageView.image  = [UIImage imageNamed:@"NOPhoto"];
     
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:2];
     nameLabel.text = [NSString stringWithFormat:@"名称：%@",bean.name];

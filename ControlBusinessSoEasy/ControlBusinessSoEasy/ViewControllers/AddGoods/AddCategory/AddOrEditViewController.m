@@ -39,6 +39,8 @@
     completeButton.layer.borderWidth = 2;
     completeButton.layer.cornerRadius = 5;
     
+    
+    [contentTextField becomeFirstResponder];
 //    navigationDelegate = self.navigationController.delegate;
 //    self.navigationController.delegate = self;
 }

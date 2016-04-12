@@ -65,6 +65,18 @@ static UITools *tools = nil;
     return hud;
 }
 
+- (MBProgressHUD *)showLoadingViewAddToView:(UIView *)view autoHide:(BOOL)autoHide {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    //    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    
+    if (autoHide) {
+        [hud hide:YES afterDelay:1.5f];
+    }
+    return hud;
+}
+
 //获取自适应字的高度？？？
 + (float)getTextViewHeight:(UITextView *)txtView andUIFont:(UIFont *)font andText:(NSString *)txt
 {

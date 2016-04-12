@@ -17,6 +17,7 @@
 #import "GoodsInfoBean.h"
 //#import "MWCommon.h"
 #import "MWPhotoBrowser.h"
+#import "MBProgressHUD.h"
 
 //typedef NS_ENUM(NSUInteger, sectionType) {
 //    goodsInfomationSection,
@@ -121,16 +122,7 @@
 }
 
 - (IBAction)completeAction:(UIButton *)sender {
-    if (dicTextFieldInfo[section0KeysArr[1]] == nil) {
-        [[UITools shareInstance] showMessageToView:self.view message:@"请输入商品名称"];
-        return ;
-    }
-    if (categoryName == nil) {
-        [[UITools shareInstance] showMessageToView:self.view message:@"请选择商品分类"];
-        return ;
-    }
-    if (dicTextFieldInfo[section1KeysArr[1]] == nil) {
-        [[UITools shareInstance] showMessageToView:self.view message:@"请输入商品售价"];
+    if (![self chickInPutInformation]) {
         return ;
     }
     [self saveCurrentGoodInfo];
@@ -138,7 +130,31 @@
 }
 
 - (IBAction)continueAddAction:(UIButton *)sender {///继续添加
-    
+    if (![self chickInPutInformation]) {
+        return ;
+    }
+    MBProgressHUD *hud = [[UITools shareInstance] showLoadingViewAddToView:self.view autoHide:NO];
+    [self saveCurrentGoodInfo];
+    [self clearData];
+    [self.tableView reloadData];
+    imageDocument = [AppData random_uuid];
+    [hud hide:YES];
+}
+
+-(BOOL)chickInPutInformation {
+    if (dicTextFieldInfo[section0KeysArr[1]] == nil) {
+        [[UITools shareInstance] showMessageToView:self.view message:@"请输入商品名称"];
+        return NO;
+    }
+    if (categoryName == nil) {
+        [[UITools shareInstance] showMessageToView:self.view message:@"请选择商品分类"];
+        return NO;
+    }
+    if (dicTextFieldInfo[section1KeysArr[1]] == nil) {
+        [[UITools shareInstance] showMessageToView:self.view message:@"请输入商品售价"];
+        return NO;
+    }
+    return YES;
 }
 
 - (void)keyboardShowAction:(NSNotificationCenter *)sender {
@@ -299,7 +315,7 @@
     if (!imageDictionary) {
         imageDictionary = [NSMutableDictionary dictionary];
     }
-    UIImage *imageSmall = [UITools imageWithImageSimple:image scaledToSize:CGSizeMake(80, 80)];
+    UIImage *imageSmall = [UITools imageWithImageSimple:image scaledToSize:CGSizeMake(240, 240)];
     [imageDictionary setObject:imageSmall forKey:[NSString stringWithFormat:@"%ld",(long)tapSelectItem]];
     [self deleteOrAddIamgeForIdent:tapSelectItem isAddedType:YES];//////added
     

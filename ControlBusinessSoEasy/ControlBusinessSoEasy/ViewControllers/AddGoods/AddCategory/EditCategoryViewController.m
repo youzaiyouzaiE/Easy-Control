@@ -13,13 +13,22 @@
 #import "BigCategoryDao.h"
 #import "AddOrEditViewController.h"
 
-@interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UINavigationControllerDelegate> {
+@interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate> {
     BOOL isEditType;
     BOOL isAddCategory;
     
     id <UINavigationControllerDelegate> navigationDelegate;
     BOOL isNeedUpdateCategoryList;
+    
     NSString *categoryName;
+    
+    NSString *modifyName;
+    
+    UIAlertView *alertView;
+    NSInteger deleteRow;
+    BigCategoryBean *bigBean;
+    NSArray *smallBeansArray;
+    BOOL isDeleteBean;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableVeiw;
@@ -69,7 +78,7 @@
 #pragma mark - action
 -(void)backItemAction:(id)sender {
     if (isNeedUpdateCategoryList) {
-        self.needUpdateBlock(YES);
+        self.needUpdateBlock(YES,isDeleteBean);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -77,6 +86,13 @@
 - (void)editButtionItemAction:(UIButton *)button {
     button.selected = !button.selected;
     isEditType = button.selected;
+    if (isEditType) {
+        _tableVeiw.allowsMultipleSelectionDuringEditing = YES;
+        _tableVeiw.editing = YES;
+    } else {
+        _tableVeiw.allowsMultipleSelectionDuringEditing = NO;
+        _tableVeiw.editing = NO;
+    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -94,7 +110,7 @@
         NSLog(@"添加 Is cancelled: %i", [context isCancelled]);
         if (![context isCancelled]) {
             if (isNeedUpdateCategoryList) {
-                self.needUpdateBlock(YES);
+                self.needUpdateBlock(YES,isDeleteBean);
             }
         }
     }];
@@ -139,19 +155,97 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    SuperBean *bean = _arrayCategorys[indexPath.row];
+    modifyName = [bean valueForKey:@"name"];
+    [self performSegueWithIdentifier:@"AddOrEditSegue" sender:self];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row < [_arrayCategorys count]) {
+        return YES;
+    } else
+        return NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row < _arrayCategorys.count) {
+        return YES;
+    } else
+        return NO;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row <_arrayCategorys.count) {
+        return UITableViewCellEditingStyleDelete;
+    } else {
+        return UITableViewCellEditingStyleNone;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        isNeedUpdateCategoryList = YES;
+        deleteRow = indexPath.row;
+        SuperBean *bean = _arrayCategorys[indexPath.row];
+        if ([bean isKindOfClass:[BigCategoryBean class]]) {
+            bigBean = (BigCategoryBean *)bean;
+            smallBeansArray = [[SmallCaregoryDao shareInstance] selectSmallCaregoryByBigID:bigBean.idKey];
+            if (smallBeansArray.count >0) {
+                if (!alertView) {
+                     alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"将删除该大分类下所有小分类" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
+                }
+                [alertView show];
+            }
+        } else {
+            [bean deleteBean];
+            [_arrayCategorys removeObjectAtIndex:deleteRow];
+            [_tableVeiw reloadData];
+            isDeleteBean = YES;
+        }
+    }
+}
+
 #pragma mark - tableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row < _arrayCategorys.count) {
         isAddCategory = NO;
         if (isEditType) {
-            
+            SuperBean *bean = _arrayCategorys[indexPath.row];
+            modifyName = [bean valueForKey:@"name"];
+            [self performSegueWithIdentifier:@"AddOrEditSegue" sender:self];
         } else {///Choose
-            [self.navigationController popoverPresentationController];
+            if (isNeedUpdateCategoryList) {
+                self.needUpdateBlock(YES,isDeleteBean);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
         }
     } else {
         isAddCategory = YES;
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"AddOrEditSegue" sender:self];
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        for (SmallCaregoryBean *smallBean in smallBeansArray) {
+            [smallBean deleteBean];
+        }
+        [bigBean deleteBean];
+        [_arrayCategorys removeObjectAtIndex:deleteRow];
+        [_tableVeiw reloadData];
+        isDeleteBean = YES;
     }
 }
 
@@ -169,9 +263,10 @@
         addOrEidtVC.navTitle = @"修改小分类";
     }
     addOrEidtVC.arrayContents = _arrayCategorys;
-    
+    addOrEidtVC.textFiledStr = modifyName;
     addOrEidtVC.categoryName = ^(NSString *name){
         categoryName = name;
+        /////save bean
         if (self.categoryType == smallCategory) {
             SmallCaregoryBean *bean = [SmallCaregoryBean new];
             bean.bigCaregoryID = _bigCategoryBeanId;
