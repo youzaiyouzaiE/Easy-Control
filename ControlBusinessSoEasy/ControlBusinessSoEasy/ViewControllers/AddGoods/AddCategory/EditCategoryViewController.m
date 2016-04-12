@@ -29,9 +29,11 @@
     BigCategoryBean *bigBean;
     NSArray *smallBeansArray;
     BOOL isDeleteBean;
+    
+    SuperBean *currentEditBean;////当前要修改的bean
 }
 
-@property (weak, nonatomic) IBOutlet UITableView *tableVeiw;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -87,11 +89,11 @@
     button.selected = !button.selected;
     isEditType = button.selected;
     if (isEditType) {
-        _tableVeiw.allowsMultipleSelectionDuringEditing = YES;
-        _tableVeiw.editing = YES;
+        _tableView.allowsMultipleSelectionDuringEditing = YES;
+        _tableView.editing = YES;
     } else {
-        _tableVeiw.allowsMultipleSelectionDuringEditing = NO;
-        _tableVeiw.editing = NO;
+        _tableView.allowsMultipleSelectionDuringEditing = NO;
+        _tableView.editing = NO;
     }
 }
 
@@ -209,7 +211,7 @@
         } else {
             [bean deleteBean];
             [_arrayCategorys removeObjectAtIndex:deleteRow];
-            [_tableVeiw reloadData];
+            [_tableView reloadData];
             isDeleteBean = YES;
         }
     }
@@ -220,8 +222,8 @@
     if (indexPath.row < _arrayCategorys.count) {
         isAddCategory = NO;
         if (isEditType) {
-            SuperBean *bean = _arrayCategorys[indexPath.row];
-            modifyName = [bean valueForKey:@"name"];
+            currentEditBean = _arrayCategorys[indexPath.row];
+            modifyName = [currentEditBean valueForKey:@"name"];
             [self performSegueWithIdentifier:@"AddOrEditSegue" sender:self];
         } else {///Choose
             if (isNeedUpdateCategoryList) {
@@ -244,7 +246,7 @@
         }
         [bigBean deleteBean];
         [_arrayCategorys removeObjectAtIndex:deleteRow];
-        [_tableVeiw reloadData];
+        [_tableView reloadData];
         isDeleteBean = YES;
     }
 }
@@ -268,23 +270,33 @@
         categoryName = name;
         /////save bean
         if (self.categoryType == smallCategory) {
-            SmallCaregoryBean *bean = [SmallCaregoryBean new];
-            bean.bigCaregoryID = _bigCategoryBeanId;
-            bean.name = name;
-            bean.location = _arrayCategorys.count;
-            [[SmallCaregoryDao shareInstance] insertBean:bean];
-            [_arrayCategorys addObject:bean];
+            if (!isEditType) {
+                SmallCaregoryBean *bean = [SmallCaregoryBean new];
+                bean.bigCaregoryID = _bigCategoryBeanId;
+                bean.name = name;
+                bean.location = _arrayCategorys.count;
+                [[SmallCaregoryDao shareInstance] insertBean:bean];
+                [_arrayCategorys addObject:bean];
+            } else {
+                [currentEditBean setValue:name forKey:@"name"];
+                [[SmallCaregoryDao shareInstance] updateBean:currentEditBean];
+            }
              isNeedUpdateCategoryList = YES;
         } else {
-            BigCategoryBean *bean = [BigCategoryBean new];
-            bean.userId = [UserInfo shareInstance].uid;
-            bean.name = name;
-            bean.location = _arrayCategorys.count;
-            [[BigCategoryDao shareInstance] insertBean:bean];
-            [_arrayCategorys addObject:bean];
+            if (!isEditType) {
+                BigCategoryBean *bean = [BigCategoryBean new];
+                bean.userId = [UserInfo shareInstance].uid;
+                bean.name = name;
+                bean.location = _arrayCategorys.count;
+                [[BigCategoryDao shareInstance] insertBean:bean];
+                [_arrayCategorys addObject:bean];
+            } else {
+                [currentEditBean setValue:name forKey:@"name"];
+                [[BigCategoryDao shareInstance] updateBean:currentEditBean];
+            }
              isNeedUpdateCategoryList = YES;
         }
-        [self.tableVeiw reloadData];
+        [self.tableView reloadData];
     };
 }
 

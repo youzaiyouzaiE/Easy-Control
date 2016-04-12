@@ -225,7 +225,7 @@
                                                         <constraint firstAttribute="width" constant="80" id="jWF-gT-WKY"/>
                                                         <constraint firstAttribute="height" constant="80" id="oa3-aJ-2vy"/>
                                                     </constraints>
-                                                    <state key="normal" image="859E7CFC-7E57-4DF8-A364-0A223EA2B749"/>
+                                                    <state key="normal" image="4692A8A7-1D88-4562-B8BD-EDF51CD2A235"/>
                                                 </button>
                                                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccc-cn-dtG">
                                                     <rect key="frame" x="108" y="10" width="80" height="80"/>
@@ -624,7 +624,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="EuT-aJ-Ycu"/>
                     <connections>
-                        <outlet property="tableVeiw" destination="cC5-5j-2OC" id="KgD-W6-vsG"/>
+                        <outlet property="tableView" destination="cC5-5j-2OC" id="Xb9-tl-da1"/>
                         <segue destination="zGd-yw-6PP" kind="push" identifier="AddOrEditSegue" id="gfX-vK-DzG"/>
                     </connections>
                 </viewController>
@@ -706,7 +706,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="859E7CFC-7E57-4DF8-A364-0A223EA2B749" width="80" height="80">
+        <image name="4692A8A7-1D88-4562-B8BD-EDF51CD2A235" width="80" height="80">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
