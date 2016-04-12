@@ -11,4 +11,5 @@
 @interface SmallCaregoryDao : SuperDao
 + (instancetype)shareInstance;
 - (NSArray *)selectSmallCaregoryByBigID:(NSString *)bigid;
+
 @end

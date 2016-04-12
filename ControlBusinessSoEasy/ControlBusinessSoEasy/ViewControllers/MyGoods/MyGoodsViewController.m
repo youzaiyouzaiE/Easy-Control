@@ -7,8 +7,13 @@
 //
 
 #import "MyGoodsViewController.h"
+#import "GoodsInfoDao.h"
+#import "GoodsInfoBean.h"
 
-@interface MyGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
+@interface MyGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate> {
+    
+    NSMutableArray *arrayGoods;
+}
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -20,6 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
+    NSArray *array = [[GoodsInfoDao shareInstance] selectUserAllGoods];
+    arrayGoods = [NSMutableArray arrayWithArray:array];
     
     _tableView.rowHeight = 92;
 }
@@ -27,6 +34,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - dataOperation
+- (NSString *)imagePathForDocument:(NSString *)imageDoumet {
+    NSString *imageDocumetPath = [AppData getCachesDirectorySmallDocumentPath:imageDoumet];
+    NSArray *sourceArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageDocumetPath error:nil];
+    if (sourceArray) {
+        NSString *source = sourceArray[0];
+        return [imageDocumetPath stringByAppendingPathComponent:source];
+    }else
+        return nil;
 }
 
 #pragma mark - UISearchBarDelegate
@@ -44,13 +62,25 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return arrayGoods.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
      NSString *const cellIdentifier = @"goodsListCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    GoodsInfoBean *bean = arrayGoods[indexPath.row];
     
+    UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+    imageView.image  = [UIImage imageWithContentsOfFile:[self imagePathForDocument:bean.imagePath]];
+    
+    UILabel *nameLabel = (UILabel *)[cell viewWithTag:2];
+    nameLabel.text = [NSString stringWithFormat:@"名称：%@",bean.name];
+    
+    UILabel *categoryLabel = (UILabel *)[cell viewWithTag:3];
+    categoryLabel.text = [NSString stringWithFormat:@"类别：%@",bean.category];
+    
+    UILabel *outPriceAndStockLabel = (UILabel *)[cell viewWithTag:4];
+    outPriceAndStockLabel.text = [NSString stringWithFormat:@"售价：%@   库存：%@",bean.outPrice.stringValue ,bean.stock];
     return cell;
 }
 

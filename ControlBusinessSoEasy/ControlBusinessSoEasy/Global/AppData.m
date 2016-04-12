@@ -56,6 +56,40 @@ NSString *const datebaseName = @"BusinessInfo.db";
         return path;
 }
 
++ (NSString *)getCachesDirectoryBigDocumentPath:(NSString *)documentName {
+    NSString *cacheDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *path = [cacheDirectoryPath stringByAppendingPathComponent:documentName];
+    NSString *bigImagePath = [path stringByAppendingPathComponent:@"/big"];
+    NSFileManager *mager = [NSFileManager defaultManager];
+    if (![mager fileExistsAtPath:bigImagePath]) {
+        //        NSLog(@"File not found Couldn't find the file at path: %@",path);
+        if ([mager createDirectoryAtPath:bigImagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
+            return bigImagePath;
+        } else {
+            NSLog(@"创建 %@ 失败",documentName);
+            return nil;
+        }
+    } else
+        return bigImagePath;
+}
+
++ (NSString *)getCachesDirectorySmallDocumentPath:(NSString *)documentName {
+    NSString *cacheDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *bigImagePath = [cacheDirectoryPath stringByAppendingPathComponent:documentName];
+    NSString *smallImagePath = [bigImagePath stringByAppendingPathComponent:@"/small"];
+    NSFileManager *mager = [NSFileManager defaultManager];
+    if (![mager fileExistsAtPath:smallImagePath]) {
+        //        NSLog(@"File not found Couldn't find the file at path: %@",path);
+        if ([mager createDirectoryAtPath:smallImagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
+            return smallImagePath;
+        } else {
+            NSLog(@"创建 %@ 失败",documentName);
+            return nil;
+        }
+    } else
+        return smallImagePath;
+    
+}
 
 #pragma mark - other
 + (NSString *)random_uuid

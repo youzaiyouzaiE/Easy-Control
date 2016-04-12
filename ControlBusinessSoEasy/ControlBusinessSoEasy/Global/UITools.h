@@ -24,7 +24,6 @@
 - (void)showMessageToView:(UIView *)view message:(NSString *)message;
 - (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide;
 
-
-
++ (UIImage*)imageWithImageSimple:(UIImage*)image scaledToSize:(CGSize)newSize;
 
 @end

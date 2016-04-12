@@ -19,4 +19,7 @@
 
 + (NSString *)getCachesDirectoryDocumentPath:(NSString *)documentName;
 
++ (NSString *)getCachesDirectoryBigDocumentPath:(NSString *)documentName;
++ (NSString *)getCachesDirectorySmallDocumentPath:(NSString *)documentName;
+
 @end

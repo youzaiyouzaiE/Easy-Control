@@ -11,6 +11,7 @@
 
 @implementation GoodsInfoBean
 
+NSString *const k_goods_userID = @"k_goods_userID";
 NSString *const k_goods_NO = @"k_goods_NO";
 NSString *const k_goods_name = @"k_goods_name";
 NSString *const k_goods_category = @"k_goods_category";
@@ -23,10 +24,13 @@ NSString *const k_goods_author = @"k_goods_author";
 NSString *const k_goods_note = @"k_goods_not";
 
 - (NSArray *)columnArray {
-    return @[k_goods_NO, k_goods_name, k_goods_category, k_goods_inPrice, k_goods_outPrice, k_goods_standard, k_goods_stock, k_goods_image, k_goods_author, k_goods_note];
+    return @[k_goods_userID,k_goods_NO, k_goods_name, k_goods_category, k_goods_inPrice, k_goods_outPrice, k_goods_standard, k_goods_stock, k_goods_image, k_goods_author, k_goods_note];
 }
 
 - (NSArray *)valueArray {
+    if (!_userID) {
+        _userID = [UserInfo shareInstance].uid;
+    }
     if (!_goodsIDCode) {
         _goodsIDCode = (NSString *)[NSNull null];
     }
@@ -54,7 +58,7 @@ NSString *const k_goods_note = @"k_goods_not";
     if (!_author) {
         _author = (NSString *)[NSNull null];
     }
-    return @[_goodsIDCode, _name, _category, _inPrice, _outPrice, _standard, _stock, _imagePath, _author, _note];
+    return @[_userID,_goodsIDCode, _name, _category, _inPrice, _outPrice, _standard, _stock, _imagePath, _author, _note];
 }
 
 - (BOOL)deleteBean {

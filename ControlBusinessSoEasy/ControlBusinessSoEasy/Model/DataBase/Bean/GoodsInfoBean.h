@@ -8,6 +8,7 @@
 
 #import "SuperBean.h"
 
+extern NSString *const k_goods_userID;
 extern NSString *const k_goods_NO;
 extern NSString *const k_goods_name;
 extern NSString *const k_goods_category;
@@ -21,6 +22,7 @@ extern NSString *const k_goods_note;
 
 @interface GoodsInfoBean : SuperBean
 
+@property (copy, nonatomic) NSString *userID;
 @property (copy, nonatomic) NSString *goodsIDCode;
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *category;

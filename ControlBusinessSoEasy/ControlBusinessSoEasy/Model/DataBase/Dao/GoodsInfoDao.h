@@ -10,6 +10,8 @@
 
 @interface GoodsInfoDao : SuperDao
 
-+ (instancetype)shareInstance ;
++ (instancetype)shareInstance;
+
+- (NSArray *)selectUserAllGoods;
 
 @end

@@ -67,7 +67,7 @@ static NSString *const tableName = @"SmallCategoryTable";
 
 - (NSArray *)selectSmallCaregoryByBigID:(NSString *)bigid orderByLocation:(NSInteger )loca{
     NSString *whereSql = [NSString stringWithFormat:@"%@ = %@", k_small_BigId,bigid];
-    return [self selectWithWhere:whereSql order:[NSString stringWithFormat:@"%d",loca]];
+    return [self selectWithWhere:whereSql order:[NSString stringWithFormat:@"%ld",(long)loca]];
 }
 
 - (NSString *)description {

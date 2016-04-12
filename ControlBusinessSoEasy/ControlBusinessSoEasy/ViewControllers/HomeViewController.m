@@ -13,6 +13,7 @@
 @interface HomeViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,RACollectionViewDelegateReorderableTripletLayout, RACollectionViewReorderableTripletLayoutDataSource,UIGestureRecognizerDelegate> {
     
     NSArray *titleArray;
+    NSArray *arrayImagesName;
 }
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -26,12 +27,13 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"生意宝";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:73/255.0f green:179/255.0f blue:255/255.0f alpha:1];
+    self.navigationController.navigationBar.barTintColor = NAVIGATION_BAR_COLOR;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     titleArray = @[@"我的商品",@"新增商品",@"销售商品",@"销售查询",@"预购清单",@"采购商品",@"会员信息",@"关于"];
+    arrayImagesName = @[@"myGoods",@"addGoods",@"saleGoods",@"saledInfo",@"purchaseList",@"addPurchaseGoods",@"associatorInfo",@"about"];
     
     if (IOS_7LAST) {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
@@ -116,6 +118,11 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellID = @"ItemCell";
     UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+    UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+    [imageView setImage:[UIImage imageNamed:arrayImagesName[indexPath.row]]];
+//    imageView.layer.cornerRadius = 5.0f;
+//    imageView.layer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:arrayImagesName[indexPath.row]]].CGColor;
+    
     UILabel *title = (UILabel *)[cell viewWithTag:2];
     title.text = titleArray[indexPath.row];
     return cell;

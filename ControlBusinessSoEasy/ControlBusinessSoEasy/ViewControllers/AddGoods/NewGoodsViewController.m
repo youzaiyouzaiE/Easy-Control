@@ -191,6 +191,7 @@
 #pragma mark -DB operation
 - (void)saveCurrentGoodInfo {
     GoodsInfoBean *bean = [GoodsInfoBean new];
+    bean.userID = [UserInfo shareInstance].uid;
     bean.goodsIDCode = dicTextFieldInfo[section0KeysArr[0]];
     bean.name = dicTextFieldInfo[section0KeysArr[1]];
     bean.category = categoryName;
@@ -206,11 +207,34 @@
 }
 
 - (void)deleteDocumentAllImages {
+    [self removeImageFileAllContents:YES ];
+}
+
+- (void)removeImageFileAllContents:(BOOL )isRemoveAll {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *filePath = [AppData getCachesDirectoryDocumentPath:imageDocument];
-        NSError *error = nil;
-        if (![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error]) {
-            NSLog(@"error :%@",error.localizedDescription);
+        NSString *filePath = [AppData getCachesDirectoryBigDocumentPath:imageDocument];
+        NSString *smallfilePath = [AppData getCachesDirectorySmallDocumentPath:imageDocument];
+        if (isRemoveAll) {
+            NSError *error = nil;
+            if (![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error]) {
+                NSLog(@"error :%@",error.localizedDescription);
+            }
+            NSError *smallError = nil;
+            if (![[NSFileManager defaultManager] removeItemAtPath:smallfilePath error:&smallError]) {
+                NSLog(@"remove smallError :%@",smallError.localizedDescription);
+            }
+        } else {
+            NSString *saveToImagePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
+            NSError *error = nil;
+            if (![[NSFileManager defaultManager] removeItemAtPath:saveToImagePath error:&error]) {
+                NSLog(@"remove %ld.JPG error :%@",(long)tapSelectItem,error.localizedDescription);
+            }
+            
+            NSString *smallSaveToImagePath = [smallfilePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
+            NSError *smallError = nil;
+            if (![[NSFileManager defaultManager] removeItemAtPath:smallSaveToImagePath error:&smallError]) {
+                NSLog(@"remove small %ld.JPG Error :%@",(long)tapSelectItem,smallError.localizedDescription);
+            }
         }
     });
 }
@@ -261,17 +285,10 @@
         [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
         
     } else if((actionSheet == deleteSheetAction) && (buttonIndex == actionSheet.destructiveButtonIndex)) {
-        [imageDictionary removeObjectForKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
+        [imageDictionary removeObjectForKey:[NSString stringWithFormat:@"%ld",(long)tapSelectItem]];
         [self deleteOrAddIamgeForIdent:tapSelectItem isAddedType:NO];////delete
         //////delete in file image
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *filePath = [AppData getCachesDirectoryDocumentPath:imageDocument];
-            NSString *saveToImagePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",tapSelectItem]];
-            NSError *error = nil;
-            if (![[NSFileManager defaultManager] removeItemAtPath:saveToImagePath error:&error]) {
-                 NSLog(@"error :%@",error.localizedDescription);
-            }
-        });
+        [self removeImageFileAllContents:NO];
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:_tableView.numberOfSections -1]] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
@@ -282,17 +299,28 @@
     if (!imageDictionary) {
         imageDictionary = [NSMutableDictionary dictionary];
     }
-    [imageDictionary setObject:image forKey:[NSString stringWithFormat:@"%d",tapSelectItem]];
+    UIImage *imageSmall = [UITools imageWithImageSimple:image scaledToSize:CGSizeMake(80, 80)];
+    [imageDictionary setObject:imageSmall forKey:[NSString stringWithFormat:@"%ld",(long)tapSelectItem]];
     [self deleteOrAddIamgeForIdent:tapSelectItem isAddedType:YES];//////added
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *filePath = [AppData getCachesDirectoryDocumentPath:imageDocument];
-        NSString *saveToImagePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d",tapSelectItem]];
-        NSData *imageData = UIImagePNGRepresentation(image);
+        NSString *filePath = [AppData getCachesDirectoryBigDocumentPath:imageDocument];
+        NSString *saveToImagePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
+      
+        NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
         if ([imageData writeToFile:saveToImagePath atomically:NO]) {
 //             NSLog(@"存入文件 成功！");
         } else {
              NSLog(@"图片未能存入");
+        }
+        
+        NSString *smallfilePath = [AppData getCachesDirectorySmallDocumentPath:imageDocument];
+        NSString *smallSaveToImagePath = [smallfilePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
+        NSData *smallImageData = UIImageJPEGRepresentation(imageSmall, 1);
+        if ([smallImageData writeToFile:smallSaveToImagePath atomically:NO]) {
+            //             NSLog(@"存入文件 成功！");
+        } else {
+            NSLog(@"图片未能存入");
         }
     });
     [self.navigationController dismissViewControllerAnimated: YES completion:^{
@@ -456,9 +484,15 @@
     if (indexPath.section == 0 && indexPath.row == 2) {
         [self performSegueWithIdentifier:@"pushToAddCategoryVC" sender:self];
     } if (indexPath.section == 2 && indexPath.row == 0) {
+        
+        
         if (imageDictionary.allKeys.count != 0) {
               NSMutableArray *photos = [NSMutableArray array];
-            for (UIImage *image in imageDictionary.allValues) {
+            NSString *imageDocumetPath = [AppData getCachesDirectoryBigDocumentPath:imageDocument];
+            NSArray *sourceArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageDocumetPath error:nil];
+            for (NSString *sourceStr in sourceArray) {
+                NSString *bigImagePath = [imageDocumetPath stringByAppendingPathComponent:sourceStr];
+                UIImage *image = [UIImage imageWithContentsOfFile:bigImagePath];
                 [photos addObject:[MWPhoto photoWithImage:image]];
             }
             _photos = photos;
@@ -480,6 +514,8 @@
         }
     }
 }
+
+
 
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
