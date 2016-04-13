@@ -51,17 +51,7 @@
 
 - (IBAction)tapSearchViewAction:(UITapGestureRecognizer *)sender {
     [self.view endEditing: YES];
-    
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        _searchViewYConstraint.constant += 44;
-        [searchView layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        searchView.hidden = YES;
-    }];
-    [UIView animateWithDuration:0.3 animations:^{
-        searchView.alpha = 0;
-        self.navigationController.navigationBar.frame = CGRectMake(0, barFrame.origin.y, barFrame.size.width, barFrame.size.height);
-    }];
+    [self searchViewShowOrHiddenAnimation:NO];
 }
 
 #pragma mark - dataOperation
@@ -130,20 +120,8 @@
 #pragma mark - UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     if (searchBar != _searchBar) {
-        searchView.hidden = NO;
         [_searchBar becomeFirstResponder];
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            _searchViewYConstraint.constant = 20;
-            [searchView layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            
-        }];
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            searchView.alpha = 1;
-            self.navigationController.navigationBar.frame = CGRectMake(0, -barFrame.size.height, barFrame.size.width, barFrame.size.height);
-            
-        }];
+        [self searchViewShowOrHiddenAnimation:YES];
         return NO;
     } else {
 //         NSLog(@"_search will ");
@@ -164,17 +142,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
     if (searchBar == _searchBar ) {
-        [UIView animateWithDuration:0.3 animations:^{
-             searchView.alpha = 0;
-            self.navigationController.navigationBar.frame = CGRectMake(0,barFrame.origin.y, barFrame.size.width, barFrame.size.height);
-            
-        }];
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-             _searchViewYConstraint.constant += 44;
-            [searchView layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            searchView.hidden = YES;
-        }];
+        [self searchViewShowOrHiddenAnimation:NO];
     }
 }
 
@@ -187,6 +155,33 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+}
+
+#pragma mark - searchViewAnimation
+-(void)searchViewShowOrHiddenAnimation:(BOOL)isShow {
+    if (isShow) {
+        searchView.hidden = NO;
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            _searchViewYConstraint.constant = 20;
+            [searchView layoutIfNeeded];
+        } completion:^(BOOL finished) {
+        }];
+        [UIView animateWithDuration:0.3 animations:^{
+            searchView.alpha = 1;
+            self.navigationController.navigationBar.frame = CGRectMake(0, -barFrame.size.height, barFrame.size.width, barFrame.size.height);
+        }];
+    } else {
+        [UIView animateWithDuration:0.3 animations:^{
+            searchView.alpha = 0;
+            self.navigationController.navigationBar.frame = CGRectMake(0,barFrame.origin.y, barFrame.size.width, barFrame.size.height);
+        }];
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            _searchViewYConstraint.constant += 44;
+            [searchView layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            searchView.hidden = YES;
+        }];
+    }
 }
 
 @end
