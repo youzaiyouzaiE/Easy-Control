@@ -16,13 +16,19 @@
     
     __weak IBOutlet UIView *searchView;
     __weak IBOutlet UISearchBar *_searchBar;
-    __weak IBOutlet UISegmentedControl *_segment;
+
     
     CGRect barFrame;
+    NSArray *nameResultArray;
+    NSArray *categoryResultArray;
+    NSArray *authorResultArray;
+    NSArray *noteResultArray;
 }
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewYConstraint;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (weak, nonatomic) IBOutlet UITableView *nameResultTableView;
 
 @end
 
@@ -33,12 +39,19 @@
     [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
     NSArray *array = [[GoodsInfoDao shareInstance] selectUserAllGoods];
     arrayGoods = [NSMutableArray arrayWithArray:array];
-    
-    
-    searchView.hidden = YES;
-    _searchBar.scopeButtonTitles = @[@"1",@"2",@"3",@"4"];
-    
     barFrame = self.navigationController.navigationBar.frame ;
+
+    searchView.hidden = YES;
+    _searchBar.scopeButtonTitles = @[@"名称",@"分类",@"供应商",@"备注"];
+    
+    [self checkResultTableViewState];
+    
+}
+
+- (void)checkResultTableViewState {
+    if (nameResultArray == nil) {
+        _nameResultTableView.hidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,27 +83,42 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return arrayGoods.count +1;
+    if (tableView == _tableView) {
+        return arrayGoods.count +1;
+    }else if (tableView == _nameResultTableView) {
+        return nameResultArray.count;
+    }else
+        return 0;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        return 44;
+    if (tableView == _tableView) {
+        if (indexPath.row == 0) {
+            return 44;
+        } else
+            return 70;
     } else
         return 70;
+ 
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
      NSString *const cellIdentifier = @"goodsListCell";
      NSString *const searchCellIdentifier = @"searchBarCell";
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0 && tableView == _tableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
 //        UISearchBar *searchBar = (UISearchBar *)[cell viewWithTag:1];
         
         return cell;
     } else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        GoodsInfoBean *bean = arrayGoods[indexPath.row -1];
+        GoodsInfoBean *bean = nil;
+        if (tableView == _tableView) {
+            bean = arrayGoods[indexPath.row -1];
+        } else if(tableView == _nameResultTableView) {
+            bean = nameResultArray[indexPath.row];
+        }
         
         UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
         NSString *imagePath = [self imagePathForDocument:bean.imagePath];
