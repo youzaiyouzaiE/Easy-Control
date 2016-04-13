@@ -37,7 +37,6 @@
     
     searchView.hidden = YES;
     _searchBar.scopeButtonTitles = @[@"1",@"2",@"3",@"4"];
-    _searchBar.showsScopeBar = YES;
     
     barFrame = self.navigationController.navigationBar.frame ;
 }
