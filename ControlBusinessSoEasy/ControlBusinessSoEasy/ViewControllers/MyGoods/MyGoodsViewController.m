@@ -34,7 +34,8 @@
 
 @implementation MyGoodsViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
     NSArray *array = [[GoodsInfoDao shareInstance] selectUserAllGoods];
@@ -48,20 +49,23 @@
     
 }
 
-- (void)checkResultTableViewState {
+- (void)checkResultTableViewState
+{
     if (nameResultArray == nil) {
         _nameResultTableView.hidden = YES;
     }
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - TapGestureRecognizeAction
 
-- (IBAction)tapSearchViewAction:(UITapGestureRecognizer *)sender {
+- (IBAction)tapSearchViewAction:(UITapGestureRecognizer *)sender
+{
     [self.view endEditing: YES];
     [self searchViewShowOrHiddenAnimation:NO];
 }
@@ -78,11 +82,13 @@
 }
 
 #pragma mark - UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if (tableView == _tableView) {
         return arrayGoods.count +1;
     }else if (tableView == _nameResultTableView) {
@@ -92,7 +98,8 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (tableView == _tableView) {
         if (indexPath.row == 0) {
             return 44;
@@ -103,7 +110,8 @@
  
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
      NSString *const cellIdentifier = @"goodsListCell";
      NSString *const searchCellIdentifier = @"searchBarCell";
     if (indexPath.row == 0 && tableView == _tableView) {
@@ -121,6 +129,8 @@
         }
         
         UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.cornerRadius = 5.0f;
         NSString *imagePath = [self imagePathForDocument:bean.imagePath];
         if (imagePath) {
             imageView.image = [UIImage imageWithContentsOfFile:imagePath];
@@ -138,14 +148,16 @@
 }
 
 #pragma mark - tableView Delegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self performSegueWithIdentifier:@"pushToGoodsDetailVC" sender:self];
 }
 
 
 #pragma mark - UISearchBarDelegate
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
     if (searchBar != _searchBar) {
         [_searchBar becomeFirstResponder];
         [self searchViewShowOrHiddenAnimation:YES];
@@ -157,23 +169,27 @@
     
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
     if (searchBar == _searchBar) {
     }
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
     
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
     [searchBar resignFirstResponder];
     if (searchBar == _searchBar ) {
         [self searchViewShowOrHiddenAnimation:NO];
     }
 }
 
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
     
 }
 
@@ -185,7 +201,8 @@
 }
 
 #pragma mark - searchViewAnimation
--(void)searchViewShowOrHiddenAnimation:(BOOL)isShow {
+-(void)searchViewShowOrHiddenAnimation:(BOOL)isShow
+{
     if (isShow) {
         searchView.hidden = NO;
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -210,5 +227,11 @@
         }];
     }
 }
+
+- (void)dealloc
+{
+    
+}
+
 
 @end

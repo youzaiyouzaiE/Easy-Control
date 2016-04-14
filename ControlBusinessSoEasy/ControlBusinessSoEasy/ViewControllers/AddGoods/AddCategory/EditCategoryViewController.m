@@ -67,6 +67,7 @@
     if (!_arrayCategorys) {
         _arrayCategorys = [NSMutableArray array];
     }
+    _tableView.allowsMultipleSelectionDuringEditing = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -233,6 +234,7 @@
         }
     } else {
         isAddCategory = YES;
+        modifyName = nil;
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self performSegueWithIdentifier:@"AddOrEditSegue" sender:self];
     }

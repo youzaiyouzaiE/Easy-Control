@@ -119,6 +119,8 @@
     static NSString *cellID = @"ItemCell";
     UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+    imageView.layer.masksToBounds = YES;
+    imageView.layer.cornerRadius = 5.0f;
     [imageView setImage:[UIImage imageNamed:arrayImagesName[indexPath.row]]];
 //    imageView.layer.cornerRadius = 5.0f;
 //    imageView.layer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:arrayImagesName[indexPath.row]]].CGColor;
