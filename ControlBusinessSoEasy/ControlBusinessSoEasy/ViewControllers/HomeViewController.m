@@ -38,6 +38,9 @@
     if (IOS_7LAST) {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
     }
+//    if (IOS_8LAST) {
+//        self.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+//    }
 }
 
 - (void)didReceiveMemoryWarning {

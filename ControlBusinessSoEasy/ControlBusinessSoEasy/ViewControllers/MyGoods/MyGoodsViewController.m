@@ -32,7 +32,11 @@
 
 
 @property (strong ,nonatomic) IBOutletCollection(UITableView) NSArray *searchTableViews;
+
 @property (weak, nonatomic) IBOutlet UITableView *nameResultTableView;
+@property (weak, nonatomic) IBOutlet UITableView *categoryResultTableVeiw;
+@property (weak, nonatomic) IBOutlet UITableView *authorResultTableView;
+@property (weak, nonatomic) IBOutlet UITableView *noteResultTableView;
 
 @end
 
@@ -76,7 +80,7 @@
     [self searchViewShowOrHiddenAnimation:NO];
 }
 
-#pragma mark - UIGestureRecognizer
+#pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if (isShowSearchTableView) {
@@ -85,7 +89,7 @@
         return YES;
 }
 
-#pragma mark - dataOperation
+#pragma mark - imageFileOperation
 - (NSString *)imagePathForDocument:(NSString *)imageDoumet {
     NSString *imageDocumetPath = [AppData getCachesDirectorySmallDocumentPath:imageDoumet];
     NSArray *sourceArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageDocumetPath error:nil];
@@ -108,9 +112,15 @@
         return arrayGoods.count +1;
     }else if (tableView == _nameResultTableView) {
         return nameResultArray.count;
-    }else
+    }else if (tableView == _categoryResultTableVeiw) {
+        return categoryResultArray.count;
+    }else if (tableView == _authorResultTableView) {
+        return authorResultArray.count;
+    }else if (tableView == _noteResultTableView) {
+        return noteResultArray.count;
+    }
+    else
         return 0;
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -141,6 +151,12 @@
             bean = arrayGoods[indexPath.row -1];
         } else if(tableView == _nameResultTableView) {
             bean = nameResultArray[indexPath.row];
+        } else if(tableView == _categoryResultTableVeiw) {
+            bean = categoryResultArray[indexPath.row];
+        } else if(tableView == _authorResultTableView) {
+            bean = authorResultArray[indexPath.row];
+        } else if(tableView == _noteResultTableView) {
+            bean = noteResultArray[indexPath.row];
         }
         
         UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
@@ -182,7 +198,6 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     if (searchBar != _searchBar) {
-        
         [self cellSearchBarAnimation];
         [_searchBar becomeFirstResponder];
         [self searchViewShowOrHiddenAnimation:YES];
@@ -196,14 +211,19 @@
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     if (searchBar == _searchBar) {
-        
+//        NSLog(@"text :%@",searchBar.text);
     }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-     NSLog(@"text :%@",searchBar.text);
+//     NSLog(@"text Did :%@",searchBar.text);
 }
+
+//- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+////    NSLog(@"text :%@",searchBar.text);
+//    return YES;
+//}
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
@@ -211,25 +231,48 @@
     [self searchViewShowOrHiddenAnimation:NO];
 }
 
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [_searchBar setShowsCancelButton:YES animated:NO];
     if (searchBar == _searchBar ) {
-        nameResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithName:searchBar.text];
-        if (nameResultArray.count > 0) {
-            
-            _nameResultTableView.hidden = NO;
-            [_nameResultTableView reloadData];
-             [searchBar resignFirstResponder];
-        }
+        [self dataBaseSelectMethodString];
     }
 }
 
-
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
-    
+    NSArray *searchResultArray = [self arrayForTableViewWithScopeIndex:selectedScope];
+    if (searchResultArray == nil) {
+        [self dataBaseSelectMethodString];
+    } else {
+        [self whereSearchTableViewShow:[self selectTableViewWithScopeIndex:selectedScope]];
+    }
+}
+
+- (UITableView *)selectTableViewWithScopeIndex:(NSInteger)index {
+    if (index == 0) {
+        return _nameResultTableView;
+    } else if (index == 1) {
+        return _categoryResultTableVeiw;
+    } else if (index == 2) {
+        return _authorResultTableView;
+    } else if (index == 3) {
+       return _noteResultTableView;
+    }
+    return nil;
+}
+
+- (NSArray *)arrayForTableViewWithScopeIndex:(NSInteger)index {
+    if (index == 0) {
+        return nameResultArray;
+    } else if (index == 1) {
+        return categoryResultArray;
+    } else if (index == 2) {
+        return authorResultArray;
+    } else if (index == 3) {
+        return noteResultArray;
+    }
+    return  nil;
 }
 
 - (void)whereSearchTableViewShow:(UITableView *)tableView {
@@ -239,6 +282,83 @@
         } else
             table.hidden = YES;
     }
+}
+
+
+#pragma mark - dataBase operation 
+-(void)dataBaseSelectMethodString
+{
+    switch (_searchBar.selectedScopeButtonIndex) {
+        case 0:
+        {
+            nameResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithName:_searchBar.text];
+            if (nameResultArray.count > 0) {
+                [self whereSearchTableViewShow:_nameResultTableView];
+                [_nameResultTableView reloadData];
+            } else {
+                [self whereSearchTableViewShow:_nameResultTableView];
+                _nameResultTableView.hidden = YES;
+            }
+        }
+            break;
+            
+        case 1:
+        {
+            categoryResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithCategory:_searchBar.text];
+            if (categoryResultArray.count > 0) {
+                 [self whereSearchTableViewShow:_categoryResultTableVeiw];
+                [_categoryResultTableVeiw reloadData];
+            }  else {
+                [self whereSearchTableViewShow:_categoryResultTableVeiw];
+                _categoryResultTableVeiw.hidden = YES;
+            }
+        }
+            break;
+            
+        case 2:
+        {
+            authorResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithAuthor:_searchBar.text];
+            if (authorResultArray.count > 0) {
+                [self whereSearchTableViewShow:_authorResultTableView];
+                [_authorResultTableView reloadData];
+            }  else {
+                [self whereSearchTableViewShow:_authorResultTableView];
+                _authorResultTableView.hidden = YES;
+            }
+        }
+            break;
+            
+        case 3:
+        {
+            noteResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithNote:_searchBar.text];
+            if (noteResultArray.count > 0) {
+                [self whereSearchTableViewShow:_noteResultTableView];
+                [_noteResultTableView reloadData];
+            }  else {
+                [self whereSearchTableViewShow:_noteResultTableView];
+                _noteResultTableView.hidden = YES;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)clearData {
+    nameResultArray = nil;
+    categoryResultArray = nil;
+    authorResultArray = nil;
+    noteResultArray = nil;
+    
+    _nameResultTableView.hidden = YES;
+    _categoryResultTableVeiw.hidden = YES;
+    _authorResultTableView.hidden = YES;
+    _noteResultTableView.hidden = YES;
+    
+    _searchBar.text = nil;
+    _searchBar.selectedScopeButtonIndex = 0;
 }
 
 #pragma mark - Navigation
@@ -273,7 +393,7 @@
             _searchViewYConstraint.constant += 44;
             [searchView layoutIfNeeded];
         } completion:^(BOOL finished) {
-            searchView.hidden = YES;
+            [self clearData];
         }];
     }
 }

@@ -20,44 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ControlBusinessSoEasy/ViewControllers/MyGoods/MyGoodsViewController.m"
-            timestampString = "482320311.373647"
+            timestampString = "482338141.837541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "-searchBarCancelButtonClicked:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ControlBusinessSoEasy/ViewControllers/MyGoods/MyGoodsViewController.m"
-            timestampString = "482320311.373647"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "-searchBar:textDidChange:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ControlBusinessSoEasy/ViewControllers/MyGoods/MyGoodsViewController.m"
-            timestampString = "482320311.373647"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
-            landmarkName = "-searchBarSearchButtonClicked:"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "-searchBar:selectedScopeButtonIndexDidChange:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

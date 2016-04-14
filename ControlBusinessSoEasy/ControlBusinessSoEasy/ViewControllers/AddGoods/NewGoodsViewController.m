@@ -102,12 +102,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)CustomNavigationBackButtonAndTitle:(NSString *)title {
-    self.navigationItem.title = title;
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-}
-
 #pragma mark - action 
 -(void)backItemAction:(id)sender {
     if (!isSaveCurrentBean) {
@@ -191,7 +185,7 @@
 
 - (void)createSheetAction {
     if (!sheetAction) {
-        sheetAction = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
+        sheetAction = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"cancel") destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册选择", nil];
     }
     [sheetAction showInView:self.view];
 }
