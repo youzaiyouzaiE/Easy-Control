@@ -9,7 +9,7 @@
 #ifndef EasyBusiness_Define_h
 #define EasyBusiness_Define_h
 
-#define APPDELEGATE_SHARE ((AppDelegate *)[[UIApplication sharedApplication] delegate])
+#define APPLICATION_SHARE ((AppDelegate *)[[UIApplication sharedApplication] delegate])
 
 #define FORMAT(format, ...) [NSString stringWithFormat:(format), ##__VA_ARGS__]
 

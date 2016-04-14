@@ -46,12 +46,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M9z-s1-fdi">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的商品" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M9z-s1-fdi">
                                                     <rect key="frame" x="0.0" y="67" width="90" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="pJ3-mh-Xop"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -225,7 +225,7 @@
                                                         <constraint firstAttribute="width" constant="80" id="jWF-gT-WKY"/>
                                                         <constraint firstAttribute="height" constant="80" id="oa3-aJ-2vy"/>
                                                     </constraints>
-                                                    <state key="normal" image="6962B69B-1536-480E-8720-BE4E626CF68C"/>
+                                                    <state key="normal" image="2EB12353-D502-4241-96A5-C903AD06D53F"/>
                                                 </button>
                                                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccc-cn-dtG">
                                                     <rect key="frame" x="108" y="10" width="80" height="80"/>
@@ -832,7 +832,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="6962B69B-1536-480E-8720-BE4E626CF68C" width="80" height="80">
+        <image name="2EB12353-D502-4241-96A5-C903AD06D53F" width="80" height="80">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -1333,6 +1333,6 @@ eHJ7coByiHKLcp1yoHKlAAAAAAAAAgEAAAAAAAAAPgAAAAAAAAAAAAAAAAAAcqc
         <image name="whiteLine" width="1" height="1"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="861-Xt-cUM"/>
+        <segue reference="4hO-3J-IHk"/>
     </inferredMetricsTieBreakers>
 </document>

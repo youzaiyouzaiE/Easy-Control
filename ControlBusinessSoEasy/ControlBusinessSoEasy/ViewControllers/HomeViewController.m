@@ -59,7 +59,7 @@
 }
 
 - (UIEdgeInsets)insetsForCollectionView:(UICollectionView *)collectionView {
-    return UIEdgeInsetsMake(10.f, 0, 20.f, 0);
+    return UIEdgeInsetsMake(10.f, 6, 20.f, 6);
 }
 
 - (CGFloat)sectionSpacingForCollectionView:(UICollectionView *)collectionView {
@@ -120,7 +120,7 @@
     UICollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
     imageView.layer.masksToBounds = YES;
-    imageView.layer.cornerRadius = 5.0f;
+    imageView.layer.cornerRadius = 10.0f;
     [imageView setImage:[UIImage imageNamed:arrayImagesName[indexPath.row]]];
 //    imageView.layer.cornerRadius = 5.0f;
 //    imageView.layer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:arrayImagesName[indexPath.row]]].CGColor;

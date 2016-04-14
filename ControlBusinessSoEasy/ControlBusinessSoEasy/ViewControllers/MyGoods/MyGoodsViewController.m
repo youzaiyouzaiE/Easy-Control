@@ -10,13 +10,15 @@
 #import "GoodsInfoDao.h"
 #import "GoodsInfoBean.h"
 
-@interface MyGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate> {
+@interface MyGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UIGestureRecognizerDelegate> {
     
     NSMutableArray *arrayGoods;
     
     __weak IBOutlet UIView *searchView;
     __weak IBOutlet UISearchBar *_searchBar;
-
+    UISearchBar *cellSearchBar;
+    
+    BOOL isShowSearchTableView;
     
     CGRect barFrame;
     NSArray *nameResultArray;
@@ -36,6 +38,10 @@
 
 @implementation MyGoodsViewController
 
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -48,7 +54,6 @@
     _searchBar.scopeButtonTitles = @[@"名称",@"分类",@"供应商",@"备注"];
     
     [self checkResultTableViewState];
-    
 }
 
 - (void)checkResultTableViewState
@@ -65,11 +70,19 @@
 }
 
 #pragma mark - TapGestureRecognizeAction
-
 - (IBAction)tapSearchViewAction:(UITapGestureRecognizer *)sender
 {
     [self.view endEditing: YES];
     [self searchViewShowOrHiddenAnimation:NO];
+}
+
+#pragma mark - UIGestureRecognizer
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (isShowSearchTableView) {
+        return NO;
+    } else
+        return YES;
 }
 
 #pragma mark - dataOperation
@@ -118,7 +131,7 @@
      NSString *const searchCellIdentifier = @"searchBarCell";
     if (indexPath.row == 0 && tableView == _tableView) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
-//        UISearchBar *searchBar = (UISearchBar *)[cell viewWithTag:1];
+        cellSearchBar = (UISearchBar *)[cell viewWithTag:1];
         
         return cell;
     } else {
@@ -156,11 +169,21 @@
     [self performSegueWithIdentifier:@"pushToGoodsDetailVC" sender:self];
 }
 
+- (void)cellSearchBarAnimation {
+    CGRect frame = cellSearchBar.frame;
+    [UIView animateWithDuration:0.3 animations:^{
+        cellSearchBar.frame = CGRectMake(0, -40, frame.size.width, frame.size.height);
+    } completion:^(BOOL finished) {
+        cellSearchBar.frame = frame;
+    }];
+}
 
 #pragma mark - UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     if (searchBar != _searchBar) {
+        
+        [self cellSearchBarAnimation];
         [_searchBar becomeFirstResponder];
         [self searchViewShowOrHiddenAnimation:YES];
         return NO;
@@ -229,6 +252,7 @@
 -(void)searchViewShowOrHiddenAnimation:(BOOL)isShow
 {
     if (isShow) {
+        APPLICATION_SHARE.navigationBarIsUp = YES;
         searchView.hidden = NO;
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             _searchViewYConstraint.constant = 20;
@@ -240,6 +264,7 @@
             self.navigationController.navigationBar.frame = CGRectMake(0, -barFrame.size.height, barFrame.size.width, barFrame.size.height);
         }];
     } else {
+        APPLICATION_SHARE.navigationBarIsUp = NO;
         [UIView animateWithDuration:0.3 animations:^{
             searchView.alpha = 0;
             self.navigationController.navigationBar.frame = CGRectMake(0,barFrame.origin.y, barFrame.size.width, barFrame.size.height);

@@ -228,18 +228,16 @@
 
 - (void)removeImageFileAllContents:(BOOL )isRemoveAll {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *filePath = [AppData getCachesDirectoryBigDocumentPath:imageDocument];
-        NSString *smallfilePath = [AppData getCachesDirectorySmallDocumentPath:imageDocument];
+  
         if (isRemoveAll) {
             NSError *error = nil;
-            if (![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error]) {
+            NSString *allFilePath = [AppData getCachesDirectoryDocumentPath:imageDocument];
+            if (![[NSFileManager defaultManager] removeItemAtPath:allFilePath error:&error]) {
                 NSLog(@"error :%@",error.localizedDescription);
             }
-            NSError *smallError = nil;
-            if (![[NSFileManager defaultManager] removeItemAtPath:smallfilePath error:&smallError]) {
-                NSLog(@"remove smallError :%@",smallError.localizedDescription);
-            }
         } else {
+            NSString *filePath = [AppData getCachesDirectoryBigDocumentPath:imageDocument];
+            NSString *smallfilePath = [AppData getCachesDirectorySmallDocumentPath:imageDocument];
             NSString *saveToImagePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
             NSError *error = nil;
             if (![[NSFileManager defaultManager] removeItemAtPath:saveToImagePath error:&error]) {

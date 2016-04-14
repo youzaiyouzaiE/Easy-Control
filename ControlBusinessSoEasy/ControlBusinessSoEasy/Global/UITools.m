@@ -43,7 +43,7 @@ static UITools *tools = nil;
 }
 
 - (void)popViewController:(UIBarButtonItem *)item{
-    [[APPDELEGATE_SHARE getCurrentNavigationController] popViewControllerAnimated:YES];
+    [[APPLICATION_SHARE getCurrentNavigationController] popViewControllerAnimated:YES];
 }
 
 - (void)showMessageToView:(UIView *)view message:(NSString *)message {
