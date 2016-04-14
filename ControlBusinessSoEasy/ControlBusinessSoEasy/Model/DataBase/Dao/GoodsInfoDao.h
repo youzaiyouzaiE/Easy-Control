@@ -14,4 +14,9 @@
 
 - (NSArray *)selectUserAllGoods;
 
+- (NSArray *)selectGoodsWithName:(NSString *)name;
+- (NSArray *)selectGoodsWithCategory:(NSString *)category;
+- (NSArray *)selectGoodsWithAuthor:(NSString *)author;
+- (NSArray *)selectGoodsWithNote:(NSString *)note;
+
 @end

@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewYConstraint;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+
+@property (strong ,nonatomic) IBOutletCollection(UITableView) NSArray *searchTableViews;
 @property (weak, nonatomic) IBOutlet UITableView *nameResultTableView;
 
 @end
@@ -163,34 +165,57 @@
         [self searchViewShowOrHiddenAnimation:YES];
         return NO;
     } else {
-//         NSLog(@"_search will ");
+        
         return YES;
     }
-    
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     if (searchBar == _searchBar) {
+        
     }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    
+     NSLog(@"text :%@",searchBar.text);
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+    [self searchViewShowOrHiddenAnimation:NO];
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [_searchBar setShowsCancelButton:YES animated:NO];
     if (searchBar == _searchBar ) {
-        [self searchViewShowOrHiddenAnimation:NO];
+        nameResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithName:searchBar.text];
+        if (nameResultArray.count > 0) {
+            
+            _nameResultTableView.hidden = NO;
+            [_nameResultTableView reloadData];
+             [searchBar resignFirstResponder];
+        }
     }
 }
+
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
     
+}
+
+- (void)whereSearchTableViewShow:(UITableView *)tableView {
+    for (UITableView *table in _searchTableViews) {
+        if (table == tableView) {
+            table.hidden = NO;
+        } else
+            table.hidden = YES;
+    }
 }
 
 #pragma mark - Navigation
