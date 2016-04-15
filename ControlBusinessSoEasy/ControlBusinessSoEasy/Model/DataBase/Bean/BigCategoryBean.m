@@ -12,7 +12,7 @@
 NSString *const k_big_userId = @"k_big_userId";
 NSString *const k_big_name = @"k_big_name";
 NSString *const k_big_location = @"k_big_location";
-NSString *const k_big_aync = @"k_big_aync";
+NSString *const k_big_sync = @"k_big_sync";
 
 @implementation BigCategoryBean
 
@@ -21,10 +21,10 @@ NSString *const k_big_aync = @"k_big_aync";
 }
 
 - (NSArray *)valueArray {
-    if (!_aync) {
-        _aync = @"N";
+    if (!_sync) {
+        _sync = @"N";
     }
-    return @[_userId,_name,[NSNumber numberWithInteger:_location],_aync];
+    return @[_userId,_name,[NSNumber numberWithInteger:_location],_sync];
 }
 
 - (BOOL)deleteBean {

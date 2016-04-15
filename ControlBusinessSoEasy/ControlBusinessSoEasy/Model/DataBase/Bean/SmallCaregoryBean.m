@@ -12,19 +12,19 @@
 NSString *const k_small_BigId = @"k_small_BigId";
 NSString *const k_small_name = @"k_small_name";
 NSString *const k_small_location = @"k_small_location";
-NSString *const k_small_aync = @"k_small_aync";
+NSString *const k_small_sync = @"k_small_sync";
 
 @implementation SmallCaregoryBean
 
 -(NSArray *)columnArray {
-    return @[k_small_BigId,k_small_name,k_small_location,k_small_aync];
+    return @[k_small_BigId,k_small_name,k_small_location,k_small_sync];
 }
 
 - (NSArray *)valueArray {
-    if (!_aync) {
-        _aync = @"N";
+    if (!_sync) {
+        _sync = @"N";
     }
-    return @[_bigCaregoryID,_name,[NSNumber numberWithInteger:_location],_aync];
+    return @[_bigCaregoryID,_name,[NSNumber numberWithInteger:_location],_sync];
 }
 
 - (BOOL)deleteBean {

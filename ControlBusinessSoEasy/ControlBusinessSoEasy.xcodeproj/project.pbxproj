@@ -39,6 +39,8 @@
 		DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */; };
 		DA3EA7951C9EB7A700044B2D /* EditCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7941C9EB7A700044B2D /* EditCategoryViewController.m */; };
 		DA482DCF1CB9EF06008AF80C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA482DD11CB9EF06008AF80C /* Localizable.strings */; };
+		DA482DFC1CC11234008AF80C /* AuthorBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA482DFB1CC11234008AF80C /* AuthorBean.m */; };
+		DA482DFF1CC11250008AF80C /* AuthorDao.m in Sources */ = {isa = PBXBuildFile; fileRef = DA482DFE1CC11250008AF80C /* AuthorDao.m */; };
 		DA5808001CB628CB00305C56 /* MyGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5807FF1CB628CB00305C56 /* MyGoodsViewController.m */; };
 		DA5808031CB632C500305C56 /* GoodsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5808021CB632C500305C56 /* GoodsDetailViewController.m */; };
 		DA7C67361CB4AC2400C17A71 /* GoodsInfoBean.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7C67351CB4AC2400C17A71 /* GoodsInfoBean.m */; };
@@ -109,6 +111,10 @@
 		DA482DD01CB9EF06008AF80C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA482DD21CB9EF0B008AF80C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA482DD31CB9EFAA008AF80C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		DA482DFA1CC11234008AF80C /* AuthorBean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorBean.h; sourceTree = "<group>"; };
+		DA482DFB1CC11234008AF80C /* AuthorBean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthorBean.m; sourceTree = "<group>"; };
+		DA482DFD1CC11250008AF80C /* AuthorDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorDao.h; sourceTree = "<group>"; };
+		DA482DFE1CC11250008AF80C /* AuthorDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthorDao.m; sourceTree = "<group>"; };
 		DA5807FE1CB628CB00305C56 /* MyGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyGoodsViewController.h; sourceTree = "<group>"; };
 		DA5807FF1CB628CB00305C56 /* MyGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyGoodsViewController.m; sourceTree = "<group>"; };
 		DA5808011CB632C500305C56 /* GoodsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsDetailViewController.h; sourceTree = "<group>"; };
@@ -260,6 +266,8 @@
 				DA3EA78B1C9EA81600044B2D /* SmallCaregoryBean.m */,
 				DA7C67341CB4AC2400C17A71 /* GoodsInfoBean.h */,
 				DA7C67351CB4AC2400C17A71 /* GoodsInfoBean.m */,
+				DA482DFA1CC11234008AF80C /* AuthorBean.h */,
+				DA482DFB1CC11234008AF80C /* AuthorBean.m */,
 			);
 			path = Bean;
 			sourceTree = "<group>";
@@ -275,6 +283,8 @@
 				DA3EA7911C9EA87800044B2D /* SmallCaregoryDao.m */,
 				DA7C67371CB4AE2500C17A71 /* GoodsInfoDao.h */,
 				DA7C67381CB4AE2500C17A71 /* GoodsInfoDao.m */,
+				DA482DFD1CC11250008AF80C /* AuthorDao.h */,
+				DA482DFE1CC11250008AF80C /* AuthorDao.m */,
 			);
 			path = Dao;
 			sourceTree = "<group>";
@@ -492,8 +502,10 @@
 				DA3EA7671C9C4B0B00044B2D /* HomeViewController.m in Sources */,
 				DA5808001CB628CB00305C56 /* MyGoodsViewController.m in Sources */,
 				DA3EA7651C9C4B0B00044B2D /* SuperDao.m in Sources */,
+				DA482DFF1CC11250008AF80C /* AuthorDao.m in Sources */,
 				DA3EA7861C9E3EA400044B2D /* UserInfo.m in Sources */,
 				DA3EA77B1C9D634800044B2D /* NewGoodsViewController.m in Sources */,
+				DA482DFC1CC11234008AF80C /* AuthorBean.m in Sources */,
 				DA8AB8CB1CA7E85900EAC1D8 /* AddOrEditViewController.m in Sources */,
 				DA3EA76E1C9C4B0B00044B2D /* ImageLabelCell.m in Sources */,
 				DA3EA7421C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m in Sources */,

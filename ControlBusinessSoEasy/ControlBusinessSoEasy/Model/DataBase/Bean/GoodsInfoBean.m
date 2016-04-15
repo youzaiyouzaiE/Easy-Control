@@ -22,6 +22,7 @@ NSString *const k_goods_stock = @"k_goods_stock";
 NSString *const k_goods_image = @"k_goods_image";
 NSString *const k_goods_author = @"k_goods_author";
 NSString *const k_goods_note = @"k_goods_not";
+NSString *const k_goods_sync = @"k_goods_sync";
 
 - (NSArray *)columnArray {
     return @[k_goods_userID,k_goods_NO, k_goods_name, k_goods_category, k_goods_inPrice, k_goods_outPrice, k_goods_standard, k_goods_stock, k_goods_image, k_goods_author, k_goods_note];
@@ -47,7 +48,7 @@ NSString *const k_goods_note = @"k_goods_not";
         _standard = (NSString *)[NSNull null];
     }
     if (!_stock) {
-        _stock = (NSString *)[NSNull null];
+        _stock = (NSNumber *)[NSNull null];
     }
     if (!_imagePath) {
         _imagePath = (NSString *)[NSNull null];
@@ -58,7 +59,10 @@ NSString *const k_goods_note = @"k_goods_not";
     if (!_author) {
         _author = (NSString *)[NSNull null];
     }
-    return @[_userID,_goodsIDCode, _name, _category, _inPrice, _outPrice, _standard, _stock, _imagePath, _author, _note];
+    if (!_sync) {
+        _sync = @"N";
+    }
+    return @[_userID,_goodsIDCode, _name, _category, _inPrice, _outPrice, _standard, _stock, _imagePath, _author, _note, _sync];
 }
 
 - (BOOL)deleteBean {

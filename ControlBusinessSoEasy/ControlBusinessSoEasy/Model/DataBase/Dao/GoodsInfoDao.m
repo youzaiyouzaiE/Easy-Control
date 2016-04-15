@@ -37,7 +37,7 @@ NSString *const tableName = @"goodsInfoTable";
     if ([set intForColumnIndex:0]) {
 //        NSLog(@"表已经存！");
     } else {
-        NSString *sql = [NSString stringWithFormat:@"create table IF NOT EXISTS %@ ('%@' text,'%@' text,'%@' text,'%@' text,'%@' text,'%@' real,'%@' real,'%@' text,'%@' real,'%@' text,'%@' text,'%@' text )",tableName,kBeanIdKey,k_goods_userID,k_goods_NO,k_goods_name,k_goods_category,k_goods_inPrice,k_goods_outPrice,k_goods_standard,k_goods_stock,k_goods_image,k_goods_author,k_goods_note];
+        NSString *sql = [NSString stringWithFormat:@"create table IF NOT EXISTS %@ ('%@' text,'%@' text,'%@' text,'%@' text,'%@' text,'%@' real,'%@' real,'%@' text,'%@' real,'%@' text,'%@' text,'%@' text,'%@' text)",tableName,kBeanIdKey,k_goods_userID,k_goods_NO,k_goods_name,k_goods_category,k_goods_inPrice,k_goods_outPrice,k_goods_standard,k_goods_stock,k_goods_image,k_goods_author,k_goods_note,k_goods_sync];
         if ([self.db executeUpdate:sql]) {
             NSLog(@"表创建成功！");
         } else {
@@ -60,6 +60,7 @@ NSString *const tableName = @"goodsInfoTable";
     bean.imagePath = [rs stringForColumn:k_goods_image];
     bean.author = [rs stringForColumn:k_goods_author];
     bean.note = [rs stringForColumn:k_goods_note];
+    bean.sync = [rs stringForColumn:k_goods_sync];
     return bean;
 }
 

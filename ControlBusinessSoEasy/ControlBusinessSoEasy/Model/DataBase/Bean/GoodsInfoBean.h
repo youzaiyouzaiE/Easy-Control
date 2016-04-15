@@ -19,6 +19,7 @@ extern NSString *const k_goods_stock;
 extern NSString *const k_goods_image;
 extern NSString *const k_goods_author;
 extern NSString *const k_goods_note;
+extern NSString *const k_goods_sync;
 
 @interface GoodsInfoBean : SuperBean
 
@@ -33,7 +34,7 @@ extern NSString *const k_goods_note;
 @property (copy, nonatomic) NSString *imagePath;
 @property (copy, nonatomic) NSString *author;
 @property (copy, nonatomic) NSString *note;
-
+@property (copy, nonatomic) NSString *sync;
 
 
 @end

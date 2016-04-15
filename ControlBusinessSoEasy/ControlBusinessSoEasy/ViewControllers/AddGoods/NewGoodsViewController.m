@@ -371,7 +371,7 @@
     }
 }
 
-#pragma mark -
+#pragma mark - UITableView data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 4;
 }
@@ -530,9 +530,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 2) {
         [self performSegueWithIdentifier:@"pushToAddCategoryVC" sender:self];
-    } if (indexPath.section == 2 && indexPath.row == 0) {
-        
-        
+    }else if (indexPath.section == 1 && indexPath.row == 4) {
+        [self performSegueWithIdentifier:@"pushToSelectAuthor" sender:self];
+    }  else if (indexPath.section == 3 && indexPath.row == 0) {
         if (imageDictionary.allKeys.count != 0) {
               NSMutableArray *photos = [NSMutableArray array];
             NSString *imageDocumetPath = [AppData getCachesDirectoryBigDocumentPath:imageDocument];
@@ -574,6 +574,9 @@
            categoryName = [NSString stringWithFormat:@"%@ - %@",bigName,smallName];
            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         };
+    } else if ([segue.identifier isEqualToString:@"pushToSelectAuthor"]) {/////分类
+        
+        
     }
 }
 #pragma mark - MWPhotoBrowserDelegate

@@ -152,8 +152,6 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
-//        UILabel *titleLable = (UILabel *)[cell viewWithTag:1];
-//        self.categoryType == smallCategory ? (titleLable.text = @"添加小分类" ): (titleLable.text = @"添加大分类" );
         return cell;
     }
 }
