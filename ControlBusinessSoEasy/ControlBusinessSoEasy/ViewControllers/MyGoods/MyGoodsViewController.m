@@ -84,6 +84,9 @@
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     if (isShowSearchTableView) {
+        [self.view endEditing: YES];
+        UIButton *btnCancel = [_searchBar valueForKey:@"_cancelButton"];
+        [btnCancel setEnabled:YES];
         return NO;
     } else
         return YES;
@@ -217,7 +220,13 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-//     NSLog(@"text Did :%@",searchBar.text);
+    if ([searchText isEqualToString:@""]) {
+        NSInteger selectIndex = _searchBar.selectedScopeButtonIndex ;
+        [self clearData];
+        _searchBar.selectedScopeButtonIndex = selectIndex;
+        return ;
+    }
+        [self dataBaseSelectMethodString];
 }
 
 //- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
@@ -235,12 +244,15 @@
 {
     [_searchBar setShowsCancelButton:YES animated:NO];
     if (searchBar == _searchBar ) {
-        [self dataBaseSelectMethodString];
+         [self dataBaseSelectMethodString];
     }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
+    if ([searchBar.text isEqualToString:@""] || searchBar.text == nil) {
+        return;
+    }
     NSArray *searchResultArray = [self arrayForTableViewWithScopeIndex:selectedScope];
     if (searchResultArray == nil) {
         [self dataBaseSelectMethodString];
@@ -279,8 +291,10 @@
     for (UITableView *table in _searchTableViews) {
         if (table == tableView) {
             table.hidden = NO;
-        } else
+        } else {
+            isShowSearchTableView = YES;
             table.hidden = YES;
+        }
     }
 }
 
@@ -292,12 +306,12 @@
         case 0:
         {
             nameResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithName:_searchBar.text];
+            [self whereSearchTableViewShow:_nameResultTableView];
             if (nameResultArray.count > 0) {
-                [self whereSearchTableViewShow:_nameResultTableView];
                 [_nameResultTableView reloadData];
             } else {
-                [self whereSearchTableViewShow:_nameResultTableView];
                 _nameResultTableView.hidden = YES;
+                isShowSearchTableView = NO;
             }
         }
             break;
@@ -305,12 +319,12 @@
         case 1:
         {
             categoryResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithCategory:_searchBar.text];
+            [self whereSearchTableViewShow:_categoryResultTableVeiw];
             if (categoryResultArray.count > 0) {
-                 [self whereSearchTableViewShow:_categoryResultTableVeiw];
                 [_categoryResultTableVeiw reloadData];
             }  else {
-                [self whereSearchTableViewShow:_categoryResultTableVeiw];
                 _categoryResultTableVeiw.hidden = YES;
+                isShowSearchTableView = NO;
             }
         }
             break;
@@ -318,12 +332,12 @@
         case 2:
         {
             authorResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithAuthor:_searchBar.text];
+             [self whereSearchTableViewShow:_authorResultTableView];
             if (authorResultArray.count > 0) {
-                [self whereSearchTableViewShow:_authorResultTableView];
                 [_authorResultTableView reloadData];
             }  else {
-                [self whereSearchTableViewShow:_authorResultTableView];
                 _authorResultTableView.hidden = YES;
+                isShowSearchTableView = NO;
             }
         }
             break;
@@ -331,12 +345,12 @@
         case 3:
         {
             noteResultArray = [[GoodsInfoDao shareInstance] selectGoodsWithNote:_searchBar.text];
+            [self whereSearchTableViewShow:_noteResultTableView];
             if (noteResultArray.count > 0) {
-                [self whereSearchTableViewShow:_noteResultTableView];
                 [_noteResultTableView reloadData];
             }  else {
-                [self whereSearchTableViewShow:_noteResultTableView];
                 _noteResultTableView.hidden = YES;
+                isShowSearchTableView = NO;
             }
         }
             break;
@@ -356,6 +370,7 @@
     _categoryResultTableVeiw.hidden = YES;
     _authorResultTableView.hidden = YES;
     _noteResultTableView.hidden = YES;
+     isShowSearchTableView = NO;
     
     _searchBar.text = nil;
     _searchBar.selectedScopeButtonIndex = 0;
