@@ -29,7 +29,7 @@ extern NSString *const k_goods_note;
 @property (strong, nonatomic) NSNumber *inPrice;
 @property (strong, nonatomic) NSNumber *outPrice;
 @property (copy, nonatomic) NSString *standard;
-@property (copy, nonatomic) NSString *stock;
+@property (strong, nonatomic) NSNumber *stock;
 @property (copy, nonatomic) NSString *imagePath;
 @property (copy, nonatomic) NSString *author;
 @property (copy, nonatomic) NSString *note;

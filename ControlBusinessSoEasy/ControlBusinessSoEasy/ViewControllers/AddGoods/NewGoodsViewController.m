@@ -26,7 +26,7 @@
 //};
 
 
-@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MWPhotoBrowserDelegate>{
+@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MWPhotoBrowserDelegate,UITextViewDelegate>{
     NSArray *section1TitleArray;
     NSArray *section2TitleArray;
     NSArray *section0KeysArr;
@@ -37,9 +37,9 @@
     NSArray *section1ImageArr;
     
     NSMutableDictionary *dicTextFieldInfo;
-//    UIAlertView *alertView;
     
     __block NSString *categoryName;
+    __block NSString *authorName;////
     BOOL keyboardShow;
     
     NSString *imageDocument;
@@ -82,12 +82,12 @@
     // Do any additional setup after loading the view.
     section1TitleArray = @[@"进价",@"售价",@"规格",@"库存"];
     section2TitleArray = @[@"供应商",@"备注"];
-    section0KeysArr = @[@"goodsIDCode",@"goodsName"];
+    section0KeysArr = @[@"goodsIDCode",@"goodsName",@"goodsCategory"];
     section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock",@"goodsAuthor"];
-    section2KeysArr = @[@"goodsAuthor",@"goodsNote"];
+    section2KeysArr = @[@"goodsNote"];
     
     section0ImageArr = @[@"NG_code",@"NG_name",@"NG_category"];
-    section1ImageArr = @[@"NG_inPrice",@"NG_outPrice",@"NG_standard",@"NG_stock"];
+    section1ImageArr = @[@"NG_inPrice",@"NG_outPrice",@"NG_standard",@"NG_stock",@"NG_Author"];
     
     imageDocument = [AppData random_uuid];
     tapSelectItem = -1;
@@ -96,16 +96,20 @@
     [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
     
     dicTextFieldInfo = [NSMutableDictionary dictionary];
-
-    
-
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - NSNotificationCenter
+- (void)keyboardShowAction:(NSNotificationCenter *)sender {
+    keyboardShow = YES;
+}
+
+- (void)keyboardHideAction:(NSNotificationCenter *)sender {
+    keyboardShow = NO;
 }
 
 #pragma mark - action 
@@ -155,14 +159,6 @@
         return NO;
     }
     return YES;
-}
-
-- (void)keyboardShowAction:(NSNotificationCenter *)sender {
-    keyboardShow = YES;
-}
-
-- (void)keyboardHideAction:(NSNotificationCenter *)sender {
-    keyboardShow = NO;
 }
 
 - (void)fristButtonAction:(id )sender {
@@ -215,8 +211,8 @@
     bean.outPrice = dicTextFieldInfo[section1KeysArr[1]];
     bean.standard = dicTextFieldInfo[section1KeysArr[2]];
     bean.stock = dicTextFieldInfo[section1KeysArr[3]];
-    bean.author = dicTextFieldInfo[section2KeysArr[0]];
-    bean.note = dicTextFieldInfo[section2KeysArr[1]];
+    bean.author = dicTextFieldInfo[section1KeysArr[4]];
+    bean.note = dicTextFieldInfo[section2KeysArr[0]];
     bean.imagePath = imageDocument;
     [[GoodsInfoDao shareInstance] insertBean:bean];
     isSaveCurrentBean = YES;
@@ -377,7 +373,7 @@
 
 #pragma mark -
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -385,7 +381,9 @@
         return @"商品信息";
     } else if (section == 1) {
         return @"";
-    } else if (section == 2) {
+    }  else if (section == 2) {
+        return @"备注";
+    }else if (section == 3) {
         return @"添加图片";
     }
     return @"";
@@ -393,19 +391,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return 3;
+        return section0KeysArr.count;
     } else if (section == 1) {
-        return 5;
+        return section1KeysArr.count;
     } else if (section == 2) {
+        return section2KeysArr.count;
+    } else
         return 1;
-    }
-    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 2)
+    if (indexPath.section == 3)
         return 98;
-    else 
+    else if (indexPath.section == 2) {
+        return 70;
+    } else
         return 53;
 }
 
@@ -414,6 +414,7 @@
     static NSString *nameCell = @"NameCell";
     static NSString *classCell = @"LabelCell";
     static NSString *imagesCell = @"TernaryIamgeCell";
+    static NSString *noteCell = @"noteCellIdentifier";
     UITableViewCell *cell = nil;
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
@@ -447,32 +448,64 @@
             return cell;
         } else if (row == 2) {
             cell = [tableView dequeueReusableCellWithIdentifier:classCell forIndexPath:indexPath];
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+            [imageView setImage:[UIImage imageNamed:section0ImageArr[row]]];
+            UILabel *nameLabel = (UILabel *)[cell viewWithTag:2];
+            nameLabel.text = @"分类";
+            UILabel *mustLabel = (UILabel *)[cell viewWithTag:3];
+            mustLabel.hidden = NO;
             UILabel *CategoryLabel = (UILabel *)[cell viewWithTag:4];
             if (categoryName) {
                 CategoryLabel.text = categoryName;
             } else
                 CategoryLabel.text = @"选择分类";
-            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
-            [imageView setImage:[UIImage imageNamed:section0ImageArr[row]]];
             return cell;
         }
     } else if(section == 1) {
-        ImageLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:nameCell];
-        if (!cell) {
-            cell = (ImageLabelCell *)[[[NSBundle mainBundle] loadNibNamed:@"ImageLabelCell" owner:self options:nil] objectAtIndex:0];
-            cell.textField.delegate = self;
+        if (row != 4) {
+            ImageLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:nameCell];
+            if (!cell) {
+                cell = (ImageLabelCell *)[[[NSBundle mainBundle] loadNibNamed:@"ImageLabelCell" owner:self options:nil] objectAtIndex:0];
+                cell.textField.delegate = self;
+            }
+            [cell.titleImage setImage:[UIImage imageNamed:section1ImageArr[row]]];
+            cell.textField.indexPath = indexPath;
+            cell.titleLabel.text = section1TitleArray[row];
+            if (row == 0 || row == 1 || row == 3) {
+                cell.textField.text = [dicTextFieldInfo[section1KeysArr[row]] stringValue];
+            } else
+                cell.textField.text = dicTextFieldInfo[section1KeysArr[row]];
+            if (row == 1) {
+                cell.mustLable.hidden = NO;
+            } else
+                cell.mustLable.hidden = YES;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:classCell forIndexPath:indexPath];
+            UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+            [imageView setImage:[UIImage imageNamed:section1ImageArr[row]]];
+            UILabel *nameLabel = (UILabel *)[cell viewWithTag:2];
+            nameLabel.text = @"供应商";
+            UILabel *mustLabel = (UILabel *)[cell viewWithTag:3];
+            mustLabel.hidden = YES;
+            
+            UILabel *titleLabel = (UILabel *)[cell viewWithTag:4];
+            if (authorName) {
+                titleLabel.text = authorName;
+            } else
+                titleLabel.text = @"选择供应商";
+            return cell;
         }
-        [cell.titleImage setImage:[UIImage imageNamed:section1ImageArr[row]]];
-        cell.textField.indexPath = indexPath;
-        cell.titleLabel.text = section1TitleArray[row];
-        cell.textField.text = dicTextFieldInfo[section1KeysArr[row]];
-        if (row == 1) {
-            cell.mustLable.hidden = NO;
-        } else
-            cell.mustLable.hidden = YES;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    }else if(section == 2) {/////添加图片
+    } else if(section == 2) {////备注
+        cell = [tableView dequeueReusableCellWithIdentifier:noteCell forIndexPath:indexPath];
+        UITextView *text = (UITextView *)[cell viewWithTag:1];
+        text.layer.borderWidth = 1;
+        text.layer.borderColor = [UIColor grayColor].CGColor;
+        text.layer.cornerRadius = 3;
+        text.text = dicTextFieldInfo[section2KeysArr[indexPath.row]];
+        
+    }else if(section == 3) {/////添加图片
         cell = [tableView dequeueReusableCellWithIdentifier:imagesCell forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         UIButton *button1 = (UIButton *)[cell viewWithTag:1];
@@ -598,6 +631,9 @@
         NSIndexPath *indexPath = cellTextField.indexPath;
         if ((indexPath.section == 1) && (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3)) {
             [textField setKeyboardType:UIKeyboardTypeDecimalPad];
+            if ([textField.text isEqualToString:@"0"] && [string isEqualToString:@"0"]) {
+                return NO;
+            }
             if (textField.text.length == 0 && [string isEqualToString:@"."]) {
                 return NO;
             }
@@ -643,15 +679,19 @@
     } else if (section == 1) {
         dictionKey = section1KeysArr[row];
         NSNumber *valueNum = nil;
-        if (row == 0 || row == 1) {
+        if (row == 0 || row == 1 || row == 3) {
             valueNum = [NSNumber numberWithDouble:textfield.text.doubleValue];
             dicTextFieldInfo[dictionKey] = valueNum;
             return ;
         }
-    } else if (section == 2) {
-        dictionKey = section2KeysArr[row];
     }
     dicTextFieldInfo[dictionKey] = textfield.text;
+}
+
+#pragma mark - UITextViewDelegate 
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    NSString *dictionKey = section2KeysArr[0];
+    dicTextFieldInfo[dictionKey] = textView.text;
 }
 
 @end
