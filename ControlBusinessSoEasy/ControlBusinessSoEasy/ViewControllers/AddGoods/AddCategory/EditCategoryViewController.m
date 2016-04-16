@@ -219,14 +219,15 @@
         if ([bean isKindOfClass:[BigCategoryBean class]]) {
             bigBean = (BigCategoryBean *)bean;
             smallBeansArray = [[SmallCaregoryDao shareInstance] selectSmallCaregoryByBigID:bigBean.idKey];
-            if (smallBeansArray.count >0) {
+            if (smallBeansArray.count > 0) {
                 if (!alertView) {
                      alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"将删除该大分类下所有小分类" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"删除", nil];
                 }
                 [alertView show];
+                return ;
             }
-        } else {
-            [bean deleteBean];
+        }
+        if ( [bean deleteBean] ){
             [_arrayCategorys removeObjectAtIndex:deleteRow];
             [_tableView reloadData];
             isDeleteBean = YES;
