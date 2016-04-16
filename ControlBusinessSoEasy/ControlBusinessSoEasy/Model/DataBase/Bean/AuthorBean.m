@@ -31,6 +31,6 @@ NSString *const k_author_sync = @"k_author_sync";
 }
 
 - (NSString *)description {
-    return @"authorCategoryBean";
+    return @"AuthorBean";
 }
 @end

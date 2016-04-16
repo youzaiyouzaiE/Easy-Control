@@ -30,4 +30,9 @@ NSString *const kBeanIdKey = @"idKey";
     return NO;
 }
 
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key
+{
+    NSLog(@"underfined key %@",key);
+}
+
 @end

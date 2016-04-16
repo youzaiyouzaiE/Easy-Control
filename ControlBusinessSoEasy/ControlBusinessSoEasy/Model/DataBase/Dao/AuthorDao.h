@@ -11,5 +11,7 @@
 @interface AuthorDao : SuperDao
 
 + (instancetype)shareInstance;
+- (NSArray *)selectAuthorBeansByUserID:(NSString *)numberUserID;
+
 
 @end

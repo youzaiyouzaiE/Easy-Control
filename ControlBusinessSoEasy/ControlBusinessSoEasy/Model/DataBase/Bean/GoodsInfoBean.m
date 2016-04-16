@@ -30,7 +30,7 @@ NSString *const k_goods_sync = @"k_goods_sync";
 
 - (NSArray *)valueArray {
     if (!_userID) {
-        _userID = [UserInfo shareInstance].uid;
+        _userID = [UserInfo shareInstance].userId;
     }
     if (!_goodsIDCode) {
         _goodsIDCode = (NSString *)[NSNull null];

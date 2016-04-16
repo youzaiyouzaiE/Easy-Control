@@ -75,27 +75,27 @@ NSString *const tableName = @"goodsInfoTable";
 }
 
 - (NSArray *)selectUserAllGoods {
-    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' ", k_goods_userID,[UserInfo shareInstance].uid];
+    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' ", k_goods_userID,[UserInfo shareInstance].userId];
     return [self selectWithWhere:whereSql];
 }
 
 - (NSArray *)selectGoodsWithName:(NSString *)name{
-    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' AND %@ LIKE '%%%@%%' ", k_goods_userID,[UserInfo shareInstance].uid,k_goods_name,name];
+    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' AND %@ LIKE '%%%@%%' ", k_goods_userID,[UserInfo shareInstance].userId,k_goods_name,name];
     return [self selectWithWhere:whereSql];
 }
 
 - (NSArray *)selectGoodsWithCategory:(NSString *)category{
-    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' AND %@ LIKE '%%%@%%' ", k_goods_userID,[UserInfo shareInstance].uid,k_goods_category,category];
+    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' AND %@ LIKE '%%%@%%' ", k_goods_userID,[UserInfo shareInstance].userId,k_goods_category,category];
     return [self selectWithWhere:whereSql];
 }
 
 - (NSArray *)selectGoodsWithAuthor:(NSString *)author{
-    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' AND %@ LIKE '%%%@%%' ", k_goods_userID,[UserInfo shareInstance].uid,k_goods_author,author];
+    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' AND %@ LIKE '%%%@%%' ", k_goods_userID,[UserInfo shareInstance].userId,k_goods_author,author];
     return [self selectWithWhere:whereSql];
 }
 
 - (NSArray *)selectGoodsWithNote:(NSString *)note{
-    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' AND %@ LIKE '%%%@%%' ", k_goods_userID,[UserInfo shareInstance].uid,k_goods_note,note];
+    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' AND %@ LIKE '%%%@%%' ", k_goods_userID,[UserInfo shareInstance].userId,k_goods_note,note];
     return [self selectWithWhere:whereSql];
 }
 

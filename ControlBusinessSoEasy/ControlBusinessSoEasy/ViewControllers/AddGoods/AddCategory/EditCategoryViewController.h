@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^updateBlock)(BOOL need ,BOOL isDeleteBean);
+typedef void (^UpdateOrDeleteBeanBlock)(BOOL isDeleteBean,NSString *selectName);
 
 typedef NS_ENUM(NSInteger, CategoryType) {
     bigCategory,
@@ -21,9 +21,9 @@ typedef NS_ENUM(NSInteger, CategoryType) {
 
 @property (assign, nonatomic) CategoryType categoryType;
 
-@property (nonatomic, strong) NSMutableArray *arrayCategorys;
+@property (nonatomic, strong) NSMutableArray *arrayCategorys;//////data source
 @property (nonatomic, copy) NSString *bigCategoryBeanId;///
 
-@property (copy, nonatomic) updateBlock needUpdateBlock;
+@property (copy, nonatomic) UpdateOrDeleteBeanBlock updateOrDeleteBlock;
 
 @end

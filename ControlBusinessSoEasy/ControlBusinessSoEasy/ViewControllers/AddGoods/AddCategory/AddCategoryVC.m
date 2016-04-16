@@ -118,7 +118,7 @@
     arrayBigCategorys = [NSMutableArray arrayWithArray:array];
     if (arrayBigCategorys.count == 0) {
         BigCategoryBean *bigBean = [BigCategoryBean new];
-        bigBean.userId = [UserInfo shareInstance].uid;
+        bigBean.userId = [UserInfo shareInstance].userId;
         bigBean.name = @"默认分类";
         bigBean.location = 0;
         if ([[BigCategoryDao shareInstance] insertBean:bigBean]) {
@@ -153,24 +153,20 @@
         NSString *bigBeanID = [arrayBigCategorys[_selectBigItem] valueForKey:@"idKey"];
         editCatagoryVC.bigCategoryBeanId = bigBeanID;
         editCatagoryVC.arrayCategorys = arraySmallCategorys;
-        editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate, BOOL isDelete){
-            if (needUpdate) {
-                [self checkSmallCategorsWithBigCategorID:bigBeanID];
-                [self.smallTable reloadData];
-                if (!isDelete) {
-                    [self scrollSmallTableView:YES];
-                }
+        editCatagoryVC.updateOrDeleteBlock = ^(BOOL isDelete, NSString *selectName){
+            [self checkSmallCategorsWithBigCategorID:bigBeanID];
+            [self.smallTable reloadData];
+            if (!isDelete) {
+                [self scrollSmallTableView:YES];
             }
         };
     } else {
         editCatagoryVC.arrayCategorys = arrayBigCategorys;
-        editCatagoryVC.needUpdateBlock = ^(BOOL needUpdate,BOOL isDelete){
-            if (needUpdate) {
-                [self checkBigCategors];
-                [self.bigTableView reloadData];
-                if (!isDelete) {
-                    [self scrollBigTableView:YES];
-                }
+        editCatagoryVC.updateOrDeleteBlock = ^(BOOL isDelete, NSString *selectName) {
+            [self checkBigCategors];
+            [self.bigTableView reloadData];
+            if (!isDelete) {
+                [self scrollBigTableView:YES];
             }
         };
     }

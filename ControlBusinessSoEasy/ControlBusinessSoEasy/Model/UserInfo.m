@@ -17,7 +17,7 @@
     static dispatch_once_t  onceToken;
     dispatch_once(&onceToken, ^{
         shareInstance = [[UserInfo alloc] init];
-        shareInstance.uid = @"1234567890";
+        shareInstance.userId = @"1234567890";
         shareInstance.name = @"public";
     });
     return shareInstance;

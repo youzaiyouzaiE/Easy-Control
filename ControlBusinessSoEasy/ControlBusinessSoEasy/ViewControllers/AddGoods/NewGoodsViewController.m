@@ -18,6 +18,7 @@
 //#import "MWCommon.h"
 #import "MWPhotoBrowser.h"
 #import "MBProgressHUD.h"
+#import "EditCategoryViewController.h"
 
 //typedef NS_ENUM(NSUInteger, sectionType) {
 //    goodsInfomationSection,
@@ -39,7 +40,7 @@
     NSMutableDictionary *dicTextFieldInfo;
     
     __block NSString *categoryName;
-    __block NSString *authorName;////
+    __block NSString *_authorName;////
     BOOL keyboardShow;
     
     NSString *imageDocument;
@@ -203,7 +204,7 @@
 #pragma mark -DB operation
 - (void)saveCurrentGoodInfo {
     GoodsInfoBean *bean = [GoodsInfoBean new];
-    bean.userID = [UserInfo shareInstance].uid;
+    bean.userID = [UserInfo shareInstance].userId;
     bean.goodsIDCode = dicTextFieldInfo[section0KeysArr[0]];
     bean.name = dicTextFieldInfo[section0KeysArr[1]];
     bean.category = categoryName;
@@ -491,8 +492,8 @@
             mustLabel.hidden = YES;
             
             UILabel *titleLabel = (UILabel *)[cell viewWithTag:4];
-            if (authorName) {
-                titleLabel.text = authorName;
+            if (_authorName && ![_authorName isEqualToString:@""]) {
+                titleLabel.text = _authorName;
             } else
                 titleLabel.text = @"选择供应商";
             return cell;
@@ -530,7 +531,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 2) {
         [self performSegueWithIdentifier:@"pushToAddCategoryVC" sender:self];
-    }else if (indexPath.section == 1 && indexPath.row == 4) {
+    } else if (indexPath.section == 1 && indexPath.row == 4) {
         [self performSegueWithIdentifier:@"pushToSelectAuthor" sender:self];
     }  else if (indexPath.section == 3 && indexPath.row == 0) {
         if (imageDictionary.allKeys.count != 0) {
@@ -575,8 +576,12 @@
            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         };
     } else if ([segue.identifier isEqualToString:@"pushToSelectAuthor"]) {/////分类
-        
-        
+        EditCategoryViewController *authorLiseVC = (EditCategoryViewController *)[segue destinationViewController];
+        authorLiseVC.categoryType = author;
+        authorLiseVC.updateOrDeleteBlock = ^(BOOL isDelete, NSString *authorName) {
+            _authorName = authorName;
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:4]] withRowAnimation:UITableViewRowAnimationNone];
+        };
     }
 }
 #pragma mark - MWPhotoBrowserDelegate

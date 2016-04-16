@@ -225,7 +225,7 @@
                                                         <constraint firstAttribute="width" constant="80" id="jWF-gT-WKY"/>
                                                         <constraint firstAttribute="height" constant="80" id="oa3-aJ-2vy"/>
                                                     </constraints>
-                                                    <state key="normal" image="167FEB5F-6B45-4FCC-949E-A649EB30D00A"/>
+                                                    <state key="normal" image="9818FC1B-DFF2-4815-BC87-437F53A6A883"/>
                                                 </button>
                                                 <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccc-cn-dtG">
                                                     <rect key="frame" x="108" y="10" width="80" height="80"/>
@@ -1055,6 +1055,7 @@
                     <connections>
                         <outlet property="completeButton" destination="aeD-YW-tu4" id="n6e-Pn-j3N"/>
                         <outlet property="contentTextField" destination="Ul7-je-H9g" id="gad-QU-RDT"/>
+                        <outlet property="titleLabel" destination="Vcr-bY-hJc" id="sWc-Yv-A1j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wee-St-eAd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1068,7 +1069,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="167FEB5F-6B45-4FCC-949E-A649EB30D00A" width="80" height="80">
+        <image name="9818FC1B-DFF2-4815-BC87-437F53A6A883" width="80" height="80">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA

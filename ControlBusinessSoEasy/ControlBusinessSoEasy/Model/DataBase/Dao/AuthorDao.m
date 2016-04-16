@@ -63,13 +63,13 @@ static NSString *const tableName = @"AuthorTable";
     return tableName;
 }
 
-- (NSArray *)selectauthorCaregoryByUserID:(NSString *)numberUserID {
+- (NSArray *)selectAuthorBeansByUserID:(NSString *)numberUserID {
     NSString *whereSql = [NSString stringWithFormat:@"%@ = %@", k_author_userId,numberUserID];
     return [self selectWithWhere:whereSql];
 }
 
 - (NSString *)description {
-    return @"authorCategoryDao";
+    return @"AuthorDao";
 }
 
 @end

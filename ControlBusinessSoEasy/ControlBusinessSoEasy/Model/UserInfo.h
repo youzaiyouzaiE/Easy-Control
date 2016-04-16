@@ -10,7 +10,7 @@
 
 @interface UserInfo : BaseModel
 
-@property (copy, nonatomic) NSString *uid;
+@property (copy, nonatomic) NSString *userId;
 @property (copy, nonatomic) NSString *name;
 
 + (instancetype)shareInstance;

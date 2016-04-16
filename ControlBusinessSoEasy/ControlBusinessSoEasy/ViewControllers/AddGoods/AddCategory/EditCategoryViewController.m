@@ -12,6 +12,8 @@
 #import "SmallCaregoryDao.h"
 #import "BigCategoryDao.h"
 #import "AddOrEditViewController.h"
+#import "AuthorBean.h"
+#import "AuthorDao.h"
 
 @interface EditCategoryViewController ()<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UINavigationControllerDelegate,UIAlertViewDelegate> {
     BOOL isEditType;
@@ -20,7 +22,7 @@
     id <UINavigationControllerDelegate> navigationDelegate;
     BOOL isNeedUpdateCategoryList;
     
-    NSString *categoryName;
+//    NSString *categoryName;
     
     NSString *modifyName;
     
@@ -51,12 +53,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
+    [self setNavigationItemTitle];
     
-    if (self.categoryType == smallCategory) {
-        self.navigationItem.title = @"小分类";
-    } else {
-        self.navigationItem.title = @"大分类";
-    }
     UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [editButton addTarget:self action:@selector(editButtionItemAction:) forControlEvents:UIControlEventTouchUpInside];
     [editButton setTitle:@"编辑" forState:UIControlStateNormal];
@@ -67,7 +65,27 @@
     if (!_arrayCategorys) {
         _arrayCategorys = [NSMutableArray array];
     }
+    if (_categoryType == author) {
+        [self needLoadDataForDB];
+    }
     _tableView.allowsMultipleSelectionDuringEditing = NO;
+}
+
+- (void) setNavigationItemTitle
+{
+    if (self.categoryType == smallCategory) {
+        self.navigationItem.title = @"小分类";
+    } else if(self.categoryType == bigCategory){
+        self.navigationItem.title = @"大分类";
+    } else if(self.categoryType == author){
+        self.navigationItem.title = @"供应商";
+    }
+}
+
+-(void)needLoadDataForDB
+{
+    NSArray *authorBeans = [[AuthorDao shareInstance] selectAuthorBeansByUserID:[UserInfo shareInstance].userId];
+    [_arrayCategorys addObjectsFromArray:authorBeans];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,8 +98,8 @@
 
 #pragma mark - action
 -(void)backItemAction:(id)sender {
-    if (isNeedUpdateCategoryList) {
-        self.needUpdateBlock(YES,isDeleteBean);
+    if (isNeedUpdateCategoryList && _categoryType != author) {
+        self.updateOrDeleteBlock(isDeleteBean,nil);
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -113,7 +131,7 @@
         NSLog(@"添加 Is cancelled: %i", [context isCancelled]);
         if (![context isCancelled]) {
             if (isNeedUpdateCategoryList) {
-                self.needUpdateBlock(YES,isDeleteBean);
+                self.updateOrDeleteBlock(isDeleteBean,nil);
             }
         }
     }];
@@ -225,8 +243,9 @@
             modifyName = [currentEditBean valueForKey:@"name"];
             [self performSegueWithIdentifier:@"AddOrEditSegue" sender:self];
         } else {///Choose
+            SuperBean *selectBean = _arrayCategorys[indexPath.row];
             if (isNeedUpdateCategoryList) {
-                self.needUpdateBlock(YES,isDeleteBean);
+                self.updateOrDeleteBlock(isDeleteBean,[selectBean valueForKey:@"name"]);
             }
             [self.navigationController popViewControllerAnimated:YES];
         }
@@ -255,7 +274,12 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     AddOrEditViewController *addOrEidtVC = ( AddOrEditViewController *)[segue destinationViewController];
-    if (isAddCategory && self.categoryType == smallCategory) {
+    addOrEidtVC.modelType = _categoryType;
+    if (self.categoryType == author && isAddCategory) {
+        addOrEidtVC.navTitle = @"添加供应商";
+    } else if(self.categoryType == author && !isAddCategory) {
+        addOrEidtVC.navTitle = @"修改供应商";
+    } else if (isAddCategory && self.categoryType == smallCategory) {
         addOrEidtVC.navTitle = @"添加小分类";
     } else if (isAddCategory && self.categoryType == bigCategory) {
         addOrEidtVC.navTitle = @"添加大分类";
@@ -267,7 +291,7 @@
     addOrEidtVC.arrayContents = _arrayCategorys;
     addOrEidtVC.textFiledStr = modifyName;
     addOrEidtVC.categoryName = ^(NSString *name){
-        categoryName = name;
+//        categoryName = name;
         /////save bean
         if (self.categoryType == smallCategory) {
             if (!isEditType) {
@@ -282,10 +306,10 @@
                 [[SmallCaregoryDao shareInstance] updateBean:currentEditBean];
             }
              isNeedUpdateCategoryList = YES;
-        } else {
+        } else if (self.categoryType == bigCategory) {
             if (!isEditType) {
                 BigCategoryBean *bean = [BigCategoryBean new];
-                bean.userId = [UserInfo shareInstance].uid;
+                bean.userId = [UserInfo shareInstance].userId;
                 bean.name = name;
                 bean.location = _arrayCategorys.count;
                 [[BigCategoryDao shareInstance] insertBean:bean];
@@ -295,13 +319,38 @@
                 [[BigCategoryDao shareInstance] updateBean:currentEditBean];
             }
              isNeedUpdateCategoryList = YES;
+        }else if (self.categoryType == author) {
+            if (!isEditType) {
+                AuthorBean *bean = [AuthorBean new];
+                bean.userId = [UserInfo shareInstance].userId;
+                bean.name = name;
+                bean.location = _arrayCategorys.count;
+                [[AuthorDao shareInstance] insertBean:bean];
+                [_arrayCategorys addObject:bean];
+            } else {
+                [currentEditBean setValue:name forKey:@"name"];
+                [[AuthorDao shareInstance] updateBean:currentEditBean];
+            }
+            isNeedUpdateCategoryList = YES;
         }
+
         [self.tableView reloadData];
     };
 }
 
-
-
+//- (void)saveOrUpdateBeanWithBeanClass:(Class )beanClass daoClass:(Class)daoClass andBeanName:(NSString *)name
+//{
+////    Class beanClass = NSStringFromClass(beanClassName);
+//    if (!isEditType) {
+//        SuperBean *bean = [beanClass new];
+//        [bean setValue:_bigCategoryBeanId forKey:@"bigCaregoryID"];
+//        [bean setValue:name forKey:@"name"];
+//        [bean setValue:[NSNumber numberWithInteger:_arrayCategorys.count ] forKey:@"location"];
+//        [bean setValue:[UserInfo shareInstance].uid forKey:@"userId"];
+//        [daoClass ]
+//        
+//    }
+//}
 
 
 @end
