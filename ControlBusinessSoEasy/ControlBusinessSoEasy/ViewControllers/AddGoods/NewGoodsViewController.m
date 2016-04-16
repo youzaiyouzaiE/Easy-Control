@@ -580,7 +580,7 @@
         authorLiseVC.categoryType = author;
         authorLiseVC.updateOrDeleteBlock = ^(BOOL isDelete, NSString *authorName) {
             _authorName = authorName;
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:4]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:4 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         };
     }
 }
