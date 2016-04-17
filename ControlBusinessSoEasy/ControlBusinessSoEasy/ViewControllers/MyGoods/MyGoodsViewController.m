@@ -135,7 +135,6 @@
             return 70;
     } else
         return 70;
- 
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
