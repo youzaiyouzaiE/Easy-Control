@@ -7,8 +7,23 @@
 //
 
 #import "GoodsDetailViewController.h"
+#import "GoodsInfoBean.h"
 
-@interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource> {
+    NSArray *section0TitleArray;
+    NSArray *section1TitleArray;
+    NSArray *section2TitleArray;
+    
+    NSArray *section0KeysArr;
+    NSArray *section1KeysArr;
+    NSArray *section2KeysArr;
+    
+    NSArray *section0ImageArr;
+    NSArray *section1ImageArr;
+    
+    NSMutableArray *smallImagesArray;
+    NSMutableArray *bigImagesArray;
+}
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -19,17 +34,53 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
-    // Do any additional setup after loading the view.
+    section0TitleArray = @[@"条码",@"名称",@"类别"];
+    section1TitleArray = @[@"进价",@"售价",@"规格",@"库存",@"供应商"];
+    section2TitleArray = @[@"供应商",@"备注"];
+    
+    section0KeysArr = @[@"goodsIDCode",@"name",@"category"];
+    section1KeysArr = @[@"inPrice",@"outPrice",@"standard",@"stock",@"author"];
+    
+    section0ImageArr = @[@"NG_code_Gray",@"NG_name_Gray",@"NG_category_Gray"];
+    section1ImageArr = @[@"NG_inPrice_Gray",@"NG_outPrice_Gray",@"NG_standard_Gray",@"NG_stock_Gray",@"NG_Author_Gray"];
+    
+    smallImagesArray = [NSMutableArray array];
+    bigImagesArray = [NSMutableArray array];
+    
+    [self loadImages];
+    [self loadImages];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    smallImagesArray = nil;
+    bigImagesArray = nil;
 }
 
+#pragma mark - imageFileOperation
+- (void)loadImages {
+    NSArray *samllImages = [self imagePathForDocument:_contentGoodsBean.imagePath isBigImage:NO];
+    NSArray *bigImages = [self imagePathForDocument:_contentGoodsBean.imagePath isBigImage:YES];
+    [smallImagesArray addObjectsFromArray:samllImages];
+    [bigImagesArray addObjectsFromArray:bigImages];
+}
 
-- (IBAction)testAction:(id)sender {
-    [self performSegueWithIdentifier:@"pushToNewGoodsVC" sender:self];
+- (NSArray *)imagePathForDocument:(NSString *)imageDoumet isBigImage:(BOOL)isBigImage {
+    NSString *imageDocumetPath = nil;
+    if (isBigImage) {
+        imageDocumetPath = [AppData getCachesDirectoryBigDocumentPath:imageDoumet];
+    } else
+        imageDocumetPath = [AppData getCachesDirectorySmallDocumentPath:imageDoumet];
+    NSArray *sourceArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:imageDocumetPath error:nil];
+    if (sourceArray.count != 0) {
+        NSMutableArray *array = [NSMutableArray array];
+        [sourceArray enumerateObjectsUsingBlock:^(NSString *fileName, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *imagePath = [imageDocumetPath stringByAppendingPathComponent:fileName];
+            [array addObject:imagePath];
+        }];
+        return array;
+    }else
+        return nil;
 }
 
 #pragma mark - UITableView data source
@@ -75,13 +126,54 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"goodsInfoCell";
+    static NSString *imageCellIdentifier = @"ThreeImagesCell";
+    static NSString *noteCellIdentifier = @"NoteCellIdentifier";
+    NSInteger section = indexPath.section;
+    NSUInteger row = indexPath.row;
     UITableViewCell *cell = nil;
-    cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    
+    if (section == 2) {/////note
+        cell = [tableView dequeueReusableCellWithIdentifier:noteCellIdentifier forIndexPath:indexPath];
+        
+    } else if (section == 3) {/////image
+        cell = [tableView dequeueReusableCellWithIdentifier:imageCellIdentifier forIndexPath:indexPath];
+        UIImageView *imageView1 = (UIImageView *)[cell viewWithTag:1];
+        UIImageView *imageView2 = (UIImageView *)[cell viewWithTag:2];
+        UIImageView *imageView3 = (UIImageView *)[cell viewWithTag:3];
+        if (smallImagesArray.count >= 1) {
+            imageView1.image = [UIImage imageWithContentsOfFile:smallImagesArray[0]];
+        } 
+        if (smallImagesArray.count >= 2) {
+            imageView2.image = [UIImage imageWithContentsOfFile:smallImagesArray[1]];
+        }
+        if (smallImagesArray.count >= 3) {
+            imageView3.image = [UIImage imageWithContentsOfFile:smallImagesArray[2]];
+        }
+        
+    } else {
+        cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+        UILabel *titleLabel = (UILabel *)[cell viewWithTag:2];
+        UILabel *contentLabel = (UILabel *)[cell viewWithTag:3];
+        if (section == 0) {
+            imageView.image = [UIImage imageNamed:section0ImageArr[row]];
+            titleLabel.text = section0TitleArray[row];
+            contentLabel.text = [_contentGoodsBean valueForKeyPath:section0KeysArr[row]];
+        } else if(section == 1) {
+            imageView.image = [UIImage imageNamed:section1ImageArr[row]];
+            titleLabel.text = section1TitleArray[row];
+            contentLabel.text = [_contentGoodsBean valueForKeyPath:section1KeysArr[row]];
+        }
+    }
     return cell;
 }
-#pragma mark - Navigation
 
+#pragma mark - tableView Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].

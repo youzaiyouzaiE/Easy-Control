@@ -21,7 +21,7 @@ extern NSString *const k_goods_author;
 extern NSString *const k_goods_note;
 extern NSString *const k_goods_sync;
 
-@interface GoodsInfoBean : SuperBean
+@interface GoodsInfoBean : SuperBean <NSCoding>
 
 @property (copy, nonatomic) NSString *userID;
 @property (copy, nonatomic) NSString *goodsIDCode;

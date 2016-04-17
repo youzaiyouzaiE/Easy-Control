@@ -11,6 +11,6 @@
 
 @interface GoodsDetailViewController : UIViewController
 
-@property (strong, nonatomic) GoodsInfoBean *goodsInfo;
+@property (strong, nonatomic) GoodsInfoBean *contentGoodsBean;
 
 @end

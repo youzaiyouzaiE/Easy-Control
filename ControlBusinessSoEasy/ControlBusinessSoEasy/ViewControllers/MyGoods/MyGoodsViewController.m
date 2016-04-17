@@ -9,6 +9,7 @@
 #import "MyGoodsViewController.h"
 #import "GoodsInfoDao.h"
 #import "GoodsInfoBean.h"
+#import "GoodsDetailViewController.h"
 
 @interface MyGoodsViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UIGestureRecognizerDelegate> {
     
@@ -25,6 +26,9 @@
     NSArray *categoryResultArray;
     NSArray *authorResultArray;
     NSArray *noteResultArray;
+    
+    
+    GoodsInfoBean *_selectBean;
 }
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewYConstraint;
@@ -184,6 +188,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    _selectBean = arrayGoods[indexPath.row - 1];
     [self performSegueWithIdentifier:@"pushToGoodsDetailVC" sender:self];
 }
 
@@ -378,8 +383,10 @@
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"pushToGoodsDetailVC"]) {
+        GoodsDetailViewController *detailVC = (GoodsDetailViewController *)[segue destinationViewController];
+        detailVC.contentGoodsBean = _selectBean;
+    }
 }
 
 #pragma mark - searchViewAnimation

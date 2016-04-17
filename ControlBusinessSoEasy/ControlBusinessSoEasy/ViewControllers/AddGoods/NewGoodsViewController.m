@@ -83,6 +83,7 @@
     // Do any additional setup after loading the view.
     section1TitleArray = @[@"进价",@"售价",@"规格",@"库存"];
     section2TitleArray = @[@"供应商",@"备注"];
+    
     section0KeysArr = @[@"goodsIDCode",@"goodsName",@"goodsCategory"];
     section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock",@"goodsAuthor"];
     section2KeysArr = @[@"goodsNote"];

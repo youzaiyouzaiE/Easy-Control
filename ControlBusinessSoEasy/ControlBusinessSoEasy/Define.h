@@ -20,7 +20,7 @@
 #define IOS_8LAST ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)?1:0
 
 
-#define NAVIGATION_BAR_COLOR        [UIColor colorWithRed:231/255.0f green:112/255.0f blue:57/255.0f alpha:1]
+#define NAVIGATION_BAR_COLOR        [UIColor colorWithRed:231/255.0f green:112/255.0f blue:57/255.0f alpha:0.8]
 #define FRIST_COLOR                [UIColor colorWithRed:48.0/255.0f green:108.0/255.0f blue:218.0/255.0f alpha:0.8]
 #define SECOND_COLOR               [UIColor colorWithRed:23.0/255.0f green:123.0/255.0f blue:218.0/255.0f alpha:0.8]
 #define THIRD_COLOR                [UIColor colorWithRed:79.0/255.0f green:153.0/255.0f blue:218.0/255.0f alpha:0.8]
