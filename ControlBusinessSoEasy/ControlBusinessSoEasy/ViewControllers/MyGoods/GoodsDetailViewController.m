@@ -34,6 +34,13 @@
 
 @implementation GoodsDetailViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (_isFromSearchView && self.navigationController.navigationBar.frame.origin.y < 0) {
+        self.navigationController.navigationBar.frame = CGRectMake(0, 20, self.navigationController.navigationBar.bounds.size.width, self.navigationController.navigationBar.bounds.size.height);
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = _contentGoodsBean.name;

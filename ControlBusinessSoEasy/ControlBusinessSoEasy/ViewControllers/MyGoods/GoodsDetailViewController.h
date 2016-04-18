@@ -12,5 +12,6 @@
 @interface GoodsDetailViewController : UIViewController
 
 @property (strong, nonatomic) GoodsInfoBean *contentGoodsBean;
+@property (assign, nonatomic) BOOL isFromSearchView;
 
 @end

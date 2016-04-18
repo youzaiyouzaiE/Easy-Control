@@ -27,7 +27,7 @@
     NSArray *authorResultArray;
     NSArray *noteResultArray;
     
-    
+    id <UIGestureRecognizerDelegate> gestureDelegate;
     GoodsInfoBean *_selectBean;
 }
 
@@ -46,9 +46,26 @@
 
 @implementation MyGoodsViewController
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (IOS_7LAST) {
+        gestureDelegate = self.navigationController.interactivePopGestureRecognizer.delegate;
+        self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    }
+    
+    if (isShowSearchTableView) {
+        self.navigationController.navigationBar.frame = CGRectMake(0, -barFrame.size.height, barFrame.size.width, barFrame.size.height);
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (IOS_7LAST) {
+        self.navigationController.interactivePopGestureRecognizer.delegate = gestureDelegate;
+    }
+    
+}
+
 
 - (void)viewDidLoad
 {
@@ -63,6 +80,7 @@
     _searchBar.scopeButtonTitles = @[@"名称",@"分类",@"供应商",@"备注"];
     
     [self checkResultTableViewState];
+  
 }
 
 - (void)checkResultTableViewState
@@ -88,13 +106,20 @@
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-    if (isShowSearchTableView) {
-        [self.view endEditing: YES];
-        UIButton *btnCancel = [_searchBar valueForKey:@"_cancelButton"];
-        [btnCancel setEnabled:YES];
-        return NO;
-    } else
-        return YES;
+    if ([gestureRecognizer.class isSubclassOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
+        if (!searchView.hidden) {
+            return NO;
+        } else
+            return YES;
+    } else {////tap
+        if (isShowSearchTableView) {
+            [self.view endEditing: YES];
+            UIButton *btnCancel = [_searchBar valueForKey:@"_cancelButton"];
+            [btnCancel setEnabled:YES];
+            return NO;
+        } else
+            return YES;
+    }
 }
 
 #pragma mark - imageFileOperation
@@ -397,6 +422,9 @@
     if ([segue.identifier isEqualToString:@"pushToGoodsDetailVC"]) {
         GoodsDetailViewController *detailVC = (GoodsDetailViewController *)[segue destinationViewController];
         detailVC.contentGoodsBean = _selectBean;
+        if (isShowSearchTableView) {
+            detailVC.isFromSearchView = YES;
+        }
     }
 }
 
@@ -417,6 +445,7 @@
         }];
     } else {
         APPLICATION_SHARE.navigationBarIsUp = NO;
+        searchView.hidden = YES;
         [UIView animateWithDuration:0.3 animations:^{
             searchView.alpha = 0;
             self.navigationController.navigationBar.frame = CGRectMake(0,barFrame.origin.y, barFrame.size.width, barFrame.size.height);
