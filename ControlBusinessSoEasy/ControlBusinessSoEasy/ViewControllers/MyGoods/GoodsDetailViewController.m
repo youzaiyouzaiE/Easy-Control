@@ -133,7 +133,8 @@
     UITableViewCell *cell = nil;
     if (section == 2) {/////note
         cell = [tableView dequeueReusableCellWithIdentifier:noteCellIdentifier forIndexPath:indexPath];
-        
+        UILabel *contentLabel = (UILabel *)[cell viewWithTag:1];
+        contentLabel.text = _contentGoodsBean.note;
     } else if (section == 3) {/////image
         cell = [tableView dequeueReusableCellWithIdentifier:imageCellIdentifier forIndexPath:indexPath];
         UIImageView *imageView1 = (UIImageView *)[cell viewWithTag:1];
@@ -157,11 +158,19 @@
         if (section == 0) {
             imageView.image = [UIImage imageNamed:section0ImageArr[row]];
             titleLabel.text = section0TitleArray[row];
-            contentLabel.text = [_contentGoodsBean valueForKeyPath:section0KeysArr[row]];
+            id contentText = [_contentGoodsBean valueForKeyPath:section0KeysArr[row]];
+            if ([contentText isKindOfClass:[NSNumber class]]) {
+                contentLabel.text = ((NSNumber *)contentText).stringValue;
+            } else
+                contentLabel.text = [_contentGoodsBean valueForKeyPath:section0KeysArr[row]];
         } else if(section == 1) {
             imageView.image = [UIImage imageNamed:section1ImageArr[row]];
             titleLabel.text = section1TitleArray[row];
-            contentLabel.text = [_contentGoodsBean valueForKeyPath:section1KeysArr[row]];
+            id contentText = [_contentGoodsBean valueForKeyPath:section1KeysArr[row]];
+            if ([contentText isKindOfClass:[NSNumber class]]) {
+                contentLabel.text = ((NSNumber *)contentText).stringValue;
+            } else
+                contentLabel.text = [_contentGoodsBean valueForKeyPath:section1KeysArr[row]];
         }
     }
     return cell;
