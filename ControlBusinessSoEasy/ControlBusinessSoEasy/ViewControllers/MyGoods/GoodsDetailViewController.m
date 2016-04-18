@@ -8,8 +8,10 @@
 
 #import "GoodsDetailViewController.h"
 #import "GoodsInfoBean.h"
+#import "MWPhotoBrowser.h"
 
-@interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource> {
+
+@interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,MWPhotoBrowserDelegate> {
     NSArray *section0TitleArray;
     NSArray *section1TitleArray;
     NSArray *section2TitleArray;
@@ -21,11 +23,12 @@
     NSArray *section0ImageArr;
     NSArray *section1ImageArr;
     
-    NSMutableArray *smallImagesArray;
-    NSMutableArray *bigImagesArray;
+    NSMutableArray *smallImagesPathArray;
+    NSMutableArray *bigImagesPathArray;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *photos;
 
 @end
 
@@ -33,6 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = _contentGoodsBean.name;
     [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
     section0TitleArray = @[@"条码",@"名称",@"类别"];
     section1TitleArray = @[@"进价",@"售价",@"规格",@"库存",@"供应商"];
@@ -44,25 +48,26 @@
     section0ImageArr = @[@"NG_code_Gray",@"NG_name_Gray",@"NG_category_Gray"];
     section1ImageArr = @[@"NG_inPrice_Gray",@"NG_outPrice_Gray",@"NG_standard_Gray",@"NG_stock_Gray",@"NG_Author_Gray"];
     
-    smallImagesArray = [NSMutableArray array];
-    bigImagesArray = [NSMutableArray array];
+    smallImagesPathArray = [NSMutableArray array];
+    bigImagesPathArray = [NSMutableArray array];
     
-    [self loadImages];
     [self loadImages];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    smallImagesArray = nil;
-    bigImagesArray = nil;
+    smallImagesPathArray = nil;
+    bigImagesPathArray = nil;
 }
 
 #pragma mark - imageFileOperation
 - (void)loadImages {
+    [smallImagesPathArray removeAllObjects];
+    [bigImagesPathArray removeAllObjects];
     NSArray *samllImages = [self imagePathForDocument:_contentGoodsBean.imagePath isBigImage:NO];
     NSArray *bigImages = [self imagePathForDocument:_contentGoodsBean.imagePath isBigImage:YES];
-    [smallImagesArray addObjectsFromArray:samllImages];
-    [bigImagesArray addObjectsFromArray:bigImages];
+    [smallImagesPathArray addObjectsFromArray:samllImages];
+    [bigImagesPathArray addObjectsFromArray:bigImages];
 }
 
 - (NSArray *)imagePathForDocument:(NSString *)imageDoumet isBigImage:(BOOL)isBigImage {
@@ -140,14 +145,14 @@
         UIImageView *imageView1 = (UIImageView *)[cell viewWithTag:1];
         UIImageView *imageView2 = (UIImageView *)[cell viewWithTag:2];
         UIImageView *imageView3 = (UIImageView *)[cell viewWithTag:3];
-        if (smallImagesArray.count >= 1) {
-            imageView1.image = [UIImage imageWithContentsOfFile:smallImagesArray[0]];
+        if (smallImagesPathArray.count >= 1) {
+            imageView1.image = [UIImage imageWithContentsOfFile:smallImagesPathArray[0]];
         } 
-        if (smallImagesArray.count >= 2) {
-            imageView2.image = [UIImage imageWithContentsOfFile:smallImagesArray[1]];
+        if (smallImagesPathArray.count >= 2) {
+            imageView2.image = [UIImage imageWithContentsOfFile:smallImagesPathArray[1]];
         }
-        if (smallImagesArray.count >= 3) {
-            imageView3.image = [UIImage imageWithContentsOfFile:smallImagesArray[2]];
+        if (smallImagesPathArray.count >= 3) {
+            imageView3.image = [UIImage imageWithContentsOfFile:smallImagesPathArray[2]];
         }
         
     } else {
@@ -179,7 +184,48 @@
 #pragma mark - tableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section != 3) {//////noly image can select
+        return ;
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (bigImagesPathArray.count != 0) {
+        NSMutableArray *photos = [NSMutableArray array];
+        for (NSString *sourceStr in bigImagesPathArray) {
+            UIImage *image = [UIImage imageWithContentsOfFile:sourceStr];
+            [photos addObject:[MWPhoto photoWithImage:image]];
+        }
+        _photos = photos;
+        MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+        //            browser.navigationController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
+        //            browser.navigationController.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+        //            browser.navigationController.navigationBar.titleTextAttributes = self.navigationController.navigationBar.titleTextAttributes;
+        browser.displayActionButton = NO;
+        browser.displayNavArrows = NO;
+        browser.displaySelectionButtons = NO;
+        browser.alwaysShowControls = NO;
+        browser.zoomPhotosToFill = YES;
+        browser.enableGrid = NO;
+        browser.startOnGrid = NO;
+        browser.enableSwipeToDismiss = YES;
+        browser.autoPlayOnAppear = NO;
+        [browser setCurrentPhotoIndex:0];
+        [self.navigationController pushViewController:browser animated:YES];
+    }
+}
+
+#pragma mark - MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _photos.count)
+        return [_photos objectAtIndex:index];
+    return nil;
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
+    NSLog(@"Did start viewing photo at index %lu", (unsigned long)index);
 }
 
 #pragma mark - Navigation
@@ -188,6 +234,5 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-
 
 @end

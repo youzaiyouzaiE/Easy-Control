@@ -53,6 +53,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = NSLocalizedString(@"我的商品", @"我的商品");
     [[UITools shareInstance] customNavigationLeftBarButtonForController:self];
     NSArray *array = [[GoodsInfoDao shareInstance] selectUserAllGoods];
     arrayGoods = [NSMutableArray arrayWithArray:array];
