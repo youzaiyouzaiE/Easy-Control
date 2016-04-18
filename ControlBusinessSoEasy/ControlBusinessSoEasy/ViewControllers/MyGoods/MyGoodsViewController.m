@@ -189,7 +189,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    _selectBean = arrayGoods[indexPath.row - 1];
+    if (tableView == _tableView) {
+        _selectBean = arrayGoods[indexPath.row - 1];
+    } else if(tableView == _nameResultTableView) {
+        _selectBean = nameResultArray[indexPath.row];
+    } else if(tableView == _categoryResultTableVeiw) {
+        _selectBean = categoryResultArray[indexPath.row];
+    } else if(tableView == _authorResultTableView) {
+        _selectBean = authorResultArray[indexPath.row];
+    } else if(tableView == _noteResultTableView) {
+        _selectBean = noteResultArray[indexPath.row];
+    }
     [self performSegueWithIdentifier:@"pushToGoodsDetailVC" sender:self];
 }
 
