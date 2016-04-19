@@ -50,6 +50,7 @@ NSString *const tableName = @"goodsInfoTable";
 {
     GoodsInfoBean *bean = [GoodsInfoBean new];
     bean.idKey = [rs stringForColumn:kBeanIdKey];
+    bean.userID = [rs stringForColumn:k_goods_userID];
     bean.goodsIDCode = [rs stringForColumn:k_goods_NO];
     bean.name = [rs stringForColumn:k_goods_name];
     bean.category = [rs stringForColumn:k_goods_category];
@@ -72,6 +73,11 @@ NSString *const tableName = @"goodsInfoTable";
 
 - (NSString *)tableName {
     return tableName;
+}
+
+- (NSArray *)selectUserGoodsScalar:(NSInteger)scalar FromLocation:(NSInteger)start {
+    NSString *whereSql = [NSString stringWithFormat:@"%@ = '%@' ", k_goods_userID,[UserInfo shareInstance].userId];
+    return [self selectWithWhere:whereSql limitScalar:scalar andStart:start];
 }
 
 - (NSArray *)selectUserAllGoods {

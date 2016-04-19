@@ -78,9 +78,7 @@
 
     searchView.hidden = YES;
     _searchBar.scopeButtonTitles = @[@"名称",@"分类",@"供应商",@"备注"];
-    
     [self checkResultTableViewState];
-  
 }
 
 - (void)checkResultTableViewState

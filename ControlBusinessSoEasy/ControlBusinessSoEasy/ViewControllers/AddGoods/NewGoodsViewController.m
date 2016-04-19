@@ -84,20 +84,68 @@
     section1TitleArray = @[@"进价",@"售价",@"规格",@"库存"];
     section2TitleArray = @[@"供应商",@"备注"];
     
-    section0KeysArr = @[@"goodsIDCode",@"goodsName",@"goodsCategory"];
-    section1KeysArr = @[@"goodsInPrice",@"goodsOutPrice",@"goodsStandard",@"goodsStock",@"goodsAuthor"];
-    section2KeysArr = @[@"goodsNote"];
+    section0KeysArr = @[@"goodsIDCode",@"name",@"category"];
+    section1KeysArr = @[@"inPrice",@"outPrice",@"standard",@"stock",@"author"];
+    section2KeysArr = @[@"note"];
     
     section0ImageArr = @[@"NG_code",@"NG_name",@"NG_category"];
     section1ImageArr = @[@"NG_inPrice",@"NG_outPrice",@"NG_standard",@"NG_stock",@"NG_Author"];
     
-    imageDocument = [AppData random_uuid];
-    tapSelectItem = -1;
-    
-    self.navigationItem.title = @"添加商品";
-    [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
-    
     dicTextFieldInfo = [NSMutableDictionary dictionary];
+    imageDictionary = [NSMutableDictionary dictionary];
+    
+    if (_isEditType) {
+        self.navigationItem.title = _contentBean.name;
+        [self dictionaryDataMapping];
+        categoryName = _contentBean.category;
+        _authorName = _contentBean.author;
+        imageDocument = _contentBean.imagePath;
+        [self imageDictionaryContentMapping];
+        isSaveCurrentBean = YES;
+    } else {
+        self.navigationItem.title = @"添加商品";
+        imageDocument = [AppData random_uuid];
+        tapSelectItem = -1;
+    }
+    [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
+}
+
+- (void)dictionaryDataMapping {
+    [self safetySetDictionaryValue:_contentBean.goodsIDCode forKey:section0KeysArr[0] WithDic:dicTextFieldInfo];
+    [self safetySetDictionaryValue:_contentBean.name forKey:section0KeysArr[1] WithDic:dicTextFieldInfo];
+    [self safetySetDictionaryValue:_contentBean.category forKey:section0KeysArr[2] WithDic:dicTextFieldInfo];
+    [self safetySetDictionaryValue:_contentBean.inPrice forKey:section1KeysArr[0] WithDic:dicTextFieldInfo];
+    [self safetySetDictionaryValue:_contentBean.outPrice forKey:section1KeysArr[1] WithDic:dicTextFieldInfo];
+    [self safetySetDictionaryValue:_contentBean.standard forKey:section1KeysArr[2] WithDic:dicTextFieldInfo];
+    [self safetySetDictionaryValue:_contentBean.stock forKey:section1KeysArr[3] WithDic:dicTextFieldInfo];
+    [self safetySetDictionaryValue:_contentBean.author forKey:section1KeysArr[4] WithDic:dicTextFieldInfo];
+    [self safetySetDictionaryValue:_contentBean.note forKey:section2KeysArr[0] WithDic:dicTextFieldInfo];
+}
+
+- (void)safetySetDictionaryValue:(id)value forKey:(id)key WithDic:(NSDictionary *)dic{
+    NSString *newValue = @"";
+    if (value == nil) {
+        [dic setValue:newValue forKey:key];
+    } else
+        [dic setValue:value forKey:key];
+}
+
+- (void)imageDictionaryContentMapping {
+    NSString *smallFilePath = [AppData getCachesDirectorySmallDocumentPath:imageDocument];
+    NSArray *smallImageParthArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:smallFilePath error:nil];
+    [smallImageParthArray enumerateObjectsUsingBlock:^(NSString *parth, NSUInteger idx, BOOL * stop) {
+        UIImage *image = [UIImage imageWithContentsOfFile:[smallFilePath stringByAppendingPathComponent:parth]];
+//        NSRange range = [parth rangeOfString:@"."];
+        NSString *key = [NSString stringWithFormat:@"%d",idx];
+        if (idx == 0) {
+            hasFristImage = YES;
+        } else if (idx == 1) {
+            hasSecondImage = YES;
+        } else if (idx == 2) {
+            hasThirdImage = YES;
+        }
+        [imageDictionary setObject:image forKey:key];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,7 +170,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)scanBarAction:(id)sender {
+- (void)scanBarAction:(id)sender {////扫描
     ScanBarViewController *scanBarVC = [[ScanBarViewController alloc] init];
     [self.navigationController pushViewController:scanBarVC animated:YES];
 }
@@ -148,11 +196,12 @@
 }
 
 -(BOOL)chickInPutInformation {
-    if (dicTextFieldInfo[section0KeysArr[1]] == nil) {
+    NSString *name = dicTextFieldInfo[section0KeysArr[1]];
+    if ( name == nil || [name isEqualToString:@""] || name.length < 1) {
         [[UITools shareInstance] showMessageToView:self.view message:@"请输入商品名称"];
         return NO;
     }
-    if (categoryName == nil) {
+    if (categoryName == nil || [categoryName isEqualToString:@""] || [categoryName length] == 0) {
         [[UITools shareInstance] showMessageToView:self.view message:@"请选择商品分类"];
         return NO;
     }
@@ -226,23 +275,22 @@
 
 - (void)removeImageFileAllContents:(BOOL )isRemoveAll {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-  
-        if (isRemoveAll) {
+        if (isRemoveAll) {///移除所有图片
             NSError *error = nil;
             NSString *allFilePath = [AppData getCachesDirectoryDocumentPath:imageDocument];
             if (![[NSFileManager defaultManager] removeItemAtPath:allFilePath error:&error]) {
                 NSLog(@"error :%@",error.localizedDescription);
             }
-        } else {
-            NSString *filePath = [AppData getCachesDirectoryBigDocumentPath:imageDocument];
-            NSString *smallfilePath = [AppData getCachesDirectorySmallDocumentPath:imageDocument];
-            NSString *saveToImagePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
+        } else {////移除选中的
+            NSString *bigFilePath = [AppData getCachesDirectoryBigDocumentPath:imageDocument];
+            NSString *smallFilePath = [AppData getCachesDirectorySmallDocumentPath:imageDocument];
+            NSString *saveToImagePath = [bigFilePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
             NSError *error = nil;
             if (![[NSFileManager defaultManager] removeItemAtPath:saveToImagePath error:&error]) {
                 NSLog(@"remove %ld.JPG error :%@",(long)tapSelectItem,error.localizedDescription);
             }
             
-            NSString *smallSaveToImagePath = [smallfilePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
+            NSString *smallSaveToImagePath = [smallFilePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.JPG",(long)tapSelectItem]];
             NSError *smallError = nil;
             if (![[NSFileManager defaultManager] removeItemAtPath:smallSaveToImagePath error:&smallError]) {
                 NSLog(@"remove small %ld.JPG Error :%@",(long)tapSelectItem,smallError.localizedDescription);
@@ -308,9 +356,6 @@
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    if (!imageDictionary) {
-        imageDictionary = [NSMutableDictionary dictionary];
-    }
     UIImage *imageSmall = [UITools imageWithImageSimple:image scaledToSize:CGSizeMake(240, 240)];
     [imageDictionary setObject:imageSmall forKey:[NSString stringWithFormat:@"%ld",(long)tapSelectItem]];
     [self deleteOrAddIamgeForIdent:tapSelectItem isAddedType:YES];//////added

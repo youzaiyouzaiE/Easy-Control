@@ -9,6 +9,7 @@
 #import "GoodsDetailViewController.h"
 #import "GoodsInfoBean.h"
 #import "MWPhotoBrowser.h"
+#import "NewGoodsViewController.h"
 
 
 @interface GoodsDetailViewController ()<UITableViewDelegate,UITableViewDataSource,MWPhotoBrowserDelegate> {
@@ -58,6 +59,12 @@
     smallImagesPathArray = [NSMutableArray array];
     bigImagesPathArray = [NSMutableArray array];
     
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [editButton addTarget:self action:@selector(editButtionItemAction:) forControlEvents:UIControlEventTouchUpInside];
+    [editButton setTitle:@"编辑" forState:UIControlStateNormal];
+    editButton.frame = CGRectMake(0, 0, 40, 40);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
+    
     [self loadImages];
 }
 
@@ -65,6 +72,19 @@
     [super didReceiveMemoryWarning];
     smallImagesPathArray = nil;
     bigImagesPathArray = nil;
+}
+
+#pragma mark - Action
+- (void)editButtionItemAction:(UIButton *)button {
+    [self performSegueWithIdentifier:@"pushToNewGoodsVC" sender:self];
+}
+
+#pragma mark - Navigation
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NewGoodsViewController *editGoods = (NewGoodsViewController *)[segue destinationViewController];
+    editGoods.isEditType = YES;
+    editGoods.contentBean = _contentGoodsBean;
 }
 
 #pragma mark - imageFileOperation
@@ -171,18 +191,20 @@
             imageView.image = [UIImage imageNamed:section0ImageArr[row]];
             titleLabel.text = section0TitleArray[row];
             id contentText = [_contentGoodsBean valueForKeyPath:section0KeysArr[row]];
-            if ([contentText isKindOfClass:[NSNumber class]]) {
+            if ([contentText isKindOfClass:[NSNumber class]] && contentText != nil) {
                 contentLabel.text = ((NSNumber *)contentText).stringValue;
-            } else
+            } else if ([contentText isKindOfClass:[NSString class]]){
                 contentLabel.text = [_contentGoodsBean valueForKeyPath:section0KeysArr[row]];
+            }
         } else if(section == 1) {
             imageView.image = [UIImage imageNamed:section1ImageArr[row]];
             titleLabel.text = section1TitleArray[row];
             id contentText = [_contentGoodsBean valueForKeyPath:section1KeysArr[row]];
-            if ([contentText isKindOfClass:[NSNumber class]]) {
+            if ([contentText isKindOfClass:[NSNumber class]] && contentText != nil) {
                 contentLabel.text = ((NSNumber *)contentText).stringValue;
-            } else
+            } else if ([contentText isKindOfClass:[NSString class]]){
                 contentLabel.text = [_contentGoodsBean valueForKeyPath:section1KeysArr[row]];
+            }
         }
     }
     return cell;
@@ -235,11 +257,5 @@
     NSLog(@"Did start viewing photo at index %lu", (unsigned long)index);
 }
 
-#pragma mark - Navigation
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
 
 @end

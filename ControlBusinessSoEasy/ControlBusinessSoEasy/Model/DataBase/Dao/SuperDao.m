@@ -103,6 +103,28 @@
     }
 }
 
+- (NSArray *)selectWithWhere:(NSString *)whereSql limitScalar:(NSInteger)scalar andStart:(NSInteger)start {
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"SELECT * FROM %@", self.tableName];
+    if (whereSql) {
+        [sql appendFormat:@" WHERE %@", whereSql];
+    }
+    [sql appendFormat:@"LIMIT %ld", (long)scalar];
+    if (start) {
+        [sql appendFormat:@"OFFSET %ld",start];
+    }
+    FMResultSet *rs = [_db executeQuery:sql];
+    NSMutableArray *beanArray = [NSMutableArray array];
+    while ([rs next]) {
+        [beanArray addObject:[self mappingRs2Bean:rs]];
+    }
+    [rs close];
+    if (beanArray.count > 0) {
+        return beanArray;
+    } else {
+        return nil;
+    }
+}
+
 - (BOOL)insertBean:(SuperBean *)bean
 {
     NSMutableString *qmarkString = [NSMutableString stringWithString:@"?, "];

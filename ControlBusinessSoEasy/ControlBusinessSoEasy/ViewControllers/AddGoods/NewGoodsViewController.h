@@ -12,7 +12,8 @@
 
 @interface NewGoodsViewController : UIViewController
 
-@property (strong, nonatomic) GoodsInfoBean *goodsInfo;
+@property (assign, nonatomic) BOOL isEditType;//编辑信息
+@property (strong, nonatomic) GoodsInfoBean *contentBean;
 
 
 @end

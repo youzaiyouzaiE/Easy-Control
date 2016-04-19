@@ -18,5 +18,8 @@
 - (NSArray *)selectGoodsWithCategory:(NSString *)category;
 - (NSArray *)selectGoodsWithAuthor:(NSString *)author;
 - (NSArray *)selectGoodsWithNote:(NSString *)note;
+- (NSArray *)selectUserGoodsScalar:(NSInteger)scalar FromLocation:(NSInteger)start;
+
+
 
 @end
