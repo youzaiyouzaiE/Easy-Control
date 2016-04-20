@@ -42,6 +42,26 @@ static UITools *tools = nil;
     controller.navigationItem.leftBarButtonItem = item;
 }
 
++ (void)navigationRightBarButtonForController:(UIViewController *)controller forAction:(SEL)select normalTitle:(NSString *)normal selectedTitle:(NSString *)selected
+{
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [editButton addTarget:self action:select forControlEvents:UIControlEventTouchUpInside];
+    [editButton setTitle:normal forState:UIControlStateNormal];
+    [editButton setTitle:selected forState:UIControlStateSelected];
+    editButton.frame = CGRectMake(0, 0, 40, 40);
+    controller.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
+}
+
++ (void)navigationRightBarButtonForController:(UIViewController *)controller forAction:(SEL)select normalImage:(UIImage *)normalImage selectedImage:(UIImage *)selectedImage
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button addTarget:self action:select forControlEvents:UIControlEventTouchUpInside];
+    [button setBackgroundImage:normalImage forState:UIControlStateNormal];
+    [button setBackgroundImage:selectedImage forState:UIControlStateSelected];
+    button.frame = CGRectMake(0, 0, 40, 40);
+    controller.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
 - (void)popViewController:(UIBarButtonItem *)item{
     [[APPLICATION_SHARE getCurrentNavigationController] popViewControllerAnimated:YES];
 }

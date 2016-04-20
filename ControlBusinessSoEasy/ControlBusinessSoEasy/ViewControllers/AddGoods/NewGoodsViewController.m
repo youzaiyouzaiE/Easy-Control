@@ -56,9 +56,12 @@
     UIImagePickerController *imagePickerController;
     
     BOOL isSaveCurrentBean;
+    __weak IBOutlet UIView *bottomView;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableBottomConstraint;
+
 @property (nonatomic, strong) NSMutableArray *photos;
 //@property (nonatomic, strong) NSMutableArray *thumbs;
 
@@ -81,6 +84,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
     section1TitleArray = @[@"进价",@"售价",@"规格",@"库存"];
     section2TitleArray = @[@"供应商",@"备注"];
     
@@ -102,12 +106,21 @@
         imageDocument = _contentBean.imagePath;
         [self imageDictionaryContentMapping];
         isSaveCurrentBean = YES;
+        
+        bottomView.hidden = YES;
+        _tableBottomConstraint.constant = 0;
+        [self.view needsUpdateConstraints];
+        
+        
     } else {
         self.navigationItem.title = @"添加商品";
         imageDocument = [AppData random_uuid];
         tapSelectItem = -1;
     }
-    [UITools customNavigationLeftBarButtonForController:self action:@selector(backItemAction:)];
+ 
+    if (_isEditType) {
+     
+    }
 }
 
 - (void)dictionaryDataMapping {

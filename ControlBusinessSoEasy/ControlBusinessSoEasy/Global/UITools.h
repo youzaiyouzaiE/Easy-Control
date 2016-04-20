@@ -19,7 +19,10 @@
 + (void)customNavigationBackButtonAndTitle:(NSString *)title forController:(UIViewController *)controller;
 
 + (void)customNavigationLeftBarButtonForController:(UIViewController *)controller action:(SEL)select;
-- (void)customNavigationLeftBarButtonForController:(UIViewController *)controller;
+- (void)customNavigationLeftBarButtonForController:(UIViewController *)controller;/////has pop method in self from appdelegate
+
++ (void)navigationRightBarButtonForController:(UIViewController *)controller forAction:(SEL)select normalTitle:(NSString *)normal selectedTitle:(NSString *)selected;
++ (void)navigationRightBarButtonForController:(UIViewController *)controller forAction:(SEL)select normalImage:(UIImage *)normalImage selectedImage:(UIImage *)selectedImage;
 
 - (void)showMessageToView:(UIView *)view message:(NSString *)message;
 - (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide;
