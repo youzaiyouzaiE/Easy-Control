@@ -85,6 +85,10 @@
     NewGoodsViewController *editGoods = (NewGoodsViewController *)[segue destinationViewController];
     editGoods.isEditType = YES;
     editGoods.contentBean = _contentGoodsBean;
+    editGoods.modifyBlock = ^(GoodsInfoBean *bean) {
+        self.contentGoodsBean = bean;
+        [_tableView reloadData];
+    };
 }
 
 #pragma mark - imageFileOperation

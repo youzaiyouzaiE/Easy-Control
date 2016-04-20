@@ -186,7 +186,7 @@
     return [_db executeUpdate:sql];
 }
 
-- (void)updateBean:(SuperBean *)bean;
+- (BOOL)updateBean:(SuperBean *)bean;
 {
     NSMutableString *columnString = [NSMutableString string];
     [bean.columnArray enumerateObjectsUsingBlock:^(NSString *column, NSUInteger idx, BOOL *stop) {
@@ -204,7 +204,9 @@
         if (!updateSuccess) {
             NSLog(@"ERROR: Update data failed!");
         }
+        return updateSuccess;
     }
+    return NO;
 }
 
 

@@ -90,18 +90,20 @@
     line.image = [UIImage imageNamed:@"line.png"];
     [self.view addSubview:line];
     self.view.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    timer = [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(animation) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(animation) userInfo:nil repeats:YES];
+    [self animation];
 }
 
 -(void)animation
 {
     if (!isStopMove) {
-        num ++;
-        line.frame = CGRectMake(line.frame.origin.x, line.frame.origin.y + 2*num, 200, 2);
-        if (line.frame.origin.y >= layer.frame.origin.y + LAYER_H - 4) {
-            num = 0;
-            line.frame = CGRectMake(layer.frame.origin.x, layer.frame.origin.y + 4, 200, 2);
-        }
+        [UIView animateWithDuration:1 animations:^{
+            line.frame = CGRectMake(layer.frame.origin.x, layer.frame.origin.y + 180, 200, 2);
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:1 animations:^{
+                line.frame = CGRectMake(layer.frame.origin.x, layer.frame.origin.y + 4, 200, 2);
+            }];
+        }];
     }
 }
 

@@ -57,6 +57,9 @@
     
     BOOL isSaveCurrentBean;
     __weak IBOutlet UIView *bottomView;
+    
+    NSIndexPath *_editingIndexPath;
+    CGRect tableViewFrame;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -73,7 +76,7 @@
     [super viewDidAppear:animated];
     self.navigationController.delegate = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShowAction:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHideAction:) name:UIKeyboardDidHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHideAction:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -110,8 +113,7 @@
         bottomView.hidden = YES;
         _tableBottomConstraint.constant = 0;
         [self.view needsUpdateConstraints];
-        
-        
+        [UITools navigationRightBarButtonForController:self forAction:@selector(updateBean:) normalTitle:@"保存" selectedTitle:nil];
     } else {
         self.navigationItem.title = @"添加商品";
         imageDocument = [AppData random_uuid];
@@ -167,11 +169,26 @@
 }
 
 #pragma mark - NSNotificationCenter
-- (void)keyboardShowAction:(NSNotificationCenter *)sender {
-    keyboardShow = YES;
+- (void)keyboardShowAction:(NSNotification *)notification {
+    if (keyboardShow ) {
+        return ;
+    }
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    tableViewFrame = _tableView.frame;
+    if (_isEditType) {
+        _tableView.frame = CGRectMake(tableViewFrame.origin.x, tableViewFrame.origin.y, tableViewFrame.size.width, tableViewFrame.size.height - keyboardSize.height);
+    } else
+        _tableView.frame = CGRectMake(tableViewFrame.origin.x, tableViewFrame.origin.y, tableViewFrame.size.width, tableViewFrame.size.height - keyboardSize.height + 50);
+    
+    [self.tableView scrollToRowAtIndexPath:_editingIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+     keyboardShow = YES;
 }
 
-- (void)keyboardHideAction:(NSNotificationCenter *)sender {
+- (void)keyboardHideAction:(NSNotification *)sender {
+    if (!keyboardShow) {
+        return ;
+    }
+    _tableView.frame = tableViewFrame;
     keyboardShow = NO;
 }
 
@@ -181,6 +198,29 @@
         [self deleteDocumentAllImages];
     }
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)updateBean:(id)sender
+{
+    [self.view endEditing:YES];
+    _contentBean.goodsIDCode = dicTextFieldInfo[section0KeysArr[0]];
+    _contentBean.name = dicTextFieldInfo[section0KeysArr[1]];
+    _contentBean.category = categoryName;
+    _contentBean.inPrice = dicTextFieldInfo[section1KeysArr[0]];
+    _contentBean.outPrice = dicTextFieldInfo[section1KeysArr[1]];
+    _contentBean.standard = dicTextFieldInfo[section1KeysArr[2]];
+    _contentBean.stock = dicTextFieldInfo[section1KeysArr[3]];
+    _contentBean.author = dicTextFieldInfo[section1KeysArr[4]];
+    _contentBean.note = dicTextFieldInfo[section2KeysArr[0]];
+    _contentBean.imagePath = imageDocument;
+    if ([[GoodsInfoDao shareInstance] updateBean:_contentBean]) {
+        [[UITools shareInstance] showMessageToView:self.view message:@"保存成功" autoHideTime:0.5];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.modifyBlock(_contentBean);
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    }
+    /// pop Navigation and update tableView
 }
 
 - (void)scanBarAction:(id)sender {////扫描
@@ -684,8 +724,10 @@
     if ([textField isKindOfClass:[CellTextField class]]) {
         cellTextField = (CellTextField *)textField;
         NSIndexPath *indexPath = cellTextField.indexPath;
+        _editingIndexPath = indexPath;
         if ((indexPath.section == 1) && (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3)) {
             [textField setKeyboardType:UIKeyboardTypeDecimalPad];
+            return  YES;
         }
     }
     [textField setReturnKeyType:UIReturnKeyDone];
@@ -757,9 +799,14 @@
 }
 
 #pragma mark - UITextViewDelegate 
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    _editingIndexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+    return YES;
+}
 - (void)textViewDidEndEditing:(UITextView *)textView {
     NSString *dictionKey = section2KeysArr[0];
     dicTextFieldInfo[dictionKey] = textView.text;
+    
 }
 
 @end

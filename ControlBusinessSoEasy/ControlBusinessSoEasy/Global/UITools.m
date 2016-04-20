@@ -44,18 +44,18 @@ static UITools *tools = nil;
 
 + (void)navigationRightBarButtonForController:(UIViewController *)controller forAction:(SEL)select normalTitle:(NSString *)normal selectedTitle:(NSString *)selected
 {
-    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [editButton addTarget:self action:select forControlEvents:UIControlEventTouchUpInside];
-    [editButton setTitle:normal forState:UIControlStateNormal];
-    [editButton setTitle:selected forState:UIControlStateSelected];
-    editButton.frame = CGRectMake(0, 0, 40, 40);
-    controller.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button addTarget:controller action:select forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:normal forState:UIControlStateNormal];
+    [button setTitle:selected forState:UIControlStateSelected];
+    button.frame = CGRectMake(0, 0, 40, 40);
+    controller.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
 + (void)navigationRightBarButtonForController:(UIViewController *)controller forAction:(SEL)select normalImage:(UIImage *)normalImage selectedImage:(UIImage *)selectedImage
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button addTarget:self action:select forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:controller action:select forControlEvents:UIControlEventTouchUpInside];
     [button setBackgroundImage:normalImage forState:UIControlStateNormal];
     [button setBackgroundImage:selectedImage forState:UIControlStateSelected];
     button.frame = CGRectMake(0, 0, 40, 40);
@@ -70,6 +70,17 @@ static UITools *tools = nil;
     [self showMessageToView:view message:message autoHide:YES];
 }
 
+- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHideTime:(NSTimeInterval )interval {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    
+    hud.mode = MBProgressHUDModeText;
+    hud.labelText = message;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud hide:YES afterDelay:interval];
+    return hud;
+}
+
 - (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     
@@ -77,11 +88,9 @@ static UITools *tools = nil;
     hud.labelText = message;
     hud.margin = 10.f;
     hud.removeFromSuperViewOnHide = YES;
-    
     if (autoHide) {
         [hud hide:YES afterDelay:1.0f];
     }
-    
     return hud;
 }
 

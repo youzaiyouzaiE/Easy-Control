@@ -10,10 +10,12 @@
 
 @class GoodsInfoBean;
 
+typedef  void (^ModifyGoodsBeanBlock) (GoodsInfoBean *bean);
+
 @interface NewGoodsViewController : UIViewController
 
 @property (assign, nonatomic) BOOL isEditType;//编辑信息
 @property (strong, nonatomic) GoodsInfoBean *contentBean;
-
+@property (copy, nonatomic) ModifyGoodsBeanBlock modifyBlock;
 
 @end

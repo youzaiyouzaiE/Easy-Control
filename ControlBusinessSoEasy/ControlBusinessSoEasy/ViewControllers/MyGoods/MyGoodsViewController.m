@@ -63,9 +63,7 @@
     if (IOS_7LAST) {
         self.navigationController.interactivePopGestureRecognizer.delegate = gestureDelegate;
     }
-    
 }
-
 
 - (void)viewDidLoad
 {
