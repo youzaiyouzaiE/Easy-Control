@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C74F219B33E3B056612CEEB5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E550CC1D8972066B8E740EA0 /* libPods.a */; };
+		DA3626411CC8E35C00A8AE39 /* PhotosGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3626401CC8E35C00A8AE39 /* PhotosGridViewController.m */; };
+		DA3626471CC9C44400A8AE39 /* PhotoGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3626461CC9C44400A8AE39 /* PhotoGridCell.m */; };
 		DA3EA7211C9C486000044B2D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7201C9C486000044B2D /* main.m */; };
 		DA3EA7241C9C486000044B2D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3EA7231C9C486000044B2D /* AppDelegate.m */; };
 		DA3EA72A1C9C486000044B2D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA3EA7281C9C486000044B2D /* Main.storyboard */; };
@@ -50,6 +52,10 @@
 
 /* Begin PBXFileReference section */
 		84E314C7B8B8317A3C745CE5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DA36263F1CC8E35C00A8AE39 /* PhotosGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosGridViewController.h; sourceTree = "<group>"; };
+		DA3626401CC8E35C00A8AE39 /* PhotosGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosGridViewController.m; sourceTree = "<group>"; };
+		DA3626451CC9C44400A8AE39 /* PhotoGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoGridCell.h; sourceTree = "<group>"; };
+		DA3626461CC9C44400A8AE39 /* PhotoGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoGridCell.m; sourceTree = "<group>"; };
 		DA3EA71C1C9C486000044B2D /* ControlBusinessSoEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ControlBusinessSoEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3EA7201C9C486000044B2D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DA3EA7221C9C486000044B2D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -314,6 +320,8 @@
 				DA3EA7601C9C4B0B00044B2D /* ImageLabelCell.h */,
 				DA3EA7611C9C4B0B00044B2D /* ImageLabelCell.m */,
 				DA3EA7621C9C4B0B00044B2D /* ImageLabelCell.xib */,
+				DA3626451CC9C44400A8AE39 /* PhotoGridCell.h */,
+				DA3626461CC9C44400A8AE39 /* PhotoGridCell.m */,
 			);
 			name = Views;
 			path = ControlBusinessSoEasy/Views;
@@ -326,6 +334,8 @@
 				DA3EA7771C9D634800044B2D /* NewGoodsViewController.m */,
 				DA3EA7781C9D634800044B2D /* ScanBarViewController.h */,
 				DA3EA7791C9D634800044B2D /* ScanBarViewController.m */,
+				DA36263F1CC8E35C00A8AE39 /* PhotosGridViewController.h */,
+				DA3626401CC8E35C00A8AE39 /* PhotosGridViewController.m */,
 				DA3EA7731C9D634800044B2D /* AddCategory */,
 			);
 			path = AddGoods;
@@ -511,6 +521,8 @@
 				DA3EA7421C9C4AF300044B2D /* RACollectionViewReorderableTripletLayout.m in Sources */,
 				DA3EA7921C9EA87800044B2D /* SmallCaregoryDao.m in Sources */,
 				DA3EA77F1C9D705800044B2D /* UITools.m in Sources */,
+				DA3626411CC8E35C00A8AE39 /* PhotosGridViewController.m in Sources */,
+				DA3626471CC9C44400A8AE39 /* PhotoGridCell.m in Sources */,
 				DA3EA77C1C9D634800044B2D /* ScanBarViewController.m in Sources */,
 				DA3EA76C1C9C4B0B00044B2D /* ImageButtonCell.m in Sources */,
 				DA7C67391CB4AE2500C17A71 /* GoodsInfoDao.m in Sources */,

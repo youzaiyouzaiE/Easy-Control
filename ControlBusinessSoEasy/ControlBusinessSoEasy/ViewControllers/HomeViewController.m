@@ -9,6 +9,7 @@
 #import "HomeViewController.h"
 #import "RACollectionViewReorderableTripletLayout.h"
 #import "NewGoodsViewController.h"
+#import "PhotosGridViewController.h"
 
 @interface HomeViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,RACollectionViewDelegateReorderableTripletLayout, RACollectionViewReorderableTripletLayoutDataSource,UIGestureRecognizerDelegate> {
     
@@ -140,6 +141,9 @@
         [self performSegueWithIdentifier:@"AddGoods" sender:self];
     } else if([itemString isEqualToString:@"我的商品"]) {
         [self performSegueWithIdentifier:@"pushToMyGoodsVC" sender:self];
+    }else {
+        PhotosGridViewController *gridVC = [[PhotosGridViewController alloc] init];
+        [self.navigationController pushViewController:gridVC animated:YES];
     }
 }
 
