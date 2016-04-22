@@ -10,12 +10,24 @@
 #import "PhotoGridCell.h"
 #import "PhotoTableCell.h"
 
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
+#import "SDImageCache.h"
+#import "MWCommon.h"
+#import "MWPhotoBrowser.h"
+
 static NSString * const reuseIdentifier = @"PhotoGridCell";
 
 @interface PhotosGridViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource> {
     UIButton *titleButton;
     UIImageView *arrowImage;
     UIView *backGroundView;
+    
+    //
+    NSMutableArray *_arrayItemSelectType;////NSNumber  是否选中对应的item
+    
+    NSMutableArray *_arrayTableContent;////PHAssetCollection 存入有图片的AssetCollection
+    NSMutableArray *_arrayCurrentItems;////当前显示的item里内容 image?
 }
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -28,13 +40,13 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _arrayTableContent = [NSMutableArray array];
     
     [self customNavigationBar];
     [self addCollectionView];
     [self addBottomViewAndSubVeiw];
     [self addTableViewAndBackgroudnView];
-    
-
+    [self loadAssetCollectionAndAllPhotoAsset];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -168,6 +180,60 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
     return value;
 }
 
+
+#pragma mark - load album source
+- (void)loadAssetCollectionAndAllPhotoAsset {
+    // Load
+    if (NSClassFromString(@"PHAsset")) {
+        
+        // Photos library iOS >= 8
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            PHFetchOptions *options = [PHFetchOptions new];
+            options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+            
+//            PHImageManager *manager = [PHImageManager defaultManager];
+//            PHImageRequestOptions *option = [PHImageRequestOptions new];
+//            option.networkAccessAllowed = YES;
+//            option.resizeMode = PHImageRequestOptionsResizeModeFast;
+//            option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+//            option.synchronous = false;
+//            option.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+//                //                NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithDouble: progress], @"progress", self, @"photo", nil];
+//                //                 NSLog(@" option dic = %@",dict);
+//            };
+            
+            /////PHAssetCollectionTypeSmartAlbum    11个（系统的）
+            //////PHAssetCollectionTypeAlbum        3个（自定义的： qq 微博 网易新闻）[estimatedAssetCount 7. 2. 1
+            //////PHAssetCollectionTypeMoment       地址 （拍照的）
+            PHFetchResult *fetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+            PHFetchResult *userResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+            
+            [fetchResults enumerateObjectsUsingBlock:^(PHAssetCollection *obj, NSUInteger idx, BOOL *stop) {
+                NSLog(@"%@",obj.localizedTitle);
+                    PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:options];
+                    NSLog(@"sasets content:%lu",(unsigned long)sasets.count);
+                    if (sasets.count > 0 && obj.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumVideos) {
+                        [_arrayTableContent addObject:obj];
+                    }
+            }];
+            [userResults enumerateObjectsUsingBlock:^(PHAssetCollection *obj, NSUInteger idx, BOOL *stop) {
+                NSLog(@"%@",obj.localizedTitle);
+                PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:options];
+                NSLog(@"sasets content:%lu",(unsigned long)sasets.count);
+                if (sasets.count > 0) {
+                    [_arrayTableContent addObject:obj];
+                }
+            }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+
+            
+        });
+        
+    }
+}
+
 #pragma mark <UICollectionViewDataSource>
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -217,7 +283,7 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 9;
+    return _arrayTableContent.count;
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -231,8 +297,9 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
     if (!cell) {
         cell = [[PhotoTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    [cell setViewsFrame];
-    [cell setImage:nil title:@"所有照片" andNumberContent:@"20"];
+    PHAssetCollection *assetCollection = _arrayTableContent[indexPath.row];
+    PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
+    [cell setImage:nil title:assetCollection.localizedTitle andNumberContent:[NSString stringWithFormat:@"%lu",(unsigned long)sasets.count]];
     return cell;
 }
 
