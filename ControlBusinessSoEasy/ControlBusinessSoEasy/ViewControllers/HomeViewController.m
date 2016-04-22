@@ -22,6 +22,14 @@
 @end
 
 @implementation HomeViewController
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+       
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -143,7 +151,10 @@
         [self performSegueWithIdentifier:@"pushToMyGoodsVC" sender:self];
     }else {
         PhotosGridViewController *gridVC = [[PhotosGridViewController alloc] init];
-        [self.navigationController pushViewController:gridVC animated:YES];
+        UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:gridVC];
+        [self presentViewController:navigationVC animated:YES completion:^{
+            
+        }];
     }
 }
 

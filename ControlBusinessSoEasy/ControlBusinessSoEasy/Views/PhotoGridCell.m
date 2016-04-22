@@ -48,7 +48,7 @@
 
 - (void)selectionButtonPressed {
     _selectButton.selected = !_selectButton.selected;
-//    [_gridController.browser setPhotoSelected:_selectedButton.selected atIndex:_index];
+    [_photoGridController setPhotoSelected:_selectButton.selected atIndex:_index];
 }
 
 

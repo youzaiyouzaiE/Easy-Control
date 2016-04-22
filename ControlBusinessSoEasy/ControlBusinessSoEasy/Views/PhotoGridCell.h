@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PhotosGridViewController.h"
 
 @interface PhotoGridCell : UICollectionViewCell
 
+@property (nonatomic, weak) PhotosGridViewController *photoGridController;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UIButton *selectButton;
 @property (nonatomic) NSUInteger index;
