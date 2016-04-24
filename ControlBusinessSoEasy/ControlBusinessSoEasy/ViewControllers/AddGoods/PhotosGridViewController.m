@@ -15,6 +15,7 @@
 #import "SDImageCache.h"
 #import "MWCommon.h"
 #import "MWPhotoBrowser.h"
+#import "MBProgressHUD.h"
 
 static NSString * const reuseIdentifier = @"PhotoGridCell";
 
@@ -28,6 +29,10 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
     
     NSMutableArray *_arrayTableContent;////PHAssetCollection 存入有图片的AssetCollection
     NSMutableArray *_arrayCurrentItems;////当前显示的item里内容 image?
+    
+    NSMutableArray *_arrayAllPhotosItem;////所有图片 item
+    PHAssetCollection *_allPhotoCollection;///所有图片 AssetCollection
+    MBProgressHUD *loadingHUD;
 }
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -41,12 +46,15 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _arrayTableContent = [NSMutableArray array];
+    _arrayItemSelectType = [NSMutableArray array];
+//    _arrayAllPhotosItem = [NSMutableArray array];
     
     [self customNavigationBar];
     [self addCollectionView];
     [self addBottomViewAndSubVeiw];
     [self addTableViewAndBackgroudnView];
     [self loadAssetCollectionAndAllPhotoAsset];
+    loadingHUD = [[UITools shareInstance] showLoadingViewAddToView:self.view autoHide:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -168,7 +176,7 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 #pragma mark - data
 - (void)setPhotoSelected:(BOOL)selected atIndex:(NSUInteger)index////set Value
 {
-    
+    [_arrayItemSelectType setObject:[NSNumber numberWithBool:selected] atIndexedSubscript:index];
 }
 
 - (BOOL)photoIsSelectedAtIndex:(NSUInteger)index /////get select Value
@@ -185,53 +193,90 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 - (void)loadAssetCollectionAndAllPhotoAsset {
     // Load
     if (NSClassFromString(@"PHAsset")) {
-        
         // Photos library iOS >= 8
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             PHFetchOptions *options = [PHFetchOptions new];
             options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
             
-//            PHImageManager *manager = [PHImageManager defaultManager];
-//            PHImageRequestOptions *option = [PHImageRequestOptions new];
-//            option.networkAccessAllowed = YES;
-//            option.resizeMode = PHImageRequestOptionsResizeModeFast;
-//            option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-//            option.synchronous = false;
-//            option.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
-//                //                NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithDouble: progress], @"progress", self, @"photo", nil];
-//                //                 NSLog(@" option dic = %@",dict);
-//            };
-            
-            /////PHAssetCollectionTypeSmartAlbum    11个（系统的）
-            //////PHAssetCollectionTypeAlbum        3个（自定义的： qq 微博 网易新闻）[estimatedAssetCount 7. 2. 1
-            //////PHAssetCollectionTypeMoment       地址 （拍照的）
             PHFetchResult *fetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
             PHFetchResult *userResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
             
             [fetchResults enumerateObjectsUsingBlock:^(PHAssetCollection *obj, NSUInteger idx, BOOL *stop) {
-                NSLog(@"%@",obj.localizedTitle);
+//                NSLog(@"obj.assetCollectionSubtype is %d,-> %@",obj.assetCollectionSubtype,obj.localizedTitle);
                     PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:options];
-                    NSLog(@"sasets content:%lu",(unsigned long)sasets.count);
+//                    NSLog(@"sasets content:%lu",(unsigned long)sasets.count);
                     if (sasets.count > 0 && obj.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumVideos) {
+                        if (obj.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+                            _allPhotoCollection = obj;
+                        }
                         [_arrayTableContent addObject:obj];
                     }
             }];
             [userResults enumerateObjectsUsingBlock:^(PHAssetCollection *obj, NSUInteger idx, BOOL *stop) {
-                NSLog(@"%@",obj.localizedTitle);
+//                NSLog(@"%@",obj.localizedTitle);
                 PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:options];
-                NSLog(@"sasets content:%lu",(unsigned long)sasets.count);
+//                NSLog(@"sasets content:%lu",(unsigned long)sasets.count);
                 if (sasets.count > 0) {
                     [_arrayTableContent addObject:obj];
                 }
             }];
+            _arrayAllPhotosItem = [NSMutableArray arrayWithArray:[self getSmallImageItemsWithAssetCollection:_allPhotoCollection]];
+            _arrayCurrentItems = _arrayAllPhotosItem;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
+                [self.collectionView reloadData];
+                [loadingHUD hide:YES];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    for (int i = 0; i < _arrayCurrentItems.count; i++) {
+                        [_arrayItemSelectType addObject:[NSNumber numberWithBool:NO]];
+                    }
+                });
             });
-
-            
         });
-        
     }
+}
+
+- (NSArray *)getSmallImageItemsWithAssetCollection:(PHAssetCollection *)collection {
+  
+    NSMutableArray *array = [NSMutableArray array];
+    PHFetchOptions *options = [PHFetchOptions new];
+    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+    PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+    
+    PHImageRequestOptions *imageOptions = [[PHImageRequestOptions alloc] init];
+    imageOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    imageOptions.networkAccessAllowed = YES;
+    imageOptions.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        /*
+         Progress callbacks may not be on the main thread. Since we're updating
+         the UI, dispatch to the main queue.
+         */
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.progressView.progress = progress;
+//        });
+    };
+    
+    [sasets enumerateObjectsUsingBlock:^(PHAsset *imageAsset, NSUInteger idx, BOOL * stop) {
+        [[PHImageManager defaultManager] requestImageForAsset:imageAsset targetSize:[self smallSize] contentMode:PHImageContentModeAspectFit options:imageOptions resultHandler:^(UIImage *result, NSDictionary *info) {
+            [array addObject:result];
+        }];
+    }];
+    return array;
+}
+
+- (CGSize)smallSize {
+     CGFloat scale = [UIScreen mainScreen].scale;
+    return CGSizeMake((self.view.bounds.size.width -10) * scale/4, (self.view.bounds.size.width -10) * scale/4);
+}
+
+- (CGSize)targetSizeWithSize:(CGRect)bounds {
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGSize targetSize = CGSizeMake(CGRectGetWidth(bounds) * scale, CGRectGetHeight(bounds) * scale);
+    return targetSize;
+}
+
+- (void)loadTableViewImageView {
+    
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -241,15 +286,18 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 400;
+    return _arrayCurrentItems.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     PhotoGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.photoGridController = self;
     cell.index = indexPath.row;
-    // Configure the cell
-    
+    cell.imageView.image = _arrayCurrentItems[indexPath.row];
+    if (_arrayItemSelectType.count > 0) {
+        cell.selectButton.selected = [(NSNumber *)_arrayItemSelectType[indexPath.row] boolValue];
+    }
     return cell;
 }
 
@@ -318,3 +366,5 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 
 
 @end
+
+
