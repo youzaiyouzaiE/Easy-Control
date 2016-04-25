@@ -16,6 +16,6 @@
 @property (strong, nonatomic) UIButton *selectButton;
 @property (nonatomic) NSUInteger index;
 @property (nonatomic) BOOL isSelected;
-
+@property (nonatomic, copy) NSString *representedAssetIdentifier;
 
 @end

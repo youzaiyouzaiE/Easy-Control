@@ -32,7 +32,7 @@
         [_selectButton setImage:[UIImage imageNamed:@"selectButtonImageOn"] forState:UIControlStateSelected];
         [_selectButton addTarget:self action:@selector(selectionButtonPressed) forControlEvents:UIControlEventTouchDown];
 //        _selectButton.hidden = YES;
-        _selectButton.frame = CGRectMake(0, 0, 44, 44);
+        _selectButton.frame = CGRectMake(0, 0, 31, 31);
         [self addSubview:_selectButton];
         
         
