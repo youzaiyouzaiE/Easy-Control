@@ -23,6 +23,7 @@
 #import "SDImageCache.h"
 #import "MWCommon.h"
 #import "MWPhotoBrowser.h"
+#import "PhotosGridViewController.h"
 //typedef NS_ENUM(NSUInteger, sectionType) {
 //    goodsInfomationSection,
 //    goods,
@@ -126,8 +127,6 @@
         imageDocument = [AppData random_uuid];
         tapSelectItem = -1;
     }
- 
-     [self loadAssets];
 }
 
 - (void)dictionaryDataMapping {
@@ -399,215 +398,23 @@
         imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
     } else if(buttonIndex == 1) {
-//        imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-//        [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
-        
-        NSMutableArray *photos = [NSMutableArray array];
-        NSMutableArray *thumbs = [NSMutableArray array];
-        @synchronized(_assets) {
-            NSMutableArray *copy = [_assets copy];
-            if (NSClassFromString(@"PHAsset")) {
-                // Photos library
-//                UIScreen *screen = [UIScreen mainScreen];
-//                CGFloat scale = screen.scale;
-//                // Sizing is very rough... more thought required in a real implementation
-//                CGFloat imageSize = MAX(screen.bounds.size.width, screen.bounds.size.height) * 1.5;
-//                CGSize imageTargetSize = CGSizeMake(imageSize * scale, imageSize * scale);
-//                CGSize thumbTargetSize = CGSizeMake(imageSize / 3.0 * scale, imageSize / 3.0 * scale);
-//                for (PHAsset *asset in copy) {
-//                    [photos addObject:[MWPhoto photoWithAsset:asset targetSize:imageTargetSize]];
-//                    [thumbs addObject:[MWPhoto photoWithAsset:asset targetSize:thumbTargetSize]];
-//                }
+        if (NSClassFromString(@"PHAsset")) {
+            PhotosGridViewController *photoGridVC = [[PhotosGridViewController alloc] init];
+            UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:photoGridVC];
+            [self presentViewController:navigationVC animated:YES completion:^{
                 
-                for (UIImage *image in copy) {
-                    [photos addObject:[MWPhoto photoWithImage:image]];
-                    [thumbs addObject:[MWPhoto photoWithImage:image]];
-                }
-            } else {
-                // Assets library
-                for (ALAsset *asset in copy) {
-                    MWPhoto *photo = [MWPhoto photoWithURL:asset.defaultRepresentation.url];
-                    [photos addObject:photo];
-                    MWPhoto *thumb = [MWPhoto photoWithImage:[UIImage imageWithCGImage:asset.thumbnail]];
-                    [thumbs addObject:thumb];
-                    if ([asset valueForProperty:ALAssetPropertyType] == ALAssetTypeVideo) {
-                        photo.videoURL = asset.defaultRepresentation.url;
-                        thumb.isVideo = true;
-                    }
-                }
-            }
+            }];
+            
+        } else {
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
         }
-        self.photos = photos;
-        self.thumbs = thumbs;
-        
-       MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-        browser.displayActionButton = NO;/////分享buton
-        browser.displayNavArrows = NO;///底部左右选择
-        browser.displaySelectionButtons = YES;
-        browser.alwaysShowControls = YES;
-        browser.zoomPhotosToFill = YES;
-        browser.enableGrid = NO;
-        browser.startOnGrid = YES;
-        browser.enableSwipeToDismiss = NO;
-        browser.autoPlayOnAppear = NO;
-        [self.navigationController pushViewController:browser animated:YES];
     } else if((actionSheet == deleteSheetAction) && (buttonIndex == actionSheet.destructiveButtonIndex)) {
         [imageDictionary removeObjectForKey:[NSString stringWithFormat:@"%ld",(long)tapSelectItem]];
         [self deleteOrAddIamgeForIdent:tapSelectItem isAddedType:NO];////delete
         //////delete in file image
         [self removeImageFileAllContents:NO];
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:_tableView.numberOfSections -1]] withRowAnimation:UITableViewRowAnimationNone];
-    }
-}
-
-#pragma mark - load album source
-- (void)loadAssets {
-    if (NSClassFromString(@"PHAsset")) {
-        
-        // Check library permissions
-        PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
-        if (status == PHAuthorizationStatusNotDetermined) {
-            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-                if (status == PHAuthorizationStatusAuthorized) {
-                    [self performLoadAssets];
-                }
-            }];
-        } else if (status == PHAuthorizationStatusAuthorized) {
-            [self performLoadAssets];
-        }
-        
-    } else {
-        
-        // Assets library
-        [self performLoadAssets];
-        
-    }
-}
-
-- (void)performLoadAssets {
-    
-    // Initialise
-    _assets = [[NSMutableArray alloc] initWithCapacity:500];
-    
-    // Load
-    if (NSClassFromString(@"PHAsset")) {
-        
-        // Photos library iOS >= 8
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            PHFetchOptions *userAlbumsOptions = [PHFetchOptions new];
-            userAlbumsOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"SELF" ascending:NO]];
-            CGFloat scale = [UIScreen mainScreen].scale;
-            
-            PHFetchOptions *onlyImagesOptions = [PHFetchOptions new];
-            onlyImagesOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType = %i", PHAssetMediaTypeImage];
-            
-            PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-            [userAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL *stop) {
-                NSLog(@"album title %@", collection.localizedTitle);
-                  PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
-                NSLog(@"sasets content:%d",sasets.count);
-          
-                PHFetchResult *result = [PHAsset fetchAssetsInAssetCollection:collection options:onlyImagesOptions];
-                
-                 NSLog(@"sasets content:%d",result.count);
-            }];
-            
-            PHFetchOptions *options = [PHFetchOptions new];
-            options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
-            
-            PHImageManager *manager = [PHImageManager defaultManager];
-            PHImageRequestOptions *option = [PHImageRequestOptions new];
-            option.networkAccessAllowed = YES;
-            option.resizeMode = PHImageRequestOptionsResizeModeFast;
-            option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-            option.synchronous = false;
-            option.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
-//                NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithDouble: progress], @"progress", self, @"photo", nil];
-//                 NSLog(@" option dic = %@",dict);
-            };
-            
-            /////PHAssetCollectionTypeSmartAlbum    11个（系统的）
-            //////PHAssetCollectionTypeAlbum        3个（自定义的： qq 微博 网易新闻）[estimatedAssetCount 7. 2. 1
-            //////PHAssetCollectionTypeMoment       地址 （拍照的）
-            PHFetchResult *fetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-            
-            [fetchResults enumerateObjectsUsingBlock:^(PHAssetCollection *obj, NSUInteger idx, BOOL *stop) {
-                 NSLog(@"%@ -> estimatedAssetCount:%d",obj.localizedTitle,obj.estimatedAssetCount);
-                if ([obj.localizedTitle isEqualToString:@"所有照片"]) {
-                    PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:options];
-                    NSLog(@"sasets content:%d",sasets.count);
-                    if (sasets.count > 0) {
-                        [sasets enumerateObjectsUsingBlock:^(PHAsset *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                            [manager requestImageForAsset:obj targetSize:CGSizeMake(160, 160) contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage *  result, NSDictionary * info) {
-                                [_assets addObject:result];
-                            }];
-                        }];
-                    }
-                }
-                
-            }];
-            
-                /////文件路径分的
-                PHFetchResult *fetchListResults = [PHCollectionList fetchCollectionListsWithType:PHCollectionListTypeSmartFolder subtype:PHAssetCollectionSubtypeAny options:nil];
-            
-        });
-        
-    } else {
-        
-        // Assets Library iOS < 8
-        _ALAssetsLibrary = [[ALAssetsLibrary alloc] init];
-        
-        // Run in the background as it takes a while to get all assets from the library
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            NSMutableArray *assetGroups = [[NSMutableArray alloc] init];
-            NSMutableArray *assetURLDictionaries = [[NSMutableArray alloc] init];
-            
-            // Process assets
-            void (^assetEnumerator)(ALAsset *, NSUInteger, BOOL *) = ^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                if (result != nil) {
-                    NSString *assetType = [result valueForProperty:ALAssetPropertyType];
-                    if ([assetType isEqualToString:ALAssetTypePhoto] || [assetType isEqualToString:ALAssetTypeVideo]) {
-                        [assetURLDictionaries addObject:[result valueForProperty:ALAssetPropertyURLs]];
-                        NSURL *url = result.defaultRepresentation.url;
-                        [_ALAssetsLibrary assetForURL:url
-                                          resultBlock:^(ALAsset *asset) {
-                                              if (asset) {
-                                                  @synchronized(_assets) {
-                                                      [_assets addObject:asset];
-                                                      if (_assets.count == 1) {
-                                                          // Added first asset so reload data
-                                                          [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-                                                      }
-                                                  }
-                                              }
-                                          }
-                                         failureBlock:^(NSError *error){
-                                             NSLog(@"operation was not successfull!");
-                                         }];
-                        
-                    }
-                }
-            };
-            
-            // Process groups
-            void (^ assetGroupEnumerator) (ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop) {
-                if (group != nil) {
-                    [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:assetEnumerator];
-                    [assetGroups addObject:group];
-                }
-            };
-            
-            // Process!
-            [_ALAssetsLibrary enumerateGroupsWithTypes:ALAssetsGroupAll
-                                            usingBlock:assetGroupEnumerator
-                                          failureBlock:^(NSError *error) {
-                                              NSLog(@"There is an error");
-                                          }];
-            
-        });
-        
     }
 }
 

@@ -36,6 +36,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self loadViews];
+//        self.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     return self;
 }

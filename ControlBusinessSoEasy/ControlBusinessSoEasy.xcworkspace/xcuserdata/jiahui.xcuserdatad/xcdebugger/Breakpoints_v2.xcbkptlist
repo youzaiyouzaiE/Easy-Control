@@ -16,144 +16,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ControlBusinessSoEasy/ViewControllers/AddGoods/NewGoodsViewController.m"
-            timestampString = "482916494.551416"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
-            landmarkName = "-performLoadAssets"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[NewGoodsViewController performLoadAssets]"
-                  moduleName = "ControlBusinessSoEasy"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jiahui/Desktop/Easy-Control/ControlBusinessSoEasy/ControlBusinessSoEasy/ViewControllers/AddGoods/NewGoodsViewController.m"
-                  timestampString = "482940500.099944"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "496"
-                  endingLineNumber = "496"
-                  offsetFromSymbolStart = "136">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__43-[NewGoodsViewController performLoadAssets]_block_invoke"
-                  moduleName = "ControlBusinessSoEasy"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jiahui/Desktop/Easy-Control/ControlBusinessSoEasy/ControlBusinessSoEasy/ViewControllers/AddGoods/NewGoodsViewController.m"
-                  timestampString = "482940500.100095"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "496"
-                  endingLineNumber = "496"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ControlBusinessSoEasy/ViewControllers/AddGoods/NewGoodsViewController.m"
-            timestampString = "482940333.435191"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "550"
-            endingLineNumber = "550"
-            landmarkName = "-performLoadAssets"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ControlBusinessSoEasy/ViewControllers/AddGoods/NewGoodsViewController.m"
-            timestampString = "482940333.435191"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "533"
-            endingLineNumber = "533"
-            landmarkName = "-performLoadAssets"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ControlBusinessSoEasy/ViewControllers/AddGoods/NewGoodsViewController.m"
-            timestampString = "482920312.527073"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "508"
-            endingLineNumber = "508"
-            landmarkName = "-performLoadAssets"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Pods/MWPhotoBrowser/Pod/Classes/MWGridViewController.m"
-            timestampString = "482983438.241279"
+            filePath = "ControlBusinessSoEasy/ViewControllers/AddGoods/PhotosGridViewController.m"
+            timestampString = "483285752.221257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-init"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/MWPhotoBrowser/Pod/Classes/MWGridViewController.m"
-            timestampString = "482983482.912428"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/MWPhotoBrowser/Pod/Classes/MWPhotoBrowser.m"
-            timestampString = "482984109.765134"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "698"
-            endingLineNumber = "698"
-            landmarkName = "-setPhotoSelected:atIndex:"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
+            landmarkName = "-modifyCurrentItemsContentWihtAssetCollection:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -164,27 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ControlBusinessSoEasy/ViewControllers/AddGoods/PhotosGridViewController.m"
-            timestampString = "483262394.560405"
+            timestampString = "483285752.221257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "-dismissView"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ControlBusinessSoEasy/ViewControllers/AddGoods/PhotosGridViewController.m"
-            timestampString = "483262394.560405"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>

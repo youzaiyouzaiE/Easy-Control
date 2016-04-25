@@ -26,14 +26,10 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
     
     //
     NSMutableArray *_arrayItemSelectType;////NSNumber  是否选中对应的item
-    
     NSMutableArray *_arrayTableContent;////PHAssetCollection 存入有图片的AssetCollection
-    PHFetchResult *_currentItems;////当前显示的item里内容 image?
-    
-    NSMutableArray *_arrayAllPhotosItem;////所有图片 item
-    PHFetchResult *_allPhotos;
-//    PHAssetCollection *_allPhotoCollection;///所有图片 AssetCollection
-//    MBProgressHUD *loadingHUD;
+    PHFetchResult *_currentItems;////当前显示的item里内容
+    NSMutableArray *_arryTableImageAsset;
+    NSUInteger _selectIndx;
 }
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -51,17 +47,15 @@ static CGSize AssetGridThumbnailSize;
     // Do any additional setup after loading the view.
     _arrayTableContent = [NSMutableArray array];
     _arrayItemSelectType = [NSMutableArray array];
+    _arryTableImageAsset = [NSMutableArray array];
+    
     [self customNavigationBar];
     [self loadImageDataFormAlbum];
     self.imageManager = [[PHCachingImageManager alloc] init];
     
-   
     [self addCollectionView];
     [self addBottomViewAndSubVeiw];
     [self addTableViewAndBackgroudnView];
-//    [self loadAssetCollectionAndAllPhotoAsset];
-//    loadingHUD = [[UITools shareInstance] showLoadingViewAddToView:self.view autoHide:NO];
-    
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
 }
 
@@ -76,30 +70,40 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)loadImageDataFormAlbum
 {
-    PHFetchOptions *allPhotosOptions = [[PHFetchOptions alloc] init];
-    allPhotosOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
-    _allPhotos = [PHAsset fetchAssetsWithOptions:allPhotosOptions];
-    _currentItems = _allPhotos;
+    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+    _currentItems = [PHAsset fetchAssetsWithOptions:options];
     
     PHFetchResult *fetchResults = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    PHFetchResult *topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+    PHFetchResult *topLevelUserCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
+//    PHFetchResult *topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];//////同上
     [fetchResults enumerateObjectsUsingBlock:^(PHAssetCollection *obj, NSUInteger idx, BOOL *stop) {
-        PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:nil];
-        if (sasets.count > 0 && obj.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumVideos&& obj.assetCollectionSubtype != 1000000201) {
-            [_arrayTableContent addObject:obj];
+        PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:options];
+        if (sasets.count > 0 && obj.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumVideos && obj.assetCollectionSubtype != 1000000201) {
+            if (obj.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
+                [_arrayTableContent insertObject:obj atIndex:0];
+                [_arryTableImageAsset insertObject:[sasets objectAtIndex:0] atIndex:0];
+            } else {
+                [_arrayTableContent addObject:obj];
+                [_arryTableImageAsset addObject:[sasets objectAtIndex:0]];
+            }
         }
     }];
     [topLevelUserCollections enumerateObjectsUsingBlock:^(PHAssetCollection *obj, NSUInteger idx, BOOL *stop) {
-        PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:nil];
+        PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:obj options:options];
         if (sasets.count > 0) {
             [_arrayTableContent addObject:obj];
+            [_arryTableImageAsset addObject:[sasets objectAtIndex:0]];
         }
     }];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        for (int i = 0; i < _allPhotos.count; i++) {
-            [_arrayItemSelectType addObject:[NSNumber numberWithBool:NO]];
-        }
-    });
+    [self defaultItemSelectType];
+}
+
+- (void)defaultItemSelectType {
+    [_arrayItemSelectType removeAllObjects];
+    for (int i = 0; i < _currentItems.count; i++) {
+        [_arrayItemSelectType addObject:[NSNumber numberWithBool:NO]];
+    }
 }
 
 #pragma mark - PHPhotoLibraryChangeObserver
@@ -144,16 +148,23 @@ static CGSize AssetGridThumbnailSize;
     self.navigationController.navigationBar.barTintColor = NAVIGATION_BAR_COLOR;
     
     titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [titleButton setFrame:CGRectMake(0, 0, 120, 44)];
+    UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
+    NSString *title =@"所有照片";
     [titleButton setTitle:@"所有照片" forState:UIControlStateNormal];
-    [titleButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
+    [titleButton.titleLabel setFont:font];
+    CGSize size = [title sizeWithAttributes:@{NSFontAttributeName : font}];
+//    titleButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [titleButton addTarget:self action:@selector(titleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [titleButton setFrame:CGRectMake(0, 0,  self.view.bounds.size.width - 65 *2, 44)];
+//    titleButton.backgroundColor = [UIColor yellowColor];
     
     arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TableViewArrowDown"]];
-    [arrowImage setFrame:CGRectMake(titleButton.bounds.size.width - 15 - 4,(titleButton.bounds.size.height - 15)/2 , 15, 15)];
+//    arrowImage.backgroundColor = [UIColor redColor];
+    [arrowImage setFrame:CGRectMake((titleButton.bounds.size.width - size.width)/2 + size.width +3,(titleButton.bounds.size.height - 15)/2 , 15, 15)];
     [titleButton addSubview:arrowImage];
     self.navigationItem.titleView = titleButton;
 }
+
 
 - (void)addCollectionView
 {
@@ -281,7 +292,6 @@ static CGSize AssetGridThumbnailSize;
     return 1;
 }
 
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return _currentItems.count;
 }
@@ -331,14 +341,28 @@ static CGSize AssetGridThumbnailSize;
 //}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{ NSString *const cellIdentifier = @"PHimageCell";
+{
+    NSString *const cellIdentifier = @"PHimageCell";
     PhotoTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[PhotoTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    if (indexPath.row == _selectIndx) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else
+        cell.accessoryType = UITableViewCellAccessoryNone;
     PHAssetCollection *assetCollection = _arrayTableContent[indexPath.row];
     PHFetchResult *sasets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
     [cell setImage:nil title:assetCollection.localizedTitle andNumberContent:[NSString stringWithFormat:@"%lu",(unsigned long)sasets.count]];
+    
+    PHAsset *imageAsset = _arryTableImageAsset[indexPath.item];
+    [self.imageManager requestImageForAsset:imageAsset
+                                 targetSize:AssetGridThumbnailSize
+                                contentMode:PHImageContentModeAspectFill
+                                    options:nil
+                              resultHandler:^(UIImage *result, NSDictionary *info) {
+                                      cell.coverImageView.image = result;
+                              }];
     return cell;
 }
 
@@ -346,7 +370,31 @@ static CGSize AssetGridThumbnailSize;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    _selectIndx = indexPath.row;
+    PHAssetCollection *assetCollection = _arrayTableContent[indexPath.row];
+    [self modifyCurrentItemsContentWihtAssetCollection:assetCollection];
+    [self modifyNavigationTitleButtionWithString:assetCollection.localizedTitle];
+}
+
+- (void)modifyCurrentItemsContentWihtAssetCollection:(PHAssetCollection *)collection {
+    PHFetchOptions *options = [[PHFetchOptions alloc] init];
+    options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+    _currentItems = [PHAsset fetchAssetsInAssetCollection:collection options:options];
+    [self defaultItemSelectType];
+    [self.collectionView reloadData];
+    [self.tableView reloadData];
+    [self backGroundViewHiddenOrShowAnimation:NO];
+    titleButton.selected = NO;
+
+}
+
+- (void)modifyNavigationTitleButtionWithString:(NSString *)titleString
+{
+    UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:17];
+    [titleButton setTitle:titleString forState:UIControlStateNormal];
+    CGSize size = [titleString sizeWithAttributes:@{NSFontAttributeName : font}];
+//    [titleButton setFrame:CGRectMake(0, 0, size.width + 3 +15, 44)];
+    [arrowImage setFrame:CGRectMake((titleButton.bounds.size.width - size.width)/2 + size.width +3,(titleButton.bounds.size.height - 15)/2 , 15, 15)];
 }
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
