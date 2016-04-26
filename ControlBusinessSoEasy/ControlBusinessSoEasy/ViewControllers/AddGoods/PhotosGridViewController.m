@@ -19,7 +19,7 @@
 
 static NSString * const reuseIdentifier = @"PhotoGridCell";
 
-@interface PhotosGridViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource,PHPhotoLibraryChangeObserver> {
+@interface PhotosGridViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource,PHPhotoLibraryChangeObserver,MWPhotoBrowserDelegate> {
     UIButton *titleButton;
     UIImageView *arrowImage;
     UIView *backGroundView;
@@ -36,6 +36,8 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 @property (strong, nonatomic) UITableView *tableView;
 @property (nonatomic, strong) PHCachingImageManager *imageManager;
 
+@property (strong, nonatomic) NSMutableArray *photos;
+
 @end
 
 @implementation PhotosGridViewController
@@ -48,6 +50,7 @@ static CGSize AssetGridThumbnailSize;
     _arrayTableContent = [NSMutableArray array];
     _arrayItemSelectType = [NSMutableArray array];
     _arryTableImageAsset = [NSMutableArray array];
+    _photos = [NSMutableArray array];
     
     [self customNavigationBar];
     [self loadImageDataFormAlbum];
@@ -189,7 +192,7 @@ static CGSize AssetGridThumbnailSize;
     bottomView.backgroundColor = [UIColor whiteColor];
     UIButton *completeBut = [UIButton buttonWithType:UIButtonTypeCustom];
     [completeBut setFrame:CGRectMake(self.view.bounds.size.width - 60, 5, 50, 35)];
-    [completeBut setTitle:@"完成" forState:UIControlStateNormal];
+    [completeBut setTitle:NSLocalizedString(@"Done", @"Donexx") forState:UIControlStateNormal];
     [completeBut setTitleColor:NAVIGATION_BAR_COLOR forState:UIControlStateNormal];
     
     completeBut.enabled = NO;
@@ -227,6 +230,7 @@ static CGSize AssetGridThumbnailSize;
 }
 
 - (void)backGroundViewHiddenOrShowAnimation:(BOOL)isShow {
+    titleButton.selected = isShow;
     [UIView animateWithDuration:0.4 animations:^{
         if (isShow) {
             arrowImage.transform =CGAffineTransformMakeRotation(-M_PI);
@@ -242,7 +246,7 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)tapGestureAction:(id)sender {
     [self backGroundViewHiddenOrShowAnimation:NO];
-    titleButton.selected = NO;
+    
 }
 
 - (void)completeButtonAction:(id)sender {
@@ -320,9 +324,52 @@ static CGSize AssetGridThumbnailSize;
 
 #pragma mark <UICollectionViewDelegate>
  // Uncomment this method to specify if the specified item should be selected
- - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-     return YES;
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (_photos.count > 0) {
+        
+    } else {
+        [_currentItems enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
+            MWPhoto *photo = [MWPhoto photoWithAsset:asset targetSize:CGSizeMake(asset.pixelWidth, asset.pixelHeight)];
+            [_photos addObject:photo];
+        }];
+    }
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    browser.displayActionButton = NO;
+    browser.displayNavArrows = NO;
+    browser.displaySelectionButtons = YES;
+    browser.alwaysShowControls = NO;
+    browser.zoomPhotosToFill = YES;
+    browser.enableGrid = NO;
+    browser.startOnGrid = NO;
+    browser.enableSwipeToDismiss = NO;
+    browser.autoPlayOnAppear = NO;
+    [browser setCurrentPhotoIndex:indexPath.row];
+    [self.navigationController pushViewController:browser animated:YES];
+    
  }
+
+#pragma mark - MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _photos.count)
+        return [_photos objectAtIndex:index];
+    return nil;
+}
+
+- (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
+    return  [(NSNumber *)_arrayItemSelectType[index] boolValue];
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
+    [self setPhotoSelected:selected atIndex:index];
+}
+
+- (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+     NSLog(@"finished ");
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -334,11 +381,6 @@ static CGSize AssetGridThumbnailSize;
 {
     return _arrayTableContent.count;
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 70;
-//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -370,6 +412,10 @@ static CGSize AssetGridThumbnailSize;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (_selectIndx == indexPath.row) {
+        [self backGroundViewHiddenOrShowAnimation:NO];
+        return ;
+    }
     _selectIndx = indexPath.row;
     PHAssetCollection *assetCollection = _arrayTableContent[indexPath.row];
     [self modifyCurrentItemsContentWihtAssetCollection:assetCollection];
@@ -384,8 +430,7 @@ static CGSize AssetGridThumbnailSize;
     [self.collectionView reloadData];
     [self.tableView reloadData];
     [self backGroundViewHiddenOrShowAnimation:NO];
-    titleButton.selected = NO;
-
+    [_photos removeAllObjects];
 }
 
 - (void)modifyNavigationTitleButtionWithString:(NSString *)titleString
@@ -396,6 +441,8 @@ static CGSize AssetGridThumbnailSize;
 //    [titleButton setFrame:CGRectMake(0, 0, size.width + 3 +15, 44)];
     [arrowImage setFrame:CGRectMake((titleButton.bounds.size.width - size.width)/2 + size.width +3,(titleButton.bounds.size.height - 15)/2 , 15, 15)];
 }
+
+
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

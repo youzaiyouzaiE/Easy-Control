@@ -16,3 +16,5 @@
 "OK" = "好";
 
 "There was an error downloading this photo from your iCloud photo Library.Please try again later." = "暂时无法从'iCloud'上下载图片";
+
+"of" = "/";
