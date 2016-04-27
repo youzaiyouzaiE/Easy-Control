@@ -40,6 +40,7 @@
     return  self;
 }
 
+
 #pragma mark - Selection
 - (void)setIsSelected:(BOOL)isSelected {
     _isSelected = isSelected;

@@ -35,7 +35,6 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UITableView *tableView;
 @property (nonatomic, strong) PHCachingImageManager *imageManager;
-
 @property (strong, nonatomic) NSMutableArray *photos;
 
 @end
@@ -43,6 +42,10 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
 @implementation PhotosGridViewController
 
 static CGSize AssetGridThumbnailSize;
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -365,6 +368,8 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
     [self setPhotoSelected:selected atIndex:index];
+    PhotoGridCell *cell = (PhotoGridCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    cell.selectButton.selected = selected;
 }
 
 - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
