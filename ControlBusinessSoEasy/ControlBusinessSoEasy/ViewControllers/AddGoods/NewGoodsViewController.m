@@ -31,7 +31,7 @@
 //};
 
 
-@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MWPhotoBrowserDelegate,UITextViewDelegate>{
+@interface NewGoodsViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,MWPhotoBrowserDelegate,UITextViewDelegate,PhotoGridDelegate>{
     NSArray *section1TitleArray;
     NSArray *section2TitleArray;
     NSArray *section0KeysArr;
@@ -483,6 +483,13 @@
     }
 }
 
+#pragma mark -- PhotoGridDelegate
+-(void)photoGrid:(PhotosGridViewController *)grid selectedAset:(NSArray *)assets
+{
+#warning  save in document 
+#warning save imageDictionary
+}
+
 #pragma mark - UITableView data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 4;
@@ -630,7 +637,6 @@
         [button1 setBackgroundImage:(([imageDictionary objectForKey:@"0"])?[imageDictionary objectForKey:@"0"]:[UIImage imageNamed:@"NOPhoto"]) forState:UIControlStateNormal];
         [button2 setBackgroundImage:(([imageDictionary objectForKey:@"1"])?[imageDictionary objectForKey:@"1"]:[UIImage imageNamed:@"NOPhoto"]) forState:UIControlStateNormal];
         [button3 setBackgroundImage:(([imageDictionary objectForKey:@"2"])?[imageDictionary objectForKey:@"2"]:[UIImage imageNamed:@"NOPhoto"]) forState:UIControlStateNormal];
-        
         
         return cell;
     }

@@ -30,6 +30,8 @@ static NSString * const reuseIdentifier = @"PhotoGridCell";
     PHFetchResult *_currentItems;////当前显示的item里内容
     NSMutableArray *_arryTableImageAsset;
     NSUInteger _selectIndx;
+    
+    NSMutableArray *_arraySelectAssets;
 }
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -54,6 +56,7 @@ static CGSize AssetGridThumbnailSize;
     _arrayItemSelectType = [NSMutableArray array];
     _arryTableImageAsset = [NSMutableArray array];
     _photos = [NSMutableArray array];
+    _arraySelectAssets = [NSMutableArray array];
     
     [self customNavigationBar];
     [self loadImageDataFormAlbum];
@@ -253,6 +256,9 @@ static CGSize AssetGridThumbnailSize;
 }
 
 - (void)completeButtonAction:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(photoGrid:selectedAset:)]) {
+        [_delegate photoGrid:self selectedAset:_arraySelectAssets];
+    }
     [self dismissView];
 }
 
@@ -266,6 +272,8 @@ static CGSize AssetGridThumbnailSize;
 - (void)setPhotoSelected:(BOOL)selected atIndex:(NSUInteger)index////set Value
 {
     [_arrayItemSelectType setObject:[NSNumber numberWithBool:selected] atIndexedSubscript:index];
+    PHAsset *asset = _currentItems[index];
+    selected ? [_arraySelectAssets addObject:asset] : [_arraySelectAssets removeObject:asset];
 }
 
 - (BOOL)photoIsSelectedAtIndex:(NSUInteger)index /////get select Value
@@ -367,6 +375,11 @@ static CGSize AssetGridThumbnailSize;
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
+    if (_arraySelectAssets.count == _maxSelected && selected) {
+        [[UITools shareInstance] showMessageToView:photoBrowser.view message:[NSString stringWithFormat:@"最多选择%d张图片",_maxSelected] autoHide:YES];
+        [photoBrowser setCurrentPhotoSelectedButtonType:NO];
+        return ;
+    }
     [self setPhotoSelected:selected atIndex:index];
     PhotoGridCell *cell = (PhotoGridCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     cell.selectButton.selected = selected;

@@ -863,6 +863,14 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     }
 }
 
+//////==================added for jia hui==============///////
+- (void)setCurrentPhotoSelectedButtonType:(BOOL)select {
+    MWPhoto *photo = [self photoAtIndex:_currentPageIndex];
+    MWZoomingScrollView *page = [self pageDisplayingPhoto:photo];
+    page.selectedButton.selected = select;
+}
+//////=============================================///////
+
 - (BOOL)isDisplayingPageForIndex:(NSUInteger)index {
 	for (MWZoomingScrollView *page in _visiblePages)
 		if (page.index == index) return YES;

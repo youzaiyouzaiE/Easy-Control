@@ -68,6 +68,7 @@
 // Set page that photo browser starts on
 - (void)setCurrentPhotoIndex:(NSUInteger)index;
 
+- (void)setCurrentPhotoSelectedButtonType:(BOOL)select;
 // Navigation
 - (void)showNextPhotoAnimated:(BOOL)animated;
 - (void)showPreviousPhotoAnimated:(BOOL)animated;

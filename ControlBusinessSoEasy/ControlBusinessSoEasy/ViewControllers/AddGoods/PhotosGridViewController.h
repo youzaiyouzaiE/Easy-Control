@@ -10,7 +10,7 @@
 @class PhotosGridViewController;
 @protocol PhotoGridDelegate <NSObject>
 
--(void)photoGrid:(PhotosGridViewController *)grid;
+-(void)photoGrid:(PhotosGridViewController *)grid selectedAset:(NSArray *)assets;
 
 @end
 
@@ -19,6 +19,8 @@
 
 
 @property (assign, nonatomic) id <PhotoGridDelegate> delegate;
+@property (assign, nonatomic) NSInteger maxSelected;
+
 
 
 - (void)setPhotoSelected:(BOOL)selected atIndex:(NSUInteger)index;
